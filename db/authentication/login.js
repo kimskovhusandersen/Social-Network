@@ -9,13 +9,16 @@ if (process.env.DATABASE_URL) {
     );
 }
 
+const getUser = require("../users/id/getUser");
+const sess = require("../../session");
+
 const { promisify } = require("util");
 let { compare } = require("bcryptjs");
 compare = promisify(compare);
 
 const login = req => {
     const { password, email } = req.body;
-    // step 1 - get hash
+    // step 1 - get hashed password from db
     return db
         .query(`SELECT id, hashed_password FROM users WHERE email = $1;`, [
             email
@@ -28,18 +31,21 @@ const login = req => {
                 });
             }
             const { hashed_password: hashed } = rows[0];
-            // step 2 - compare password with hashed password
+            // step 2 - compare user input password with hashed password
             return compare(password, hashed);
         })
         .then(match => {
-            // Step 3 - check if they are matching
             if (!match) {
                 return Promise.reject({
                     name: "error",
                     constraint: "users_password_key"
                 });
             }
-            // Step 4 - get user info
+            // Step 3 - get user info
+            return getUser(email).then(({ rows }) => {
+                // Step 4 - add user info to session (logged in!)
+                return sess.addUser(req, rows[0]);
+            });
         });
 };
 

@@ -1,5 +1,6 @@
 const express = require("express");
 const app = (exports.app = express());
+// middleware
 const cookieSession = require("cookie-session");
 const { SESSION_SECRET: sessionSecret } =
     process.env.NODE_ENV == "production"
@@ -8,16 +9,9 @@ const { SESSION_SECRET: sessionSecret } =
 
 const csurf = require("csurf");
 const compression = require("compression");
-const db = require("./db");
-const sess = require("./session");
-// const { requireLoggedInUser, requireLoggedOutUser } = require("./middleware");
-
-// const mw = require("./middleware");
-// const profileRouter = require("./profile-routes");
-// const authRouter = require("./auth-routes");
-// ------------------------------
-// Do not delete (required to run React)
-app.use(compression());
+const authRouter = require("./user-routes");
+const userRouter = require("./authentication-routes");
+// Required to run React
 if (process.env.NODE_ENV != "production") {
     app.use(
         "/bundle.js",
@@ -28,58 +22,42 @@ if (process.env.NODE_ENV != "production") {
 } else {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
+//
 
-// ------------------------------
-// ADD YOUR CODE BELOW HERE:
-
+app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
-    cookieSession({ secret: sessionSecret, maxAge: 1000 * 60 * 60 * 24 * 14 })
+    cookieSession({
+        secret: sessionSecret,
+        maxAge: 1000 * 60 * 60 * 24 * 14
+    })
 );
-
 app.use(csurf()); // place after body-parsing (urlencoded) and cookieSession.
 app.use(function(req, res, next) {
     res.cookie("csrfToken", req.csrfToken());
     next();
 });
+// Routes
+app.use(authRouter);
+app.use(userRouter);
 
 app.get("/welcome", function(req, res) {
     if (req.session.user) {
+        console.log("WE ARE LOGGED IN WITH:", req.session.user);
         res.redirect("/");
     } else {
         res.sendFile(__dirname + "/index.html");
     }
 });
 
-app.post("/users", (req, res) => {
-    db.addUser(req, req.body)
-        .then(({ rows }) => {
-            return sess.addUser(req, rows[0]);
-        })
-        .then(user => {
-            res.redirect("/");
-        })
-        .catch(err => {
-            console.log("BACK IN ROUTE. ERR: ", err);
-            res.json(err);
-        });
-});
-
-app.post("/login", (req, res) => {
-    console.log("INSIDE LOGIN ROUTE");
-    db.login(req)
-        .then(result => {
-            console.log("BACK IN LOGIN ROUTE. RESULT:", result);
-        })
-        .catch(err => {
-            console.log("BACK IN ROUTE. ERR: ", err);
-            res.json(err);
-        });
-});
-
-app.get("*", (req, res) => {
-    res.sendFile(__dirname + "/index.html");
+app.get("*", function(req, res) {
+    if (!req.session.user) {
+        console.log("WE ARE NOT LOGGED IN:", req.session.user);
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(__dirname + "/index.html");
+    }
 });
 
 if (require.main === module) {

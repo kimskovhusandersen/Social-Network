@@ -60,6 +60,7 @@ const LoginFormWithFormik = withFormik({
                     }
                 } else {
                     resetForm();
+                    window.location = "/";
                 }
                 setSubmitting(false);
             })
