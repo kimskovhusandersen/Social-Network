@@ -3,12 +3,14 @@ import { HashRouter, Route } from "react-router-dom";
 import Registration from "./registration";
 import Login from "./login";
 
+import { Logo } from "./theme";
+
 // Stateless Functional Component
 const Welcome = () => {
     return (
         <React.Fragment>
             <h1>Welcome!</h1>
-            <img src="/logo.png" />
+            <Logo />
             <HashRouter>
                 <div>
                     <Route exact path="/" component={Registration} />

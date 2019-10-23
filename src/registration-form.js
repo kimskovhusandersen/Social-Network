@@ -2,53 +2,57 @@
 // sources: https://www.youtube.com/watch?v=yNiJkjEwmpw
 
 import React from "react";
-import { withFormik, Form, Field } from "formik";
+import { withFormik, Form } from "formik";
 import * as Yup from "yup";
 import axios from "./axios_csurf";
 
+import { Button, Text, Label, Input } from "./theme";
+
 const RegistrationForm = ({ values, errors, touched, isSubmitting }) => (
     <Form>
-        <div>
-            {touched.firstname && errors.firstname && <p>{errors.email}</p>}
-            <Field
+        <Label>
+            {touched.firstname && errors.firstname && (
+                <Text color="tomato">{errors.email}</Text>
+            )}
+            <Input
                 type="text"
                 name="firstname"
                 placeholder="First name"
                 values={values.firstname}
             />
-        </div>
-        <div>
+        </Label>
+        <Label>
             {touched.lastname && errors.lastname && <p>{errors.lastname}</p>}
-            <Field
+            <Input
                 type="text"
                 name="lastname"
                 placeholder="Surname"
                 values={values.lastname}
             />
-        </div>
-        <div>
+        </Label>
+        <Label>
             {touched.email && errors.email && <p>{errors.email}</p>}
-            <Field
+            <Input
                 type="email"
                 name="email"
                 placeholder="Email"
                 values={values.email}
             />
-        </div>
-        <div>
+        </Label>
+        <Label>
             {touched.password && errors.password && <p>{errors.password}</p>}
-            <Field
+            <Input
                 type="password"
                 name="password"
                 placeholder="Password"
                 values={values.password}
             />
-        </div>
-        <div>
+        </Label>
+        <Label>
             {touched.birthday_day && errors.birthday_day && (
                 <p>{errors.birthday_day}</p>
             )}
-            <Field component="select" name="birthday_day">
+            <Input component="select" name="birthday_day">
                 <option value="0">Day</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -81,13 +85,13 @@ const RegistrationForm = ({ values, errors, touched, isSubmitting }) => (
                 <option value="29">29</option>
                 <option value="30">30</option>
                 <option value="31">31</option>
-            </Field>
-        </div>
-        <div>
+            </Input>
+        </Label>
+        <Label>
             {touched.birthday_month && errors.birthday_month && (
                 <p>{errors.birthday_month}</p>
             )}
-            <Field component="select" name="birthday_month">
+            <Input component="select" name="birthday_month">
                 <option value="0">Month</option>
                 <option value="1">Jan</option>
                 <option value="2">Feb</option>
@@ -101,14 +105,14 @@ const RegistrationForm = ({ values, errors, touched, isSubmitting }) => (
                 <option value="10">Oct</option>
                 <option value="11">Nov</option>
                 <option value="12">Dec</option>
-            </Field>
-        </div>
-        <div>
+            </Input>
+        </Label>
+        <Label>
             {touched.birthday_year && errors.birthday_year && (
                 <p>{errors.birthday_year}</p>
             )}
 
-            <Field component="select" name="birthday_year">
+            <Input component="select" name="birthday_year">
                 <option value="0">Year</option>
                 <option value="2019">2019</option>
                 <option value="2018">2018</option>
@@ -150,24 +154,25 @@ const RegistrationForm = ({ values, errors, touched, isSubmitting }) => (
                 <option value="1982">1982</option>
                 <option value="1981">1981</option>
                 <option value="1980">1980</option>
-            </Field>
-        </div>
-        <div>
+            </Input>
+        </Label>
+        <Label>
             {touched.newsletter && errors.newsletter && (
                 <p>{errors.newsletter}</p>
             )}
-            <label>
-                <Field
-                    type="checkbox"
-                    name="newsletter"
-                    checked={values.newsletter}
-                />
-                Join our newsletter
-            </label>
-        </div>
-        <button disabled={isSubmitting} type="submit">
+        </Label>
+        <Label>
+            <Input
+                type="checkbox"
+                name="newsletter"
+                checked={values.newsletter}
+            />
+            Join our newsletter
+        </Label>
+
+        <Button disabled={isSubmitting} type="submit">
             Submit
-        </button>
+        </Button>
     </Form>
 );
 

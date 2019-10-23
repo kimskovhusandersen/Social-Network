@@ -1,14 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Welcome from "./welcome";
+import { Logo } from "./theme";
 
 const isUserLoggedIn = location.pathname != "/welcome";
-
-const Logo = () => (
-    <React.Fragment>
-        <img src="logo.png" />;
-    </React.Fragment>
-);
 
 ReactDOM.render(
     isUserLoggedIn ? <Logo /> : <Welcome />,
