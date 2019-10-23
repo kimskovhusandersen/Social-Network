@@ -1,5 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Register from "./register";
+import Welcome from "./welcome";
 
-ReactDOM.render(<Register/>, document.querySelector("main"));
+ReactDOM.render(<Welcome />, document.querySelector("main"));

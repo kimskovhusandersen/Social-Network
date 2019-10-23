@@ -1,13 +1,27 @@
 import React from "react";
-import RegisterFormikForm from "./register-form";
-import axios from "axios";
+import RegistrationFormikForm from "./registration-form";
+import axios from "./axios_csurf";
+import { Link } from "react-router-dom";
 
-class Register extends React.Component {
+class Registration extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            error: ""
-        };
+        this.state = {};
+    }
+
+    componentDidMount() {
+        axios
+            .get("/users/")
+            .then(data => {
+                console.log(data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+        setTimeout(() => {
+            this.setState({ name: "Kim" });
+        }, 2000);
     }
 
     handleSubmit(formdata) {
@@ -23,8 +37,7 @@ class Register extends React.Component {
     render() {
         return (
             <React.Fragment>
-                {this.state.error && <div>{this.state.error}</div>}
-                <RegisterFormikForm
+                <RegistrationFormikForm
                     firstname="Kim"
                     lastname="Andersen"
                     email="kimskovhusandersen@gmail.com"
@@ -33,9 +46,12 @@ class Register extends React.Component {
                     birthday_month="4"
                     birthday_year="1987"
                 />
+                <p>
+                    Already registered? <Link to="/login">Login!</Link>
+                </p>
             </React.Fragment>
         );
     }
 }
 
-export default Register;
+export default Registration;

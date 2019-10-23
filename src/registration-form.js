@@ -5,7 +5,7 @@ import React from "react";
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 
-const RegisterForm = ({ values, errors, touched, isSubmitting }) => (
+const RegistrationForm = ({ values, errors, touched, isSubmitting }) => (
     <Form>
         <div>
             {touched.firstname && errors.firstname && <p>{errors.email}</p>}
@@ -169,7 +169,7 @@ const RegisterForm = ({ values, errors, touched, isSubmitting }) => (
         </button>
     </Form>
 );
-const RegisterFormikForm = withFormik({
+const RegistrationFormikForm = withFormik({
     mapPropsToValues({
         firstname,
         lastname,
@@ -215,5 +215,5 @@ const RegisterFormikForm = withFormik({
         }, 1000);
         console.log(values);
     }
-})(RegisterForm);
-export default RegisterFormikForm;
+})(RegistrationForm);
+export default RegistrationFormikForm;
