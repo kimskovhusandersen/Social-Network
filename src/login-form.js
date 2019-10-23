@@ -4,6 +4,7 @@
 import React from "react";
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
+import axios from "./axios_csurf";
 
 const LoginForm = ({ values, errors, touched, isSubmitting }) => (
     <Form>
@@ -37,17 +38,34 @@ const LoginFormWithFormik = withFormik({
             password: password || ""
         };
     },
+    validationSchema: Yup.object().shape({
+        email: Yup.string()
+            .email()
+            .required(),
+        password: Yup.string().required()
+    }),
 
     handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
-        setTimeout(() => {
-            if (values.email === "kimskovhusandersen@gmail.com") {
-                setErrors({ email: "That email is already taken" });
-            } else {
-                resetForm();
-            }
-            setSubmitting(false);
-        }, 1000);
-        console.log(values);
+        console.log("LOGGING values", values);
+        return axios
+            .post("/login", values)
+            .then(({ data }) => {
+                if (data.name == "error") {
+                    if (data.constraint == "users_email_key") {
+                        setErrors({ email: "Sorry, can't find that email" });
+                    } else if (data.constraint == "users_password_key") {
+                        setErrors({
+                            password: "Sorry, that password is incorrect"
+                        });
+                    }
+                } else {
+                    resetForm();
+                }
+                setSubmitting(false);
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 })(LoginForm);
 export default LoginFormWithFormik;

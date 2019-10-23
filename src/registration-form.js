@@ -4,6 +4,7 @@
 import React from "react";
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
+import axios from "./axios_csurf";
 
 const RegistrationForm = ({ values, errors, touched, isSubmitting }) => (
     <Form>
@@ -169,6 +170,7 @@ const RegistrationForm = ({ values, errors, touched, isSubmitting }) => (
         </button>
     </Form>
 );
+
 const RegistrationFormikForm = withFormik({
     mapPropsToValues({
         firstname,
@@ -204,16 +206,26 @@ const RegistrationFormikForm = withFormik({
         birthday_month: Yup.number().required(),
         birthday_year: Yup.number().required()
     }),
+
     handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
-        setTimeout(() => {
-            if (values.email === "kimskovhusandersen@gmail.com") {
-                setErrors({ email: "That email is already taken" });
-            } else {
-                resetForm();
-            }
-            setSubmitting(false);
-        }, 1000);
-        console.log(values);
+        console.log("LOGGING values", values);
+        return axios
+            .post("/users", values)
+            .then(data => {
+                console.log("BACK IN REACT", data);
+                if (data.name == "error") {
+                    if (data.constraint == "users_email_key") {
+                        setErrors({ email: "That email is already taken" });
+                    }
+                } else {
+                    resetForm();
+                }
+                setSubmitting(false);
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 })(RegistrationForm);
+
 export default RegistrationFormikForm;

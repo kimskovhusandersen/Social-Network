@@ -8,7 +8,10 @@ const { SESSION_SECRET: sessionSecret } =
 
 const csurf = require("csurf");
 const compression = require("compression");
-const db = require("./db.js");
+const db = require("./db");
+const sess = require("./session");
+// const { requireLoggedInUser, requireLoggedOutUser } = require("./middleware");
+
 // const mw = require("./middleware");
 // const profileRouter = require("./profile-routes");
 // const authRouter = require("./auth-routes");
@@ -37,36 +40,46 @@ app.use(
 
 app.use(csurf()); // place after body-parsing (urlencoded) and cookieSession.
 app.use(function(req, res, next) {
-    res.cookie("csrftoken", req.csrfToken());
+    res.cookie("csrfToken", req.csrfToken());
     next();
 });
 
-app.get("/users/", (req, res) => {
-    console.log("INSIDE USERS ROUTE");
-    db.getFileThree();
-    // db.getUsers()
-    //     .then(result => {
-    //         console.log(result);
-    //     })
-    //     .catch(err => {
-    //         console.log(err);
-    //     });
-});
-
 app.get("/welcome", function(req, res) {
-    if (req.session.userId) {
+    if (req.session.user) {
         res.redirect("/");
     } else {
         res.sendFile(__dirname + "/index.html");
     }
 });
 
-app.get("*", function(req, res) {
-    if (!req.session.userId) {
-        res.redirect("/welcome");
-    } else {
-        res.sendFile(__dirname + "/index.html");
-    }
+app.post("/users", (req, res) => {
+    db.addUser(req, req.body)
+        .then(({ rows }) => {
+            return sess.addUser(req, rows[0]);
+        })
+        .then(user => {
+            res.redirect("/");
+        })
+        .catch(err => {
+            console.log("BACK IN ROUTE. ERR: ", err);
+            res.json(err);
+        });
+});
+
+app.post("/login", (req, res) => {
+    console.log("INSIDE LOGIN ROUTE");
+    db.login(req)
+        .then(result => {
+            console.log("BACK IN LOGIN ROUTE. RESULT:", result);
+        })
+        .catch(err => {
+            console.log("BACK IN ROUTE. ERR: ", err);
+            res.json(err);
+        });
+});
+
+app.get("*", (req, res) => {
+    res.sendFile(__dirname + "/index.html");
 });
 
 if (require.main === module) {

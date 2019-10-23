@@ -2,7 +2,7 @@
 -- "sudo service postgresql start"
 
 -- To config the database:
--- "psql -d petition -f config.sql"
+-- "psql -d socialnetwork -f sql/config.sql"
 
 -- To select database:
 -- \c testdb
@@ -18,7 +18,7 @@ CREATE TABLE users(
     firstname VARCHAR(255) NOT NULL CHECK (firstname != ''),
     lastname VARCHAR(255) NOT NULL CHECK (lastname != ''),
     email VARCHAR(255) NOT NULL UNIQUE CHECK (email != ''),
-    password VARCHAR(255) NOT NULL CHECK (password != ''),
+    hashed_password VARCHAR(255) NOT NULL CHECK (hashed_password != ''),
     created_at TIMESTAMP DEFAULT now()
 );
 
@@ -39,9 +39,9 @@ CREATE TABLE user_profiles(
 
 -- POPULATE DATABASES
 
-INSERT INTO users (firstname, lastname, email, password) VALUES ('John', 'Due', 'johndue@gmail.com', 'bruh');
-INSERT INTO users (firstname, lastname, email, password) VALUES ('Tommy', 'Toe', 'tommytoe@gmail.com', 'holymoly');
-INSERT INTO users (firstname, lastname, email, password) VALUES ('Sammy', 'Soe', 'sammysoe@hotmail.com', 'asldkjölkjasdf');
+INSERT INTO users (firstname, lastname, email, hashed_password) VALUES ('John', 'Due', 'johndue@gmail.com', 'bruh');
+INSERT INTO users (firstname, lastname, email, hashed_password) VALUES ('Tommy', 'Toe', 'tommytoe@gmail.com', 'holymoly');
+INSERT INTO users (firstname, lastname, email, hashed_password) VALUES ('Sammy', 'Soe', 'sammysoe@hotmail.com', 'asldkjölkjasdf');
 -- INSERT INTO users (first, last, email, password) VALUES ('Sophia', 'Hutton', 'kkevo.tushe.58y@iwsi.ru', 'asdfasdf');
 -- INSERT INTO users (first, last, email, password) VALUES ('Krishan', 'Kirk', 'oamam.haddo@ipmaximus.ru', 'wert');
 -- INSERT INTO users (first, last, email, password) VALUES ('Darlene', 'Moss', '2d.m.x.4bfci@pendokngana.tk', '234tsf');

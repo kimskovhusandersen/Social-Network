@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const giraffe = axios.create({
-    xsrfCookieName: "csurftoken",
+var instance = axios.create({
+    xsrfCookieName: "csrfToken",
     xsrfHeaderName: "csrf-token"
 });
 
-export default giraffe;
+export default instance;
