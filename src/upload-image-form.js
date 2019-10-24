@@ -70,11 +70,11 @@ const UploadImageFormWithFormik = withFormik({
         fd.append("userId", userId);
 
         const { data } = await axios.post("/images", fd);
-        console.log("BACK IN REACT. DATA:", data);
         if (data.name == "error") {
             console.log(data);
         } else {
             props.handleSubmit(data);
+            resetForm();
         }
         setSubmitting(false);
     }

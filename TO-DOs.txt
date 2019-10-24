@@ -1,5 +1,6 @@
 TO DOS:
-
+Create logo
+Create header component
 Create a new amazon container for socialnetwork
 Create query for uploading image
 Create query for uploading profile image
