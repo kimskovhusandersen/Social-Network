@@ -11,6 +11,10 @@
 -- DELETE TABLE
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS user_profiles;
+DROP TABLE IF EXISTS images CASCADE;
+DROP TABLE IF EXISTS user_image;
+DROP TABLE IF EXISTS user_profile_image;
+
 
 -- CREATE TABLE
 CREATE TABLE users(
@@ -32,31 +36,72 @@ CREATE TABLE user_profiles(
     created_at TIMESTAMP DEFAULT now()
  );
 
+ CREATE TABLE images(
+     id SERIAL PRIMARY KEY,
+     caption TEXT NOT NULL CHECK (caption != ''),
+     url VARCHAR(300) NOT NULL CHECK (url != ''),
+     user_id INT NOT NULL REFERENCES users(id),
+     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+ );
 
--- ADD RELATIONS (FOREIGN KEYS)
--- ALTER TABLE signatures ADD CONSTRAINT signatures_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
--- ALTER TABLE user_profiles ADD CONSTRAINT user_profiles_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+ CREATE TABLE user_image (
+   user_id INT NOT NULL,
+   image_id INT NOT NULL,
+   PRIMARY KEY (user_id,image_id)
+ );
+
+ CREATE TABLE user_profile_image (
+   user_id INT UNIQUE NOT NULL,
+   image_id INT NOT NULL,
+   PRIMARY KEY (user_id,image_id)
+ );
+
 
 -- POPULATE DATABASES
 
 INSERT INTO users (firstname, lastname, email, hashed_password) VALUES ('John', 'Due', 'johndue@gmail.com', 'bruh');
 INSERT INTO users (firstname, lastname, email, hashed_password) VALUES ('Tommy', 'Toe', 'tommytoe@gmail.com', 'holymoly');
 INSERT INTO users (firstname, lastname, email, hashed_password) VALUES ('Sammy', 'Soe', 'sammysoe@hotmail.com', 'asldkjölkjasdf');
--- INSERT INTO users (first, last, email, password) VALUES ('Sophia', 'Hutton', 'kkevo.tushe.58y@iwsi.ru', 'asdfasdf');
--- INSERT INTO users (first, last, email, password) VALUES ('Krishan', 'Kirk', 'oamam.haddo@ipmaximus.ru', 'wert');
--- INSERT INTO users (first, last, email, password) VALUES ('Darlene', 'Moss', '2d.m.x.4bfci@pendokngana.tk', '234tsf');
--- INSERT INTO users (first, last, email, password) VALUES ('Rhydian', 'Haas', 'jhamzato@mhdsl.gq', 'kljjKKK');
--- INSERT INTO users (first, last, email, password) VALUES ('Luciano', 'Combs', 'vraous.d@excel-guru.ru', 'aökljakjdkK');
--- INSERT INTO users (first, last, email, password) VALUES ('Hamaad', 'Fellows', 'Hamaad@Fellows.cf', '09ioilkhkjh');
--- INSERT INTO users (first, last, email, password) VALUES ('Paul', 'Cervantes', 'Paul@Cervantes.gq', 'kljjKKK');
--- INSERT INTO users (first, last, email, password) VALUES ('Cain', 'Jennings', 'Cain.d@Jennings-guru.ru', 'aökljakjdkK');
--- INSERT INTO users (first, last, email, password) VALUES ('Enid', 'Mcintosh', 'Enid@Mcintosh.cf', '09ioilkhkjh');
-
 
 
 INSERT INTO user_profiles (birthday_day, birthday_month, birthday_year, sex, user_id) VALUES (18, 04, 1988, 1, 1);
 INSERT INTO user_profiles (birthday_day, birthday_month, birthday_year, sex, user_id) VALUES (22, 12, 2001, 1, 2);
 INSERT INTO user_profiles (birthday_day, birthday_month, birthday_year, sex, user_id) VALUES (1, 05, 1998, 2, 3);
 
+INSERT INTO images (caption, url, user_id) VALUES (
+    'This photo brings back so many great memories.',
+    'https://s3.amazonaws.com/spicedling/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg',
+    1
+);
+
+INSERT INTO images (caption, url, user_id) VALUES (
+    'This photo brings back so many great memories.',
+    'https://s3.amazonaws.com/spicedling/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg',
+    2
+);
+
+INSERT INTO images (caption, url, user_id) VALUES (
+    'This photo brings back so many great memories.',
+    'https://s3.amazonaws.com/spicedling/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg',
+    3
+);
+
+INSERT INTO user_image (user_id, image_id) VALUES (1,1);
+INSERT INTO user_image (user_id, image_id) VALUES (1,2);
+INSERT INTO user_image (user_id, image_id) VALUES (1,3);
+INSERT INTO user_image (user_id, image_id) VALUES (2,1);
+INSERT INTO user_image (user_id, image_id) VALUES (2,2);
+INSERT INTO user_image (user_id, image_id) VALUES (2,3);
+INSERT INTO user_image (user_id, image_id) VALUES (3,1);
+INSERT INTO user_image (user_id, image_id) VALUES (3,2);
+INSERT INTO user_image (user_id, image_id) VALUES (3,3);
+
+INSERT INTO user_profile_image (user_id, image_id) VALUES (1,1);
+INSERT INTO user_profile_image (user_id, image_id) VALUES (2,2);
+INSERT INTO user_profile_image (user_id, image_id) VALUES (3,3);
+
 SELECT * FROM users;
 SELECT * FROM user_profiles;
+SELECT * FROM images;
+SELECT * FROM user_image;
+SELECT * FROM user_profile_image;

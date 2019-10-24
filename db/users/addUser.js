@@ -15,8 +15,7 @@ genSalt = promisify(genSalt);
 
 const hashPassword = password => genSalt().then(salt => hash(password, salt));
 
-const addUser = (req, data) => {
-    const { firstname, lastname, email, password } = data;
+const addUser = ({ firstname, lastname, email, password }) => {
     return hashPassword(password).then(hashedPassword => {
         return db.query(
             `INSERT INTO users (firstname, lastname, email, hashed_password) VALUES ($1, $2, $3, $4) RETURNING *;`,

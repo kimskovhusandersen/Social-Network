@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Welcome from "./welcome";
-import { Logo } from "./theme";
+import App from "./app";
 
 const isUserLoggedIn = location.pathname != "/welcome";
 
 ReactDOM.render(
-    isUserLoggedIn ? <Logo /> : <Welcome />,
+    isUserLoggedIn ? <App /> : <Welcome />,
     document.querySelector("main")
 );

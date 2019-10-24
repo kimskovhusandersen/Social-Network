@@ -2,33 +2,34 @@
 // sources: https://www.youtube.com/watch?v=yNiJkjEwmpw
 
 import React from "react";
-import { withFormik, Form, Field } from "formik";
+import { withFormik, Form } from "formik";
 import * as Yup from "yup";
 import axios from "./axios_csurf";
+import { Button, Text, Label, Input } from "./theme";
 
 const LoginForm = ({ values, errors, touched, isSubmitting }) => (
     <Form>
-        <div>
+        <Label>
             {touched.email && errors.email && <p>{errors.email}</p>}
-            <Field
+            <Input
                 type="email"
                 name="email"
                 placeholder="Email"
                 values={values.email}
             />
-        </div>
-        <div>
+        </Label>
+        <Label>
             {touched.password && errors.password && <p>{errors.password}</p>}
-            <Field
+            <Input
                 type="password"
                 name="password"
                 placeholder="Password"
                 values={values.password}
             />
-        </div>
-        <button disabled={isSubmitting} type="submit">
+        </Label>
+        <Button disabled={isSubmitting} type="submit">
             Submit
-        </button>
+        </Button>
     </Form>
 );
 const LoginFormWithFormik = withFormik({

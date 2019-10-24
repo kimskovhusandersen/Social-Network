@@ -1,7 +1,73 @@
-import styled, { css } from "styled-components";
+import styled, { css, createGlobalStyle } from "styled-components";
 import { Field } from "formik";
+const defaultAvatar =
+    "https://s3.amazonaws.com/spicedling/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg";
+// Global
+const GlobalStyle = createGlobalStyle`
+  * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+  }
+`;
+
+export const PageWrapper = styled.section`
+    &,
+    & * {
+        box-sizing: border-box;
+        display: block;
+    }
+
+    hr {
+        display: block;
+        border: none;
+        border-top: 1px solid lightgrey;
+
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    font-family: system-ui;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    max-width: 35em;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.5rem;
+    padding: 1rem 0.75rem;
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+`;
+
+export const CodeWrapper = styled.pre`
+    font-family: monospace;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    background-color: hsl(210, 4%, 96%);
+    overflow: auto;
+    padding: 0.75rem;
+    margin: 0;
+    border-radius: 4px;
+
+    & strong {
+        margin-top: 1.5rem;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+`;
 
 // Images
+export const Image = styled.img.attrs(({ src }) => ({
+    src: src
+        ? src
+        : "https://s3.amazonaws.com/coriander-imageboard/U1GUVtl_0XWSE9kOkMY0QXmVAuL5sRw1.jpg"
+}))`
+    width: 100px;
+    height: 100px;
+    border: 1px solid #eee;
+`;
 
 export const Logo = styled.img`
     width: 50px;

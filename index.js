@@ -11,6 +11,7 @@ const csurf = require("csurf");
 const compression = require("compression");
 const authRouter = require("./user-routes");
 const userRouter = require("./authentication-routes");
+const imageRouter = require("./image-routes");
 // Required to run React
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -22,7 +23,6 @@ if (process.env.NODE_ENV != "production") {
 } else {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
-//
 
 app.use(compression());
 app.use(express.urlencoded({ extended: false }));
@@ -38,9 +38,11 @@ app.use(function(req, res, next) {
     res.cookie("csrfToken", req.csrfToken());
     next();
 });
+
 // Routes
 app.use(authRouter);
 app.use(userRouter);
+app.use(imageRouter);
 
 app.get("/welcome", function(req, res) {
     if (req.session.user) {

@@ -1,0 +1,8 @@
+TO DOS:
+
+Create a new amazon container for socialnetwork
+Create query for uploading image
+Create query for uploading profile image
+Create query for updating profile image
+Drop image to upload
+Upload multiple images at the same time

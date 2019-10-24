@@ -4,7 +4,7 @@ const db = require("./db");
 const sess = require("./session");
 
 router.post("/users", (req, res) => {
-    db.addUser(req, req.body)
+    db.addUser(req.body)
         .then(({ rows }) => {
             return sess.addUser(req, rows[0]);
         })

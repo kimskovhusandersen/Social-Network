@@ -3,13 +3,13 @@ import { HashRouter, Route } from "react-router-dom";
 import Registration from "./registration";
 import Login from "./login";
 
-import { Logo } from "./theme";
+import { PageWrapper, Title, Logo } from "./theme";
 
 // Stateless Functional Component
 const Welcome = () => {
     return (
-        <React.Fragment>
-            <h1>Welcome!</h1>
+        <PageWrapper>
+            <Title>Welcome!</Title>
             <Logo />
             <HashRouter>
                 <div>
@@ -17,7 +17,7 @@ const Welcome = () => {
                     <Route path="/login" component={Login} />
                 </div>
             </HashRouter>
-        </React.Fragment>
+        </PageWrapper>
     );
 };
 
