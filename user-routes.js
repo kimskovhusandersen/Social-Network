@@ -1,17 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const db = require("./db");
-const sess = require("./session");
 
-router.post("/users", (req, res) => {
-    db.addUser(req.body)
-        .then(({ rows }) => {
-            return sess.addUser(req, rows[0]);
-        })
-        .catch(err => {
-            console.log("BACK IN ROUTE. ERR: ", err);
-            res.json(err);
-        });
+router.post("/users", async (req, res) => {
+    try {
+        const { rows } = await db.addUser(req.body);
+        req.session.userId = rows[0].id;
+        res.json({ data: "success" });
+    } catch (err) {
+        res.json(err);
+    }
+});
+
+router.get("/user", async (req, res) => {
+    const { userId } = req.session;
+    try {
+        let { rows } = await db.getUser(userId);
+        res.json(rows);
+    } catch (err) {
+        res.json(err);
+    }
 });
 
 module.exports = router;

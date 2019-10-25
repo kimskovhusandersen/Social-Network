@@ -46,8 +46,8 @@ app.use(userRouter);
 app.use(imageRouter);
 
 app.get("/welcome", function(req, res) {
-    if (req.session.user) {
-        console.log("WE ARE LOGGED IN WITH:", req.session.user);
+    if (req.session.userId) {
+        console.log("WE ARE LOGGED IN WITH:", req.session.userId);
         res.redirect("/");
     } else {
         res.sendFile(__dirname + "/index.html");
@@ -55,8 +55,8 @@ app.get("/welcome", function(req, res) {
 });
 
 app.get("*", function(req, res) {
-    if (!req.session.user) {
-        console.log("WE ARE NOT LOGGED IN:", req.session.user);
+    if (!req.session.userId) {
+        console.log("WE ARE NOT LOGGED IN:", req.session.userId);
         res.redirect("/welcome");
     } else {
         res.sendFile(__dirname + "/index.html");

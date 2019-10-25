@@ -4,7 +4,6 @@
 import React from "react";
 import { withFormik, Form } from "formik";
 import * as Yup from "yup";
-import axios from "./axios_csurf";
 import { Button, Text, Label, Input } from "./theme";
 
 const UploadImageForm = ({
@@ -51,29 +50,22 @@ const UploadImageFormWithFormik = withFormik({
         };
     },
     validationSchema: Yup.object().shape({
-        caption: Yup.string().required(),
+        caption: Yup.string(),
         userId: Yup.number().required()
     }),
 
-    async handleSubmit(
-        { caption, image, userId },
-        { props, resetForm, setErrors, setSubmitting }
-    ) {
+    async handleSubmit(values, { props, resetForm, setErrors, setSubmitting }) {
+        const { image } = values;
         if (image.size > props.maxFileSize) {
             return setErrors({
                 file: "Sorry, the file can't be larger than 2.0 MB"
             });
         }
-        const fd = new FormData();
-        fd.append("image", image);
-        fd.append("caption", caption);
-        fd.append("userId", userId);
-
-        const { data } = await axios.post("/images", fd);
-        if (data.name == "error") {
-            console.log(data);
+        const result = await props.handleSubmit(values);
+        console.log("RESULT IS?", result);
+        if (result && result.name == "error") {
+            console.log(result);
         } else {
-            props.handleSubmit(data);
             resetForm();
         }
         setSubmitting(false);

@@ -5,7 +5,8 @@ import React from "react";
 import { withFormik, Form } from "formik";
 import * as Yup from "yup";
 import axios from "./axios_csurf";
-import { Button, Text, Label, Input } from "./theme";
+import { Button, Label, Input } from "./theme";
+import errorHandler from "./error-handler";
 
 const LoginForm = ({ values, errors, touched, isSubmitting }) => (
     <Form>
@@ -46,28 +47,26 @@ const LoginFormWithFormik = withFormik({
         password: Yup.string().required()
     }),
 
-    handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
-        console.log("LOGGING values", values);
-        return axios
-            .post("/login", values)
-            .then(({ data }) => {
-                if (data.name == "error") {
-                    if (data.constraint == "users_email_key") {
-                        setErrors({ email: "Sorry, can't find that email" });
-                    } else if (data.constraint == "users_password_key") {
-                        setErrors({
-                            password: "Sorry, that password is incorrect"
-                        });
-                    }
-                } else {
-                    resetForm();
-                    window.location = "/";
+    async handleSubmit(values, { setErrors, setSubmitting }) {
+        console.log("hi");
+        try {
+            const { data } = await axios.post("/login", values);
+            if (data.name == "error") {
+                if (data.constraint == "users_email_key") {
+                    setErrors({ email: "Sorry, can't find that email" });
+                } else if (data.constraint == "users_password_key") {
+                    setErrors({
+                        password: "Sorry, that password is incorrect"
+                    });
                 }
-                setSubmitting(false);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+            } else {
+                console.log("REDIRECTING");
+                location.replace("/");
+            }
+        } catch (err) {
+            errorHandler(err);
+        }
+        setSubmitting(false);
     }
 })(LoginForm);
 export default LoginFormWithFormik;

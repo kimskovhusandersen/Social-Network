@@ -1,6 +1,10 @@
 import React from "react";
-import ProfilePic from "./profile-pic";
-import Sascha from "./sascha";
+import axios from "./axios_csurf";
+import Profile from "./profile";
+import ProfileImage from "./profile-image";
+import UploadProfileImage from "./upload-profile-image";
+import kebabToCamel from "./helpers";
+import errorHandler from "./error-handler";
 
 import { CodeWrapper, Logo, Title } from "./theme";
 
@@ -9,6 +13,9 @@ export class App extends React.Component {
         super();
         this.state = {
             user: {
+                about: {
+                    bio: ""
+                },
                 addresses: [
                     {
                         street: "",
@@ -24,48 +31,60 @@ export class App extends React.Component {
                 birthdayMonth: null,
                 email: "",
                 firstname: "",
+                id: null,
                 lastname: "",
-                profilePicture: ""
+                profileImageUrl: ""
             },
-            isSaschaVisible: false
+            isUploadImageVisible: false
         };
-
-        this.toggleSascha = this.toggleSascha.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount() {
-        // console.log("App mounted!!!");
-        // Make get request to get all information about the user
+    async componentDidMount() {
+        const { data } = await axios.get(`/user`);
+        data.name != "error"
+            ? this.upsertState("user", data[0])
+            : errorHandler(data);
+
+        console.log(this.state.user);
     }
-    toggleSascha() {
-        this.setState({ isSaschaVisible: !this.state.isSaschaVisible });
+    toggleUploadImage() {
+        this.setState({
+            isUploadImageVisible: !this.state.isUploadImageVisible
+        });
     }
-    handleSubmit({ url }) {
-        this.setState(prevState => ({
-            user: {
-                // object that we want to update
-                ...prevState.user, // keep all other key-value pairs
-                profilePicture: url // update the value of specific key
-            }
-        }));
+    upsertState(prop, newProps) {
+        for (let [key, value] of Object.entries(newProps)) {
+            this.setState(prevState => ({
+                [`${prop}`]: {
+                    ...prevState[`${prop}`],
+                    [`${kebabToCamel(key)}`]: `${value}`
+                }
+            }));
+        }
     }
 
     render() {
+        const { user, isUploadImageVisible } = this.state;
         return (
             <CodeWrapper>
                 <Logo />
-                <Title onClick={this.toggleSascha}>
-                    Welcome to Social Media!
-                </Title>
-                <ProfilePic
-                    firstname={this.state.firstname}
-                    lastname={this.state.lastname}
-                    profilePicture={this.state.user.profilePicture}
-                    toggleSascha={this.toggleSascha}
+                <Title>Welcome to Social Media!</Title>
+                <Profile
+                    user={user}
+                    profileImage={
+                        <ProfileImage
+                            profileImageUrl={user.profileImageUrl}
+                            toggleUploadImage={() => this.toggleUploadImage()}
+                        />
+                    }
                 />
-                {this.state.isSaschaVisible && (
-                    <Sascha handleSubmit={this.handleSubmit} />
+
+                {isUploadImageVisible && (
+                    <UploadProfileImage
+                        upsertState={(prop, newProps) =>
+                            this.upsertState(prop, newProps)
+                        }
+                    />
                 )}
             </CodeWrapper>
         );

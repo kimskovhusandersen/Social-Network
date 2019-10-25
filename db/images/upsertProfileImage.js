@@ -9,13 +9,15 @@ if (process.env.DATABASE_URL) {
     );
 }
 
-const addImage = ({ caption, url, userId }) => {
+const upsertProfileImage = (userId, imageId) => {
     return db.query(
         `
-        INSERT INTO images (caption, image_url, user_id) VALUES ($1, $2, $3) RETURNING *;
+        INSERT INTO user_profile_image (user_id, image_id) VALUES ($1, $2)
+        ON CONFLICT (user_id) DO
+        UPDATE SET user_id = $1, image_id = $2;
         `,
-        [caption, url, userId]
+        [userId, imageId]
     );
 };
 
-module.exports = addImage;
+module.exports = upsertProfileImage;

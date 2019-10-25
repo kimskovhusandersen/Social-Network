@@ -12,7 +12,6 @@
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS user_profiles;
 DROP TABLE IF EXISTS images CASCADE;
-DROP TABLE IF EXISTS user_image;
 DROP TABLE IF EXISTS user_profile_image;
 
 
@@ -38,16 +37,10 @@ CREATE TABLE user_profiles(
 
  CREATE TABLE images(
      id SERIAL PRIMARY KEY,
-     caption TEXT NOT NULL CHECK (caption != ''),
-     url VARCHAR(300) NOT NULL CHECK (url != ''),
+     caption TEXT,
+     image_url VARCHAR(300) NOT NULL CHECK (image_url != ''),
      user_id INT NOT NULL REFERENCES users(id),
      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
- );
-
- CREATE TABLE user_image (
-   user_id INT NOT NULL,
-   image_id INT NOT NULL,
-   PRIMARY KEY (user_id,image_id)
  );
 
  CREATE TABLE user_profile_image (
@@ -68,33 +61,23 @@ INSERT INTO user_profiles (birthday_day, birthday_month, birthday_year, sex, use
 INSERT INTO user_profiles (birthday_day, birthday_month, birthday_year, sex, user_id) VALUES (22, 12, 2001, 1, 2);
 INSERT INTO user_profiles (birthday_day, birthday_month, birthday_year, sex, user_id) VALUES (1, 05, 1998, 2, 3);
 
-INSERT INTO images (caption, url, user_id) VALUES (
+INSERT INTO images (caption, image_url, user_id) VALUES (
     'This photo brings back so many great memories.',
     'https://s3.amazonaws.com/spicedling/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg',
     1
 );
 
-INSERT INTO images (caption, url, user_id) VALUES (
+INSERT INTO images (caption, image_url, user_id) VALUES (
     'This photo brings back so many great memories.',
     'https://s3.amazonaws.com/spicedling/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg',
     2
 );
 
-INSERT INTO images (caption, url, user_id) VALUES (
+INSERT INTO images (caption, image_url, user_id) VALUES (
     'This photo brings back so many great memories.',
     'https://s3.amazonaws.com/spicedling/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg',
     3
 );
-
-INSERT INTO user_image (user_id, image_id) VALUES (1,1);
-INSERT INTO user_image (user_id, image_id) VALUES (1,2);
-INSERT INTO user_image (user_id, image_id) VALUES (1,3);
-INSERT INTO user_image (user_id, image_id) VALUES (2,1);
-INSERT INTO user_image (user_id, image_id) VALUES (2,2);
-INSERT INTO user_image (user_id, image_id) VALUES (2,3);
-INSERT INTO user_image (user_id, image_id) VALUES (3,1);
-INSERT INTO user_image (user_id, image_id) VALUES (3,2);
-INSERT INTO user_image (user_id, image_id) VALUES (3,3);
 
 INSERT INTO user_profile_image (user_id, image_id) VALUES (1,1);
 INSERT INTO user_profile_image (user_id, image_id) VALUES (2,2);
@@ -103,5 +86,4 @@ INSERT INTO user_profile_image (user_id, image_id) VALUES (3,3);
 SELECT * FROM users;
 SELECT * FROM user_profiles;
 SELECT * FROM images;
-SELECT * FROM user_image;
 SELECT * FROM user_profile_image;

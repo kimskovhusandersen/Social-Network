@@ -5,6 +5,7 @@ import React from "react";
 import { withFormik, Form } from "formik";
 import * as Yup from "yup";
 import axios from "./axios_csurf";
+import errorHandler from "./error-handler";
 
 import { Button, Text, Label, Input } from "./theme";
 
@@ -212,24 +213,21 @@ const RegistrationFormikForm = withFormik({
         birthday_year: Yup.number().required()
     }),
 
-    handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
-        console.log("LOGGING values", values);
-        return axios
-            .post("/users", values)
-            .then(data => {
-                console.log("BACK IN REACT", data);
-                if (data.name == "error") {
-                    if (data.constraint == "users_email_key") {
-                        setErrors({ email: "That email is already taken" });
-                    }
-                } else {
-                    resetForm();
+    async handleSubmit(values, { setErrors, setSubmitting }) {
+        try {
+            const { data } = await axios.post("/users", values);
+            console.log("LOGGING IN REG FORM", data);
+            if (data.name == "error") {
+                if (data.constraint == "users_email_key") {
+                    setErrors({ email: "That email is already taken" });
                 }
-                setSubmitting(false);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+            } else {
+                location.replace("/");
+            }
+            setSubmitting(false);
+        } catch (err) {
+            errorHandler(err);
+        }
     }
 })(RegistrationForm);
 

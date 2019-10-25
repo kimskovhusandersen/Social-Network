@@ -16,6 +16,7 @@ class Registration extends React.Component {
         return (
             <React.Fragment>
                 <RegistrationFormikForm
+                    setUser={this.props.setUser}
                     handleSubmit={this.handleSubmit.bind(this)}
                     firstname="Kim"
                     lastname="Andersen"

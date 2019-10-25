@@ -15,13 +15,12 @@ genSalt = promisify(genSalt);
 
 const hashPassword = password => genSalt().then(salt => hash(password, salt));
 
-const addUser = ({ firstname, lastname, email, password }) => {
-    return hashPassword(password).then(hashedPassword => {
-        return db.query(
-            `INSERT INTO users (firstname, lastname, email, hashed_password) VALUES ($1, $2, $3, $4) RETURNING *;`,
-            [firstname, lastname, email, hashedPassword]
-        );
-    });
+const addUser = async ({ firstname, lastname, email, password }) => {
+    const hashedPassword = await hashPassword(password);
+    return db.query(
+        `INSERT INTO users (firstname, lastname, email, hashed_password) VALUES ($1, $2, $3, $4) RETURNING id;`,
+        [firstname, lastname, email, hashedPassword]
+    );
 };
 
 module.exports = addUser;

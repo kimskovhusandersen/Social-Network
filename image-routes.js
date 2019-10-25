@@ -32,11 +32,22 @@ router.post(
     uploader.single("image"),
     s3.upload,
     async (req, res) => {
-        console.log("INSIDE POST ROUTE", req.body.url);
-        req.body.url = `${s3Url}${req.file.filename}`;
-        const { rows } = await db.addImage(req.body);
-        console.log("BACK IN POST ROUTE", rows);
-        res.json(rows[0]);
+        try {
+            req.body.url = `${s3Url}${req.file.filename}`;
+            var { rows } = await db.addImage(req.body);
+        } catch (err) {
+            return res.json(err);
+        }
+        if (req.body.user_profile_image) {
+            try {
+                const { userId } = req.body;
+                const imageId = rows[0].id;
+                await db.upsertProfileImage(userId, imageId);
+            } catch (err) {
+                return res.json(err);
+            }
+        }
+        res.json(rows);
     }
 );
 
