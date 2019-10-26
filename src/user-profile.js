@@ -9,13 +9,13 @@ class Profile extends React.Component {
     render() {
         const { user, profileEditor, profileImage } = this.props;
         return (
-            <PageWrapper>
+            <React.Fragment>
                 {profileImage}
                 <Title>{user.firstname}</Title>
                 {profileEditor}
                 {user.email}
                 {user.birthday_year}
-            </PageWrapper>
+            </React.Fragment>
         );
     }
 }

@@ -15,7 +15,8 @@ router.post("/users", async (req, res) => {
 router.get("/user", async (req, res) => {
     const { userId } = req.session;
     try {
-        let { rows } = await db.getUser(userId);
+        let rows = await db.getUser(userId);
+        console.log(rows);
         res.json(rows);
     } catch (err) {
         res.json(err);

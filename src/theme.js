@@ -1,41 +1,28 @@
 import styled, { css, createGlobalStyle } from "styled-components";
 import { Field } from "formik";
-const defaultAvatar =
-    "https://s3.amazonaws.com/spicedling/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg";
-// Global
-const GlobalStyle = createGlobalStyle`
-  * {
-      box-sizing: border-box;
-      padding: 0;
-      margin: 0;
-  }
+
+export const GlobalStyle = createGlobalStyle`
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    html {
+        height: 100%;
+        width: 100%;
+    }
+
+
 `;
 
 export const PageWrapper = styled.section`
-    &,
-    & * {
-        box-sizing: border-box;
-        display: block;
-    }
-
-    hr {
-        display: block;
-        border: none;
-        border-top: 1px solid lightgrey;
-
-        margin-top: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-
     font-family: system-ui;
     font-size: 1rem;
     line-height: 1.5rem;
-    max-width: 35em;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1.5rem;
+    min-height: calc(100vh - 120px);
+    max-width: 100vw;
     padding: 1rem 0.75rem;
-    border: 1px solid lightgrey;
+    border: 1px solid #eee;
     border-radius: 4px;
 `;
 
@@ -58,6 +45,54 @@ export const CodeWrapper = styled.pre`
     }
 `;
 
+export const Header = styled.header`
+    background-color: #f1f1f1;
+    overflow: hidden;
+    width: 100%;
+    height: 60px;
+    padding: 5px 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+`;
+
+export const TopNav = styled.nav`
+    overflow: hidden;
+    background-color: #e9e9e9;
+`;
+
+export const Link = styled.a`
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #ddd;
+        color: black;
+    }
+`;
+
+export const Search = styled.input`
+    padding: 6px;
+    border: none;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
+    padding: 0.5em;
+    margin: 0.5em;
+    background: papayawhip;
+    border: none;
+    border-radius: 3px;
+`;
+
+export const TopSection = styled.section``;
+
 // Images
 export const Image = styled.img.attrs(({ src }) => ({
     src: src
@@ -70,9 +105,11 @@ export const Image = styled.img.attrs(({ src }) => ({
 `;
 
 export const Logo = styled.img`
+    background-image: url("https://s3.amazonaws.com/coriander-imageboard/ysYB3LtmBepQl9fHDGL8V6KZ9U6CdzVv.jpg");
+    background-size: cover;
     width: 50px;
     height: 50px;
-    border: 1px solid red;
+    border-radius: 50%;
 `;
 
 // Forms, inputs, buttons
@@ -161,13 +198,9 @@ export const Input = styled(Field)`
 `;
 
 export const Label = styled.label`
-    display: flex;
-    flex-direction: column;
     color: #777;
-    font-family: "Raleway", sans-serif;
     font-size: 0.8em;
     margin: 0.5em 0;
-    position: relative;
 `;
 
 export const Button = styled.button`
@@ -179,6 +212,7 @@ export const Button = styled.button`
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    cursor: pointer;
 `;
 
 // Text
@@ -200,4 +234,24 @@ export const Title2 = styled.h2`
 export const Text = styled.p`
     font-family: "Raleway", sans-serif;
     color: ${props => props.color || "#4d4d4d"};
+`;
+export const Hr = styled.hr`
+    display: block;
+    border: none;
+    border-top: 1px solid lightgrey;
+
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+`;
+
+export const Footer = styled.footer`
+    background-color: #f1f1f1;
+    overflow: hidden;
+    width: 100%;
+    height: 60px;
+    padding: 20px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
 `;
