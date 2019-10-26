@@ -1,10 +1,11 @@
 import React from "react";
 import axios from "./axios_csurf";
-import Profile from "./user-profile";
-import ProfileImage from "./user-profile-image";
-import UploadProfileImage from "./upload-profile-image";
 import kebabToCamel from "./helpers";
 import errorHandler from "./error-handler";
+import Bio from "./user-bio";
+import ProfileImage from "./user-profile-image";
+import Profile from "./user-profile";
+import ProfileImageUploader from "./profile-image-uploader";
 
 import {
     PageWrapper,
@@ -13,9 +14,7 @@ import {
     Logo,
     Search,
     TopNav,
-    TopSection,
     Link,
-    Title,
     Footer
 } from "./theme";
 
@@ -46,21 +45,23 @@ export class App extends React.Component {
                 lastname: "",
                 profileImageUrl: ""
             },
-            isUploadImageVisible: false
+            isImageUploaderVisible: false,
+            isBioEditorVisible: false
         };
     }
 
     async componentDidMount() {
         try {
             const { data } = await axios.get(`/user`);
+            console.log("LOGGING IN MOUNT", data);
             this.upsertState("user", data[0]);
         } catch (err) {
             errorHandler(err);
         }
     }
-    toggleUploadImage() {
+    toggle(prop) {
         this.setState({
-            isUploadImageVisible: !this.state.isUploadImageVisible
+            [prop]: !this.state[prop]
         });
     }
     upsertState(prop, newProps) {
@@ -91,26 +92,21 @@ export class App extends React.Component {
                     </TopNav>
                 </Header>
                 <PageWrapper>
-                    <TopSection>
-                        <Title>
-                            {this.state.user.firstname}{" "}
-                            {this.state.user.lastname}
-                        </Title>
-                    </TopSection>
                     <Profile
                         user={user}
+                        bio={
+                            <Bio toggleVisibility={prop => this.toggle(prop)} />
+                        }
                         profileImage={
                             <ProfileImage
                                 profileImageUrl={user.profileImageUrl}
-                                toggleUploadImage={() =>
-                                    this.toggleUploadImage()
-                                }
+                                toggleVisibility={prop => this.toggle(prop)}
                             />
                         }
                     />
 
                     {isUploadImageVisible && (
-                        <UploadProfileImage
+                        <ProfileImageUploader
                             upsertState={(prop, newProps) =>
                                 this.upsertState(prop, newProps)
                             }

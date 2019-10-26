@@ -5,6 +5,7 @@ Create BioComponent (BioEditor)
 Store bio information in the state of the BioEditor (hence Class component, isBioEditorVisible)
 Create Bio information component to display the bio.
 Create toggleBio method
+Image upload (profile and regular)
 Create a new amazon container for socialnetwork
 Create query for uploading image
 Create query for uploading profile image

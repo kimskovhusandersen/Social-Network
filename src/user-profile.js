@@ -1,5 +1,5 @@
 import React from "react";
-import { PageWrapper, Logo, Title } from "./theme";
+import { Title, Text } from "./theme";
 
 class Profile extends React.Component {
     constructor(props) {
@@ -7,14 +7,20 @@ class Profile extends React.Component {
         this.state = {};
     }
     render() {
-        const { user, profileEditor, profileImage } = this.props;
+        const { user, profileImage, bio } = this.props;
         return (
             <React.Fragment>
-                {profileImage}
-                <Title>{user.firstname}</Title>
-                {profileEditor}
-                {user.email}
-                {user.birthday_year}
+                <Title>Details About You</Title>
+                <React.Fragment>Profile Image: {profileImage}</React.Fragment>
+                <Text>
+                    Name: {user.firstname} {user.lastname}
+                </Text>
+                <Text>Email: {user.email}</Text>
+                <Text>
+                    Birthday:
+                    {user.birthdayDay}/{user.birthdayMonth}/{user.birthdayYear}
+                </Text>
+                <Text>Biography:{bio}</Text>
             </React.Fragment>
         );
     }

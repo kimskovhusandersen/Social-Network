@@ -1,9 +1,13 @@
 import React from "react";
 
-import { PageWrapper, Image } from "./theme";
+import { Image } from "./theme";
 
-const ProfileImage = ({ profileImageUrl, toggleUploadImage }) => {
-    return <Image onClick={toggleUploadImage} src={profileImageUrl} />;
+const ProfileImage = ({ profileImageUrl, toggleImageUploader }) => {
+    return (
+        <React.Fragment>
+            <Image onClick={toggleImageUploader} src={profileImageUrl} />;
+        </React.Fragment>
+    );
 };
 
 export default ProfileImage;

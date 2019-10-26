@@ -6,6 +6,7 @@ export const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
         margin: 0;
         padding: 0;
+        line-height: 1.2;
     }
     html, body, main {
         margin: 0;
@@ -22,8 +23,9 @@ export const GlobalStyle = createGlobalStyle`
 
 export const PageWrapper = styled.section`
     display: flex;
-    /* align-items: center;
-    justify-content: center; */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     flex: auto;
@@ -229,6 +231,7 @@ export const Button = styled.button`
 
 export const Title = styled.h1`
     font-family: "Raleway", sans-serif;
+
     font-weight: 600;
     color: #4d4d4d;
     font-size: 2.2em;

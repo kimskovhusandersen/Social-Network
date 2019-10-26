@@ -1,8 +1,8 @@
 import React from "react";
-import UploadImageFormWithFormik from "./upload-image-form";
-import { PageWrapper, Title2 } from "./theme";
+import ImageFormWithFormik from "./image-form";
+import { Title2 } from "./theme";
 import axios from "./axios_csurf";
-class UploadProfileImage extends React.Component {
+class ProfileImageUploader extends React.Component {
     constructor() {
         super();
         this.state = {};
@@ -28,16 +28,16 @@ class UploadProfileImage extends React.Component {
     }
     render() {
         return (
-            <PageWrapper>
+            <React.Fragment>
                 <Title2>Upload profile photo</Title2>
-                <UploadImageFormWithFormik
+                <ImageFormWithFormik
                     handleSubmit={values => this.handleSubmit(values)}
                     userId="1"
                     maxFileSize={this.maxFileSize}
                 />
-            </PageWrapper>
+            </React.Fragment>
         );
     }
 }
 
-export default UploadProfileImage;
+export default ProfileImageUploader;
