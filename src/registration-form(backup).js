@@ -5,7 +5,7 @@ import React from "react";
 import { withFormik, Form } from "formik";
 import * as Yup from "yup";
 import axios from "./axios_csurf";
-import errorHandler from "./error-handler";
+import { errorHandler } from "./error-handler";
 import { Button, Text, Label, Input } from "./theme";
 import { optionsYear, optionsMonth, optionsDay } from "./helpers";
 
@@ -133,7 +133,14 @@ const RegistrationFormikForm = withFormik({
         birthday_year: Yup.number().required()
     }),
 
-    async handleSubmit(values, { setErrors, setSubmitting }) {
+    async handleSubmit(
+        values,
+        {
+            props: { handleSubmit, handleErrors },
+            setErrors,
+            setSubmitting
+        }
+    ) {
         try {
             const { data } = await axios.post("/users", values);
             console.log("LOGGING IN REG FORM", data);

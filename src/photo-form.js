@@ -6,7 +6,7 @@ import { withFormik, Form } from "formik";
 import * as Yup from "yup";
 import { Button, Text, Label, Input } from "./theme";
 
-const UploadImageForm = ({
+const UploadPhotoForm = ({
     values,
     errors,
     touched,
@@ -17,12 +17,12 @@ const UploadImageForm = ({
         <Label>
             {touched.file && errors.file && <Text>{errors.file}</Text>}
             <input
-                id="image"
-                name="image"
-                accept="image/*"
+                id="photo"
+                name="photo"
+                accept="photo/*"
                 type="file"
                 onChange={async event => {
-                    await setFieldValue("image", event.currentTarget.files[0]);
+                    await setFieldValue("photo", event.currentTarget.files[0]);
                 }}
             />
         </Label>
@@ -35,34 +35,37 @@ const UploadImageForm = ({
                 values={values.caption}
             />
         </Label>
-        <Input type="hidden" name="userId" values={values.userId} required />
         <Button disabled={isSubmitting} type="submit">
             Submit
         </Button>
     </Form>
 );
-const UploadImageFormWithFormik = withFormik({
-    mapPropsToValues({ image, caption, userId }) {
+const UploadPhotoFormWithFormik = withFormik({
+    mapPropsToValues({ photo, caption }) {
         return {
-            image: image || "",
-            caption: caption || "",
-            userId: userId || ""
+            photo: photo || "",
+            caption: caption || ""
         };
     },
     validationSchema: Yup.object().shape({
-        caption: Yup.string(),
-        userId: Yup.number().required()
+        caption: Yup.string()
     }),
 
-    async handleSubmit(values, { props, resetForm, setErrors, setSubmitting }) {
-        const { image } = values;
-        if (image.size > props.maxFileSize) {
+    async handleSubmit(
+        values,
+        {
+            props: { handleSubmit, maxFileSize },
+            resetForm,
+            setErrors,
+            setSubmitting
+        }
+    ) {
+        if (values.photo.size > maxFileSize) {
             return setErrors({
                 file: "Sorry, the file can't be larger than 2.0 MB"
             });
         }
-        const result = await props.handleSubmit(values);
-        console.log("RESULT IS?", result);
+        const result = await handleSubmit(values);
         if (result && result.name == "error") {
             console.log(result);
         } else {
@@ -70,5 +73,5 @@ const UploadImageFormWithFormik = withFormik({
         }
         setSubmitting(false);
     }
-})(UploadImageForm);
-export default UploadImageFormWithFormik;
+})(UploadPhotoForm);
+export default UploadPhotoFormWithFormik;

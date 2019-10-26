@@ -1,11 +1,12 @@
 import React from "react";
 import axios from "./axios_csurf";
-import kebabToCamel from "./helpers";
-import errorHandler from "./error-handler";
-import Bio from "./user-bio";
-import ProfileImage from "./user-profile-image";
-import Profile from "./user-profile";
-import ProfileImageUploader from "./profile-image-uploader";
+import { kebabToCamel } from "./helpers";
+import { errorHandler } from "./error-handler";
+import AboutMe from "./about-me";
+import AboutMeHandler from "./about-me-handler";
+import ProfilePhoto from "./profile-photo";
+import Profile from "./profile";
+import ProfilePhotoHandler from "./profile-photo-handler";
 
 import {
     PageWrapper,
@@ -22,45 +23,43 @@ export class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            user: {
-                about: {
-                    bio: ""
-                },
-                addresses: [
-                    {
-                        street: "",
-                        number: null,
-                        postalCode: null,
-                        city: "",
-                        state: "",
-                        country: ""
-                    }
-                ],
-                birthdayDay: null,
-                birthdayYear: null,
-                birthdayMonth: null,
-                email: "",
-                firstname: "",
+            profile: {
                 id: null,
-                lastname: "",
-                profileImageUrl: ""
+                email: "",
+                firstName: "",
+                middleName: "",
+                lastName: "",
+                birthdayDay: null,
+                birthdayMonth: null,
+                birthdayYear: null,
+                gender: "",
+                currentCity: "",
+                hometown: "",
+                relationshipStatus: "",
+                interestedIn: "",
+                aboutMe: "",
+                favoriteQuotes: ""
             },
-            isImageUploaderVisible: false,
-            isBioEditorVisible: false
+            photos: {
+                profilePhotoUrl: ""
+            },
+            isPhotoUploaderVisible: false,
+            isBioEditorVisible: true
         };
     }
 
     async componentDidMount() {
-        try {
-            const { data } = await axios.get(`/user`);
-            console.log("LOGGING IN MOUNT", data);
-            this.upsertState("user", data[0]);
-        } catch (err) {
-            errorHandler(err);
-        }
+        const [{ data: profile }, { data: photo }] = [
+            await axios.get(`/profiles`),
+            await axios.get(`/profile-photo`)
+        ];
+        this.upsertState("photos", {
+            profilePhotoUrl: photo[0].url
+        });
+        this.upsertState("profile", profile[0]);
     }
-    toggle(prop) {
-        this.setState({
+    async toggle(e, prop) {
+        await this.setState({
             [prop]: !this.state[prop]
         });
     }
@@ -73,11 +72,15 @@ export class App extends React.Component {
                 }
             }));
         }
-        console.log(this.state.user);
     }
 
     render() {
-        const { user, isUploadImageVisible } = this.state;
+        const {
+            profile,
+            photos,
+            isPhotoUploaderVisible,
+            isBioEditorVisible
+        } = this.state;
         return (
             <React.Fragment>
                 <GlobalStyle />
@@ -93,20 +96,31 @@ export class App extends React.Component {
                 </Header>
                 <PageWrapper>
                     <Profile
-                        user={user}
+                        profile={profile}
                         bio={
-                            <Bio toggleVisibility={prop => this.toggle(prop)} />
+                            <AboutMe
+                                aboutMe={profile.aboutMe}
+                                toggle={(e, prop) => this.toggle(e, prop)}
+                            />
                         }
-                        profileImage={
-                            <ProfileImage
-                                profileImageUrl={user.profileImageUrl}
-                                toggleVisibility={prop => this.toggle(prop)}
+                        profilePhoto={
+                            <ProfilePhoto
+                                profilePhotoUrl={photos.profilePhotoUrl}
+                                toggle={(e, prop) => this.toggle(e, prop)}
                             />
                         }
                     />
 
-                    {isUploadImageVisible && (
-                        <ProfileImageUploader
+                    {isPhotoUploaderVisible && (
+                        <ProfilePhotoHandler
+                            upsertState={(prop, newProps) =>
+                                this.upsertState(prop, newProps)
+                            }
+                        />
+                    )}
+                    {isBioEditorVisible && (
+                        <AboutMeHandler
+                            bio={profile.bio}
                             upsertState={(prop, newProps) =>
                                 this.upsertState(prop, newProps)
                             }

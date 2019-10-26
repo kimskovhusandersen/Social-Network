@@ -10,9 +10,9 @@ const { SESSION_SECRET: sessionSecret } =
 
 const csurf = require("csurf");
 const compression = require("compression");
-const authRouter = require("./user-routes");
-const userRouter = require("./authentication-routes");
-const imageRouter = require("./image-routes");
+const authRouter = require("./routes-authentication");
+const profilesRouter = require("./routes-profiles");
+const photosRouter = require("./routes-photos");
 // Required to run React
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -42,12 +42,12 @@ app.use(function(req, res, next) {
 
 // Routes
 app.use(authRouter);
-app.use(userRouter);
-app.use(imageRouter);
+app.use(profilesRouter);
+app.use(photosRouter);
 
 app.get("/welcome", function(req, res) {
-    if (req.session.userId) {
-        console.log("WE ARE LOGGED IN WITH:", req.session.userId);
+    if (req.session.profileId) {
+        console.log("WE ARE LOGGED IN WITH:", req.session.profileId);
         res.redirect("/");
     } else {
         res.sendFile(__dirname + "/index.html");
@@ -55,8 +55,8 @@ app.get("/welcome", function(req, res) {
 });
 
 app.get("*", function(req, res) {
-    if (!req.session.userId) {
-        console.log("WE ARE NOT LOGGED IN:", req.session.userId);
+    if (!req.session.profileId) {
+        console.log("WE ARE NOT LOGGED IN:", req.session.profileId);
         res.redirect("/welcome");
     } else {
         res.sendFile(__dirname + "/index.html");

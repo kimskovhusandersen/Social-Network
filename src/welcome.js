@@ -1,7 +1,7 @@
 import React from "react";
 import { HashRouter, Route } from "react-router-dom";
-import UserRegistration from "./user-registration";
-import UserLogin from "./user-login";
+import RegistrationHandler from "./registration-handler";
+import LoginHandler from "./login-handler";
 
 import { PageWrapper, Title, Logo } from "./theme";
 
@@ -13,8 +13,8 @@ const Welcome = () => {
             <Logo />
             <HashRouter>
                 <div>
-                    <Route exact path="/" component={UserRegistration} />
-                    <Route path="/login" component={UserLogin} />
+                    <Route exact path="/" component={RegistrationHandler} />
+                    <Route path="/login" component={LoginHandler} />
                 </div>
             </HashRouter>
         </PageWrapper>

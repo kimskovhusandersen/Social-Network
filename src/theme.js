@@ -106,7 +106,7 @@ export const Search = styled.input`
 export const TopSection = styled.section``;
 
 // Images
-export const Image = styled.img.attrs(({ src }) => ({
+export const Photo = styled.img.attrs(({ src }) => ({
     src: src
         ? src
         : "https://s3.amazonaws.com/coriander-imageboard/U1GUVtl_0XWSE9kOkMY0QXmVAuL5sRw1.jpg"

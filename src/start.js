@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import Welcome from "./welcome";
 import App from "./app";
 
-const isUserLoggedIn = location.pathname != "/welcome";
+const isLoggedIn = location.pathname != "/welcome";
 
 ReactDOM.render(
-    isUserLoggedIn ? <App /> : <Welcome />,
+    isLoggedIn ? <App /> : <Welcome />,
     document.querySelector("main")
 );

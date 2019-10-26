@@ -7,18 +7,19 @@ class Profile extends React.Component {
         this.state = {};
     }
     render() {
-        const { user, profileImage, bio } = this.props;
+        const { profile, profilePhoto, bio } = this.props;
         return (
             <React.Fragment>
                 <Title>Details About You</Title>
-                <React.Fragment>Profile Image: {profileImage}</React.Fragment>
+                <React.Fragment>Profile Photo: {profilePhoto}</React.Fragment>
                 <Text>
-                    Name: {user.firstname} {user.lastname}
+                    Name: {profile.firstName} {profile.lastName}
                 </Text>
-                <Text>Email: {user.email}</Text>
+                <Text>Email: {profile.email}</Text>
                 <Text>
                     Birthday:
-                    {user.birthdayDay}/{user.birthdayMonth}/{user.birthdayYear}
+                    {profile.birthdayDay}/{profile.birthdayMonth}/
+                    {profile.birthdayYear}
                 </Text>
                 <Text>Biography:{bio}</Text>
             </React.Fragment>
