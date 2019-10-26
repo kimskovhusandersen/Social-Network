@@ -7,20 +7,29 @@ export const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
     }
-    html {
+    html, body, main {
+        margin: 0;
         height: 100%;
-        width: 100%;
+        min-height: 100%;
+    }
+    main {
+        display: flex;
+        flex-direction: column;
     }
 
 
 `;
 
 export const PageWrapper = styled.section`
+    display: flex;
+    /* align-items: center;
+    justify-content: center; */
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    flex: auto;
     font-family: system-ui;
     font-size: 1rem;
     line-height: 1.5rem;
-    min-height: calc(100vh - 120px);
-    max-width: 100vw;
     padding: 1rem 0.75rem;
     border: 1px solid #eee;
     border-radius: 4px;
@@ -46,6 +55,7 @@ export const CodeWrapper = styled.pre`
 `;
 
 export const Header = styled.header`
+    flex: none;
     background-color: #f1f1f1;
     overflow: hidden;
     width: 100%;
@@ -245,13 +255,15 @@ export const Hr = styled.hr`
 `;
 
 export const Footer = styled.footer`
+    flex: none;
     background-color: #f1f1f1;
     overflow: hidden;
     width: 100%;
-    height: 60px;
-    padding: 20px 10px;
+    height: 30px;
+    padding: 2px 1px;
     display: flex;
     align-items: center;
     justify-content: space-around;
     flex-wrap: wrap;
+    color: #666;
 `;
