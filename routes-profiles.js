@@ -13,24 +13,23 @@ router.post("/profiles", async (req, res) => {
     }
 });
 
-// UPSERT
-router.post("/profiles/:id", async (req, res) => {
-    const { id } = req.params;
+// READ
+router.get("/profiles", async (req, res) => {
+    const { profileId: id } = req.session;
     try {
-        const { rows } = await db.upsertProfile(req.body, id);
+        let { rows } = await db.getProfile(id);
         res.json(rows);
     } catch (err) {
         res.json(err);
     }
 });
 
-// READ
-router.get("/profiles", async (req, res) => {
-    const { profileId: id } = req.session;
+// UPDATE
+router.post("/update-profile", async (req, res) => {
     try {
-        let { rows } = await db.getProfile(id);
-        console.log("LOGGIN IN ROUTE", rows);
-        res.json(rows);
+        req.body.id = req.session.profileId;
+        const { rows } = await db.updateProfile(req.body);
+        if (rows) res.json(rows);
     } catch (err) {
         res.json(err);
     }

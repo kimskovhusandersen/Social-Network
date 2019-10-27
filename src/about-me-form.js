@@ -3,30 +3,37 @@ import { withFormik, Form } from "formik";
 import * as Yup from "yup";
 import { Button, Label, Input, Text } from "./theme";
 
-const BioForm = ({ values, errors, touched, isSubmitting }) => (
+const AboutMeForm = ({ values, errors, touched, isSubmitting, toggle }) => (
     <Form>
         <Label>
-            {touched.bio && errors.bio && <Text>{errors.bio}</Text>}
+            {touched.aboutMe && errors.aboutMe && <Text>{errors.aboutMe}</Text>}
             <Input
                 component="textarea"
-                name="bio"
+                name="aboutMe"
                 placeholder="Write something about yourself.."
-                values={values.bio}
+                values={values.aboutMe}
             />
         </Label>
         <Button disabled={isSubmitting} type="submit">
             Save
         </Button>
+        <Button
+            onClick={e =>
+                toggle(e, ["isAboutMeFormVisible", "isAboutMeVisible"])
+            }
+        >
+            Back
+        </Button>
     </Form>
 );
-const BioFormWithFormik = withFormik({
-    mapPropsToValues({ bio }) {
+const AboutMeFormWithFormik = withFormik({
+    mapPropsToValues({ aboutMe }) {
         return {
-            bio: bio || ""
+            aboutMe: aboutMe || ""
         };
     },
     validationSchema: Yup.object().shape({
-        bio: Yup.string()
+        aboutMe: Yup.string()
     }),
 
     async handleSubmit(
@@ -40,12 +47,12 @@ const BioFormWithFormik = withFormik({
         try {
             const data = await handleSubmit(values);
             if (data && data.name == "error") {
-                setErrors({ bio: "Sorry, something went wrong" });
+                setErrors({ aboutMe: "Sorry, something went wrong" });
             }
         } catch (err) {
             handleErrors(err);
         }
         setSubmitting(false);
     }
-})(BioForm);
-export default BioFormWithFormik;
+})(AboutMeForm);
+export default AboutMeFormWithFormik;

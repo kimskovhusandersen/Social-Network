@@ -11,7 +11,8 @@ const UploadPhotoForm = ({
     errors,
     touched,
     isSubmitting,
-    setFieldValue
+    setFieldValue,
+    toggle
 }) => (
     <Form>
         <Label>
@@ -38,6 +39,7 @@ const UploadPhotoForm = ({
         <Button disabled={isSubmitting} type="submit">
             Submit
         </Button>
+        <Button onClick={e => toggle(e, "isPhotoUploaderVisible")}>Back</Button>
     </Form>
 );
 const UploadPhotoFormWithFormik = withFormik({

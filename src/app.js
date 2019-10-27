@@ -44,7 +44,8 @@ export class App extends React.Component {
                 profilePhotoUrl: ""
             },
             isPhotoUploaderVisible: false,
-            isBioEditorVisible: true
+            isAboutMeVisible: true,
+            isAboutMeFormVisible: false
         };
     }
 
@@ -59,18 +60,28 @@ export class App extends React.Component {
         this.upsertState("profile", profile[0]);
     }
     async toggle(e, prop) {
-        await this.setState({
-            [prop]: !this.state[prop]
-        });
+        if (Array.isArray(prop)) {
+            prop.forEach(p => {
+                this.setState({
+                    [p]: !this.state[p]
+                });
+            });
+        } else {
+            this.setState({
+                [prop]: !this.state[prop]
+            });
+        }
     }
     upsertState(prop, newProps) {
         for (let [key, value] of Object.entries(newProps)) {
-            this.setState(prevState => ({
-                [`${prop}`]: {
-                    ...prevState[`${prop}`],
-                    [`${kebabToCamel(key)}`]: `${value}`
-                }
-            }));
+            if (value != null) {
+                this.setState(prevState => ({
+                    [`${prop}`]: {
+                        ...prevState[`${prop}`],
+                        [`${kebabToCamel(key)}`]: `${value}`
+                    }
+                }));
+            }
         }
     }
 
@@ -79,7 +90,8 @@ export class App extends React.Component {
             profile,
             photos,
             isPhotoUploaderVisible,
-            isBioEditorVisible
+            isAboutMeVisible,
+            isAboutMeFormVisible
         } = this.state;
         return (
             <React.Fragment>
@@ -96,12 +108,15 @@ export class App extends React.Component {
                 </Header>
                 <PageWrapper>
                     <Profile
+                        toggle={(e, prop) => this.toggle(e, prop)}
                         profile={profile}
-                        bio={
-                            <AboutMe
-                                aboutMe={profile.aboutMe}
-                                toggle={(e, prop) => this.toggle(e, prop)}
-                            />
+                        aboutMe={
+                            isAboutMeVisible && (
+                                <AboutMe
+                                    aboutMe={profile.aboutMe}
+                                    toggle={(e, prop) => this.toggle(e, prop)}
+                                />
+                            )
                         }
                         profilePhoto={
                             <ProfilePhoto
@@ -113,17 +128,19 @@ export class App extends React.Component {
 
                     {isPhotoUploaderVisible && (
                         <ProfilePhotoHandler
+                            toggle={(e, prop) => this.toggle(e, prop)}
                             upsertState={(prop, newProps) =>
                                 this.upsertState(prop, newProps)
                             }
                         />
                     )}
-                    {isBioEditorVisible && (
+                    {isAboutMeFormVisible && (
                         <AboutMeHandler
-                            bio={profile.bio}
+                            aboutMe={profile.aboutMe}
                             upsertState={(prop, newProps) =>
                                 this.upsertState(prop, newProps)
                             }
+                            toggle={(e, prop) => this.toggle(e, prop)}
                         />
                     )}
                 </PageWrapper>

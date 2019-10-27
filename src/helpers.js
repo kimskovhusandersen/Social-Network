@@ -1,4 +1,5 @@
 import React from "react";
+
 export const kebabToCamel = key => {
     return key
         .split("_")
@@ -6,6 +7,39 @@ export const kebabToCamel = key => {
             return i != 0 ? word[0].toUpperCase() + word.slice(1) : word;
         })
         .join("");
+};
+
+export const camelToKebab = key => {
+    return key
+        .split(/(?=[A-Z])/)
+        .map((word, i) => {
+            return i != 0 ? word[0].toLowerCase() + word.slice(1) : word;
+        })
+        .join("_");
+};
+
+export const camelObjToKebab = obj => {
+    for (let key in obj) {
+        Object.defineProperty(
+            obj,
+            camelToKebab(key),
+            Object.getOwnPropertyDescriptor(obj, key)
+        );
+        delete obj[key];
+    }
+    return obj;
+};
+
+export const kebabObjToCamel = obj => {
+    for (let key in obj) {
+        Object.defineProperty(
+            obj,
+            kebabToCamel(key),
+            Object.getOwnPropertyDescriptor(obj, key)
+        );
+        delete obj[key];
+    }
+    return obj;
 };
 
 export const optionsYear = () => {

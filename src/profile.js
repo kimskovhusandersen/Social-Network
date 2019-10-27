@@ -1,5 +1,5 @@
 import React from "react";
-import { Title, Text } from "./theme";
+import { Title, Text, Button } from "./theme";
 
 class Profile extends React.Component {
     constructor(props) {
@@ -7,7 +7,7 @@ class Profile extends React.Component {
         this.state = {};
     }
     render() {
-        const { profile, profilePhoto, bio } = this.props;
+        const { profile, profilePhoto, aboutMe } = this.props;
         return (
             <React.Fragment>
                 <Title>Details About You</Title>
@@ -21,7 +21,7 @@ class Profile extends React.Component {
                     {profile.birthdayDay}/{profile.birthdayMonth}/
                     {profile.birthdayYear}
                 </Text>
-                <Text>Biography:{bio}</Text>
+                {aboutMe}
             </React.Fragment>
         );
     }

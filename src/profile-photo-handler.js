@@ -33,10 +33,12 @@ class ProfilePhotoHandler extends React.Component {
     }
 
     render() {
+        const { toggle } = this.props;
         return (
             <React.Fragment>
                 <Title2>Upload profile photo</Title2>
                 <PhotoFormWithFormik
+                    toggle={toggle}
                     handleSubmit={values => this.handleSubmit(values)}
                     maxFileSize={this.maxFileSize}
                 />

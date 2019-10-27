@@ -1,15 +1,19 @@
 import React from "react";
-import { Button } from "./theme";
+import { Text, Button } from "./theme";
 
-const UserBio = ({ toggle, bio }) => {
+const AboutMe = ({ toggle, aboutMe }) => {
     return (
         <React.Fragment>
-            {bio}
-            <Button onClick={e => toggle(e, "isBioEditorVisible")}>
-                Update bio
+            <Text>About me: {aboutMe}</Text>
+            <Button
+                onClick={e =>
+                    toggle(e, ["isAboutMeFormVisible", "isAboutMeVisible"])
+                }
+            >
+                Edit About Me
             </Button>
         </React.Fragment>
     );
 };
 
-export default UserBio;
+export default AboutMe;
