@@ -18,7 +18,7 @@ class LoginHandler extends React.Component {
     async componentDidMount() {}
 
     async handleSubmit(values) {
-        const { data } = await axios.post("/profiles", values);
+        const { data } = await axios.post("/api/profiles", values);
         if (data && data.name == "error") {
             if (data.constraint == "profiles_email_key") {
                 this.setState({

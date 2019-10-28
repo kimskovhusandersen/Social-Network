@@ -1,14 +1,5 @@
 TO DOS:
-Create two new methods in <App /> -> setImage, setBio (user_profiles)
-
-Create BioComponent (BioEditor)
-Store bio information in the state of the BioEditor (hence Class component, isBioEditorVisible)
-Create Bio information component to display the bio.
-Create toggleBio method
-Image upload (profile and regular)
 Create a new amazon container for socialnetwork
-Create query for uploading image
-Create query for uploading profile image
-Create query for updating profile image
 Drop image to upload
 Upload multiple images at the same time
+Login with FB and Google

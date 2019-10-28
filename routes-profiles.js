@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require("./db");
 
 // CREATE
-router.post("/profiles", async (req, res) => {
+router.post("/api/profiles", async (req, res) => {
     try {
         const { rows } = await db.addProfile(req.body);
         req.session.profileId = rows[0].id;
@@ -14,8 +14,21 @@ router.post("/profiles", async (req, res) => {
 });
 
 // READ
-router.get("/profiles", async (req, res) => {
+router.get("/api/profiles/:id", async (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    try {
+        let { rows } = await db.getProfile(id);
+        res.json(rows);
+    } catch (err) {
+        res.json(err);
+    }
+});
+
+// READ
+router.get("/api/my-profile", async (req, res) => {
     const { profileId: id } = req.session;
+    console.log(id);
     try {
         let { rows } = await db.getProfile(id);
         res.json(rows);
@@ -25,7 +38,7 @@ router.get("/profiles", async (req, res) => {
 });
 
 // UPDATE
-router.post("/update-profile", async (req, res) => {
+router.post("/api/my-profile/edit", async (req, res) => {
     try {
         req.body.id = req.session.profileId;
         const { rows } = await db.updateProfile(req.body);

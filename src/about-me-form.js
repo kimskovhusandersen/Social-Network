@@ -22,7 +22,7 @@ const AboutMeForm = ({ values, errors, touched, isSubmitting, toggle }) => (
                 toggle(e, ["isAboutMeFormVisible", "isAboutMeVisible"])
             }
         >
-            Back
+            Cancel
         </Button>
     </Form>
 );
@@ -45,6 +45,7 @@ const AboutMeFormWithFormik = withFormik({
         }
     ) {
         try {
+            console.log("triggering handleSubmit next", values);
             const data = await handleSubmit(values);
             if (data && data.name == "error") {
                 setErrors({ aboutMe: "Sorry, something went wrong" });

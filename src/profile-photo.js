@@ -2,12 +2,12 @@ import React from "react";
 
 import { Photo } from "./theme";
 
-const ProfilePhoto = ({ profilePhotoUrl, toggle }) => {
+const ProfilePhoto = ({ url = "/default-avatar.jpg", toggle }) => {
     return (
         <React.Fragment>
             <Photo
                 onClick={e => toggle(e, "isPhotoUploaderVisible")}
-                src={profilePhotoUrl}
+                src={url}
             />
         </React.Fragment>
     );

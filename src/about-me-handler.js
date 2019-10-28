@@ -15,9 +15,13 @@ class AboutMeHandler extends React.Component {
 
     async handleSubmit(values) {
         values = camelObjToKebab(values);
-        const { data } = await axios.post("/update-profile", values);
+        const { data } = await axios.post(`api/my-profile/edit`, values);
         if (data && data.name != "error") {
-            await this.props.upsertState("profile", data[0]);
+            this.props.upsertState("profile", data[0]);
+            this.props.toggle(null, [
+                "isAboutMeFormVisible",
+                "isAboutMeVisible"
+            ]);
         } else {
             await this.handleErrors(data);
         }

@@ -40,6 +40,7 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.use(express.static("public"));
 // Routes
 app.use(authRouter);
 app.use(profilesRouter);

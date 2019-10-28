@@ -28,7 +28,7 @@ const uploader = multer({
 });
 
 router.post(
-    "/photos",
+    "/api/photos",
     uploader.single("photo"),
     s3.upload,
     async (req, res) => {
@@ -46,9 +46,20 @@ router.post(
 );
 
 // READ
-router.get("/profile-photo", async (req, res) => {
+router.get("/api/profile-photo/:id", async (req, res) => {
+    const { id } = req.params;
     try {
-        let { rows } = await db.getProfilePhoto(req.session.profileId);
+        let { rows } = await db.getProfilePhoto(id);
+        res.json(rows);
+    } catch (err) {
+        res.json(err);
+    }
+});
+
+router.get("/api/my-profile-photo", async (req, res) => {
+    const { profileId: id } = req.session;
+    try {
+        let { rows } = await db.getProfilePhoto(id);
         res.json(rows);
     } catch (err) {
         res.json(err);

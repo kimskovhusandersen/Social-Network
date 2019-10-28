@@ -57,12 +57,17 @@ export const CodeWrapper = styled.pre`
 `;
 
 export const Header = styled.header`
+    background: ${props =>
+        props.primary
+            ? props.theme.primaryBackground
+            : props.theme.secondaryBackground};
+    color: ${props =>
+        props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
     flex: none;
-    background-color: #f1f1f1;
     overflow: hidden;
     width: 100%;
-    height: 60px;
-    padding: 5px 2px;
+    height: 43px;
+    padding: 0px 2px;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -71,56 +76,98 @@ export const Header = styled.header`
 
 export const TopNav = styled.nav`
     overflow: hidden;
-    background-color: #e9e9e9;
+    background: ${props =>
+        props.primary
+            ? props.theme.primaryBackground
+            : props.theme.secondaryBackground};
+    color: ${props =>
+        props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
+    height: 60%;
+    font-size: 15px;
 `;
 
 export const Link = styled.a`
+    position: relative;
+    background: ${props =>
+        props.primary
+            ? props.theme.primaryBackground
+            : props.theme.secondaryBackground};
+    color: ${props =>
+        props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
     float: left;
     display: block;
-    color: black;
+    height: 100%;
+    width: 45px;
     text-align: center;
-    padding: 14px 16px;
     text-decoration: none;
-    font-size: 17px;
     cursor: pointer;
+    border-radius: 2px;
+    padding: 0 1px;
 
     &:hover {
-        background-color: #ddd;
-        color: black;
+        background: ${props =>
+        props.primary
+            ? props.theme.primaryHoverBackground
+            : props.theme.secondaryHoverBackground};
+        color: ${props =>
+        props.primary
+            ? props.theme.primaryHoverColor
+            : props.theme.secondaryHoverColor};
+    }
+
+    > * {
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 `;
 
 export const Search = styled.input`
+    background: ${props =>
+        props.primary
+            ? props.theme.secondaryBackground
+            : props.theme.primaryBackground};
+    color: ${props =>
+        props.primary ? props.theme.secondaryColor : props.theme.primaryColor};
     padding: 6px;
     border: none;
-    margin-top: 8px;
-    margin-right: 16px;
-    font-size: 17px;
+    font-size: 13px;
     padding: 0.5em;
-    margin: 0.5em;
-    background: papayawhip;
     border: none;
     border-radius: 3px;
+
+    &:focus {
+        background: ${props =>
+        props.primary
+            ? props.theme.primaryHoverBackground
+            : props.theme.secondaryHoverBackground};
+        color: ${props =>
+        props.primary
+            ? props.theme.primaryHoverColor
+            : props.theme.secondaryHoverColor};
+    }
 `;
 
 export const TopSection = styled.section``;
 
 // Images
+
 export const Photo = styled.img.attrs(({ src }) => ({
-    src: src
-        ? src
-        : "https://s3.amazonaws.com/coriander-imageboard/U1GUVtl_0XWSE9kOkMY0QXmVAuL5sRw1.jpg"
+    src
 }))`
-    width: 100px;
-    height: 100px;
-    border: 1px solid #eee;
+    width: ${props => (props.topNav ? "23px" : "200px")};
+    height: ${props => (props.topNav ? "23px" : "200px")};
+    /* border: 1px solid #eee; */
+    border-radius: 50%;
 `;
 
 export const Logo = styled.img`
     background-image: url("https://s3.amazonaws.com/coriander-imageboard/ysYB3LtmBepQl9fHDGL8V6KZ9U6CdzVv.jpg");
     background-size: cover;
-    width: 50px;
-    height: 50px;
+    width: 33px;
+    height: 33px;
     border-radius: 50%;
 `;
 
@@ -137,12 +184,9 @@ export const Input = styled(Field)`
     background-color: white;
     border: 1px solid lightgrey;
     border-radius: 4px;
-    font-size: 1rem;
-    line-height: 1.5rem;
-    font-style: normal;
+    line-height: 80%;
     font-weight: 400;
     width: 100%;
-    margin-top: 0.5rem;
     padding: 0.75rem 0.75rem;
 
     &:focus,
@@ -216,38 +260,55 @@ export const Label = styled.label`
 `;
 
 export const Button = styled.button`
-    background-color: #4caf50; /* Green */
-    border: none;
-    color: white;
+    background: ${props =>
+        props.primary
+            ? props.theme.primaryBackground
+            : props.theme.secondaryBackground};
+    color: ${props =>
+        props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
+    border: 1px solid ${props => props.theme.borderColor};
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     cursor: pointer;
+    border-radius: 3px;
+
+    &:hover {
+        background: ${props =>
+        props.primary
+            ? props.theme.primaryHoverBackground
+            : props.theme.secondaryHoverBackground};
+        color: ${props =>
+        props.primary
+            ? props.theme.primaryHoverColor
+            : props.theme.secondaryHoverColor};
+    }
 `;
 
 // Text
 
 export const Title = styled.h1`
     font-family: "Raleway", sans-serif;
-
     font-weight: 600;
-    color: #4d4d4d;
+    color: ${props => props.theme.h1};
     font-size: 2.2em;
 `;
 
 export const Title2 = styled.h2`
     font-family: "Raleway", sans-serif;
     font-weight: 300;
-    color: #4d4d4d;
+    color: ${props => props.theme.h2};
     font-size: 1.8em;
 `;
 
 export const Text = styled.p`
     font-family: "Raleway", sans-serif;
-    color: ${props => props.color || "#4d4d4d"};
+    color: ${props =>
+        !props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
 `;
+
 export const Hr = styled.hr`
     display: block;
     border: none;
@@ -259,7 +320,12 @@ export const Hr = styled.hr`
 
 export const Footer = styled.footer`
     flex: none;
-    background-color: #f1f1f1;
+    background: ${props =>
+        props.primary
+            ? props.theme.secondaryBackground
+            : props.theme.primaryBackground};
+    color: ${props =>
+        props.primary ? props.theme.secondaryColor : props.theme.primaryColor};
     overflow: hidden;
     width: 100%;
     height: 30px;
@@ -268,5 +334,4 @@ export const Footer = styled.footer`
     align-items: center;
     justify-content: space-around;
     flex-wrap: wrap;
-    color: #666;
 `;

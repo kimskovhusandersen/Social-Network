@@ -7,14 +7,16 @@ class Profile extends React.Component {
         this.state = {};
     }
     render() {
-        const { profile, profilePhoto, aboutMe } = this.props;
+        const {
+            profile,
+            profilePhoto,
+            profileTopSection,
+            aboutMe
+        } = this.props;
         return (
             <React.Fragment>
+                {profileTopSection}
                 <Title>Details About You</Title>
-                <React.Fragment>Profile Photo: {profilePhoto}</React.Fragment>
-                <Text>
-                    Name: {profile.firstName} {profile.lastName}
-                </Text>
                 <Text>Email: {profile.email}</Text>
                 <Text>
                     Birthday:
