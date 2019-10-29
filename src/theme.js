@@ -175,6 +175,7 @@ export const SearchResultItem = styled.a`
     display: block;
     height: calc(100% / 10);
     font-size: 14px;
+    text-decoration: none;
     width: inherit;
     padding: 5px;
     cursor: pointer;

@@ -42,7 +42,10 @@ const FindPeople = () => {
             <Search type="text" onChange={handleChange} />
             <SearchResult>
                 {profiles.map(profile => (
-                    <SearchResultItem key={profile.id}>
+                    <SearchResultItem
+                        href={`/user/${profile.id}`}
+                        key={profile.id}
+                    >
                         {profile.first_name} {profile.last_name}
                     </SearchResultItem>
                 ))}
