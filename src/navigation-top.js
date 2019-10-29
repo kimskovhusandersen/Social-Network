@@ -1,13 +1,6 @@
 import React from "react";
-import {
-    GlobalStyle,
-    Header,
-    Logo,
-    Search,
-    TopNav,
-    Photo,
-    Link
-} from "./theme";
+import FindPeople from "./find-people";
+import { GlobalStyle, Header, Logo, TopNav, Photo, Link } from "./theme";
 import {
     ChevronDown,
     Bell,
@@ -22,7 +15,8 @@ const TopNavigation = ({ profile, photos }) => {
             <GlobalStyle />
             <Header>
                 <Logo />
-                <Search type="text" />
+                <FindPeople type="text" />
+
                 <Link>
                     <SearchIcon />
                 </Link>

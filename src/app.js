@@ -41,7 +41,7 @@ export class App extends React.Component {
             isPhotoUploaderVisible: false,
             isAboutMeVisible: true,
             isAboutMeFormVisible: false,
-            theme: "light"
+            theme: "dark"
         };
         this.theme = {};
     }

@@ -37,6 +37,17 @@ router.get("/api/my-profile", async (req, res) => {
     }
 });
 
+router.get("/api/profiles/search/:query", async (req, res) => {
+    const { query } = req.params;
+    console.log(query);
+    try {
+        let { rows } = await db.getProfilesBySearch(query);
+        res.json(rows);
+    } catch (err) {
+        res.json(err);
+    }
+});
+
 // UPDATE
 router.post("/api/my-profile/edit", async (req, res) => {
     try {

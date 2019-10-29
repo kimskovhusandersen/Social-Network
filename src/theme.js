@@ -64,7 +64,7 @@ export const Header = styled.header`
     color: ${props =>
         props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
     flex: none;
-    overflow: hidden;
+    /* overflow: hidden; */
     width: 100%;
     height: 43px;
     padding: 0px 2px;
@@ -124,6 +124,11 @@ export const Link = styled.a`
     }
 `;
 
+export const SearchWrapper = styled.div`
+    width: 300px;
+    position: relative;
+`;
+
 export const Search = styled.input`
     background: ${props =>
         props.primary
@@ -131,6 +136,7 @@ export const Search = styled.input`
             : props.theme.primaryBackground};
     color: ${props =>
         props.primary ? props.theme.secondaryColor : props.theme.primaryColor};
+    width: inherit;
     padding: 6px;
     border: none;
     font-size: 13px;
@@ -139,6 +145,43 @@ export const Search = styled.input`
     border-radius: 3px;
 
     &:focus {
+        background: ${props =>
+        props.primary
+            ? props.theme.primaryHoverBackground
+            : props.theme.secondaryHoverBackground};
+        color: ${props =>
+        props.primary
+            ? props.theme.primaryHoverColor
+            : props.theme.secondaryHoverColor};
+    }
+`;
+
+export const SearchResult = styled.div`
+    position: absolute;
+    min-height: 0px;
+    width: inherit;
+    top: 34px;
+    z-index: 1;
+
+    background: ${props =>
+        props.primary
+            ? props.theme.primaryBackground
+            : props.theme.secondaryBackground};
+    color: ${props =>
+        props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
+`;
+
+export const SearchResultItem = styled.a`
+    display: block;
+    height: calc(100% / 10);
+    font-size: 14px;
+    width: inherit;
+    padding: 5px;
+    cursor: pointer;
+    color: ${props =>
+        props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
+
+    &:hover {
         background: ${props =>
         props.primary
             ? props.theme.primaryHoverBackground
