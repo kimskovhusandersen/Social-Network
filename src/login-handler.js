@@ -1,5 +1,5 @@
 import React from "react";
-import AuthenticationFormWithFormik from "./authentication-form";
+import LoginFormWithFormik from "./login-form";
 import { errorHandler } from "./error-handler";
 import axios from "./axios_csurf";
 import { Text } from "./theme";
@@ -18,7 +18,7 @@ class LoginHandler extends React.Component {
     async componentDidMount() {}
 
     async handleSubmit(values) {
-        const { data } = await axios.post("/api/profiles", values);
+        const { data } = await axios.post("/login", values);
         if (data && data.name == "error") {
             if (data.constraint == "profiles_email_key") {
                 this.setState({
@@ -40,7 +40,7 @@ class LoginHandler extends React.Component {
         const { email, password, errors } = this.state;
         return (
             <React.Fragment>
-                <AuthenticationFormWithFormik
+                <LoginFormWithFormik
                     email={email}
                     password={password}
                     errors={errors}

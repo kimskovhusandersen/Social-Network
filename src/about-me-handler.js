@@ -1,5 +1,4 @@
 import React from "react";
-import { Title2 } from "./theme";
 import AboutMeFormWithFormik from "./about-me-form";
 import { handleErrors } from "./error-handler";
 import { camelObjToKebab } from "./helpers";

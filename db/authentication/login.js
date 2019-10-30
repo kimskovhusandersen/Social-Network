@@ -18,7 +18,7 @@ compare = promisify(compare);
 
 const login = async (req, { password, email }) => {
     // step 1 - get hashed password from db
-    let { rows } = await db.query(
+    const { rows } = await db.query(
         `SELECT id, hashed_password FROM profiles WHERE email = $1;`,
         [email]
     );
@@ -29,7 +29,6 @@ const login = async (req, { password, email }) => {
         });
     }
     const { id, hashed_password: hashed } = rows[0];
-
     // step 2 - compare password with hashed password
     const match = await compare(password, hashed);
     if (!match) {
@@ -39,7 +38,7 @@ const login = async (req, { password, email }) => {
         });
     }
     // Step 3 - add userId to session (logged in!)
-    req.session.proileId = id;
+    req.session.profileId = id;
 };
 
 module.exports = login;

@@ -1,8 +1,9 @@
 import React from "react";
 import axios from "./axios_csurf";
 import { kebabToCamel } from "./helpers";
-import { Text, Title } from "./theme";
+import { Text, Title, Button } from "./theme";
 import ProfilePhoto from "./profile-photo";
+import FriendshipButton from "./friendship-button";
 
 class ProfileOther extends React.Component {
     constructor(props) {
@@ -27,7 +28,8 @@ class ProfileOther extends React.Component {
             },
             photos: {
                 profilePhotoUrl: ""
-            }
+            },
+            otherProfileId: null
         };
     }
 
@@ -36,21 +38,25 @@ class ProfileOther extends React.Component {
             id: userId,
             history,
             match: {
-                params: { id: profileId }
+                params: { id: otherProfileId }
             }
         } = this.props;
 
-        if (userId == profileId) {
+        if (otherProfileId != this.state.otherProfileId) {
+            this.setState({ otherProfileId });
+        }
+
+        if (userId == otherProfileId) {
             return history.push("/");
         }
-        if (profileId !== this.state.profile.id) {
+        if (otherProfileId !== this.state.profile.id) {
             this.upsertState("profile", {
-                id: profileId
+                id: otherProfileId
             });
 
             const [{ data: profile }, { data: photo }] = [
-                await axios.get(`/api/profiles/${profileId}`),
-                await axios.get(`/api/profile-photo/${profileId}`)
+                await axios.get(`/api/profiles/${otherProfileId}`),
+                await axios.get(`/api/profile-photo/${otherProfileId}`)
             ];
 
             photo[0] &&
@@ -76,22 +82,17 @@ class ProfileOther extends React.Component {
     }
 
     render() {
-        const { profile, photos } = this.state;
+        const { profile, photos, otherProfileId } = this.state;
         return (
             <React.Fragment>
                 <Title>Details About You</Title>
-                <React.Fragment>
-                    Profile Photo: <ProfilePhoto src={photos.profilePhotoUrl} />
-                </React.Fragment>
+                <ProfilePhoto src={photos.profilePhotoUrl} />
+                <FriendshipButton otherProfileId={this.props.match.params.id} />
                 <Text>
                     Name: {profile.firstName} {profile.lastName}
                 </Text>
                 <Text>Email: {profile.email}</Text>
-                <Text>
-                    Birthday:
-                    {profile.birthdayDay}/{profile.birthdayMonth}/
-                    {profile.birthdayYear}
-                </Text>
+
                 <Text>{profile.aboutMe}</Text>
             </React.Fragment>
         );

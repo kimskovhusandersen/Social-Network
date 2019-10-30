@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require("./db");
 
 router.post("/login", async (req, res) => {
+    console.log(req.body);
     try {
         await db.login(req, req.body);
         res.json({ data: "success" });

@@ -12,18 +12,16 @@ if (process.env.DATABASE_URL) {
     );
 }
 
-const getProfilesBySearch = async query => {
+const getMostRecentProfiles = () => {
     return db.query(
-        `SELECT id, first_name, last_name,
+        `SELECT *,
             (SELECT id FROM profiles
             ORDER BY id ASC
             LIMIT 1)
             AS lowest_id
-        FROM profiles WHERE first_name ILIKE $1
+        FROM profiles
         ORDER BY id DESC
-        LIMIT 10;`,
-        [`${query}%`]
+        LIMIT 3;`
     );
 };
-
-module.exports = getProfilesBySearch;
+module.exports = getMostRecentProfiles;

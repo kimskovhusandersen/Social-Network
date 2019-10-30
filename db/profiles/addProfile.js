@@ -19,11 +19,11 @@ genSalt = promisify(genSalt);
 
 const hashPassword = password => genSalt().then(salt => hash(password, salt));
 
-const addProfile = async ({ email, password }) => {
+const addProfile = async ({ email, password, firstName, lastName }) => {
     const hashedPassword = await hashPassword(password);
     return db.query(
-        `INSERT INTO profiles (email, hashed_password) VALUES ($1, $2) RETURNING id;`,
-        [email, hashedPassword]
+        `INSERT INTO profiles (email, hashed_password, first_name, last_name) VALUES ($1, $2, $3, $4) RETURNING id;`,
+        [email, hashedPassword, firstName, lastName]
     );
 };
 

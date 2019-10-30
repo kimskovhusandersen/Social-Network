@@ -13,7 +13,6 @@ if (process.env.DATABASE_URL) {
 }
 
 const getProfilePhoto = profileId => {
-    console.log("IN DB FN", profileId);
     return db.query(
         `
         SELECT * FROM photos WHERE profile_id = $1 AND album = $2 ORDER BY id DESC LIMIT 1;

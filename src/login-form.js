@@ -3,7 +3,7 @@ import { withFormik, Form } from "formik";
 import * as Yup from "yup";
 import { Button, Text, Label, Input } from "./theme";
 
-const AuthenticationForm = ({ values, errors, touched, isSubmitting }) => (
+const LoginForm = ({ values, errors, touched, isSubmitting }) => (
     <Form>
         <Label>
             {touched.email && errors.email && <Text>{errors.email}</Text>}
@@ -31,7 +31,7 @@ const AuthenticationForm = ({ values, errors, touched, isSubmitting }) => (
     </Form>
 );
 
-const AuthenticationFormWithFormik = withFormik({
+const LoginFormWithFormik = withFormik({
     mapPropsToValues({ email, password }) {
         return {
             email: email || "",
@@ -56,7 +56,6 @@ const AuthenticationFormWithFormik = withFormik({
         }
     ) {
         await handleSubmit(values);
-        console.log("done");
         if (Object.entries(errors).length != 0) {
             setErrors(errors);
             setSubmitting(false);
@@ -64,6 +63,6 @@ const AuthenticationFormWithFormik = withFormik({
             location.replace("/");
         }
     }
-})(AuthenticationForm);
+})(LoginForm);
 
-export default AuthenticationFormWithFormik;
+export default LoginFormWithFormik;

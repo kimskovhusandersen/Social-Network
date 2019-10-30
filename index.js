@@ -13,6 +13,7 @@ const compression = require("compression");
 const authRouter = require("./routes-authentication");
 const profilesRouter = require("./routes-profiles");
 const photosRouter = require("./routes-photos");
+const friendsRouter = require("./routes-friends");
 // Required to run React
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -45,10 +46,10 @@ app.use(express.static("public"));
 app.use(authRouter);
 app.use(profilesRouter);
 app.use(photosRouter);
+app.use(friendsRouter);
 
 app.get("/welcome", function(req, res) {
     if (req.session.profileId) {
-        console.log("WE ARE LOGGED IN WITH:", req.session.profileId);
         res.redirect("/");
     } else {
         res.sendFile(__dirname + "/index.html");
@@ -57,7 +58,6 @@ app.get("/welcome", function(req, res) {
 
 app.get("*", function(req, res) {
     if (!req.session.profileId) {
-        console.log("WE ARE NOT LOGGED IN:", req.session.profileId);
         res.redirect("/welcome");
     } else {
         res.sendFile(__dirname + "/index.html");

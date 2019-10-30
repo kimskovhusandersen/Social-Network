@@ -44,6 +44,8 @@ CREATE TABLE profiles(
      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
  );
 
+
+
 -- POPULATE DATABASES
 
 INSERT INTO profiles (first_name, last_name, email, hashed_password, birthday_day, birthday_month, birthday_year, gender)

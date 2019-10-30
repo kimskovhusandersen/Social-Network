@@ -12,18 +12,12 @@ if (process.env.DATABASE_URL) {
     );
 }
 
-const getProfilesBySearch = async query => {
+const deleteFriend = async ({ senderId, receiverId }) => {
+    console.log("LOGGING IN DELETE FRIEND", senderId, receiverId);
     return db.query(
-        `SELECT id, first_name, last_name,
-            (SELECT id FROM profiles
-            ORDER BY id ASC
-            LIMIT 1)
-            AS lowest_id
-        FROM profiles WHERE first_name ILIKE $1
-        ORDER BY id DESC
-        LIMIT 10;`,
-        [`${query}%`]
+        `DELETE FROM friends WHERE (sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1) RETURNING *;`,
+        [senderId, receiverId]
     );
 };
 
-module.exports = getProfilesBySearch;
+module.exports = deleteFriend;

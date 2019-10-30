@@ -1,5 +1,2 @@
-TO DOS:
-Create a new amazon container for socialnetwork
-Drop image to upload
-Upload multiple images at the same time
-Login with FB and Google
+Fix CSS
+Fix Registration + DefaultImage

@@ -1,6 +1,9 @@
 import styled, { css, createGlobalStyle } from "styled-components";
 import { Field } from "formik";
 
+const bgCol1 = "#461220";
+const bgCol2 = "#FCB9B2";
+
 export const GlobalStyle = createGlobalStyle`
     * {
         box-sizing: border-box;
@@ -22,13 +25,13 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const PageWrapper = styled.section`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* align-items: center;
+    justify-content: center; */
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
-    flex: auto;
+    /* flex: auto; */
     font-family: system-ui;
     font-size: 1rem;
     line-height: 1.5rem;
@@ -56,15 +59,8 @@ export const CodeWrapper = styled.pre`
     }
 `;
 
-export const Header = styled.header`
-    background: ${props =>
-        props.primary
-            ? props.theme.primaryBackground
-            : props.theme.secondaryBackground};
-    color: ${props =>
-        props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
+export const NavWrapper = styled.header`
     flex: none;
-    /* overflow: hidden; */
     width: 100%;
     height: 43px;
     padding: 0px 2px;
@@ -72,28 +68,17 @@ export const Header = styled.header`
     align-items: center;
     justify-content: space-around;
     flex-wrap: wrap;
+    background: "grey";
 `;
 
 export const TopNav = styled.nav`
     overflow: hidden;
-    background: ${props =>
-        props.primary
-            ? props.theme.primaryBackground
-            : props.theme.secondaryBackground};
-    color: ${props =>
-        props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
     height: 60%;
     font-size: 15px;
 `;
 
-export const Link = styled.a`
+export const TopNavItem = styled.a`
     position: relative;
-    background: ${props =>
-        props.primary
-            ? props.theme.primaryBackground
-            : props.theme.secondaryBackground};
-    color: ${props =>
-        props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
     float: left;
     display: block;
     height: 100%;
@@ -105,14 +90,6 @@ export const Link = styled.a`
     padding: 0 1px;
 
     &:hover {
-        background: ${props =>
-        props.primary
-            ? props.theme.primaryHoverBackground
-            : props.theme.secondaryHoverBackground};
-        color: ${props =>
-        props.primary
-            ? props.theme.primaryHoverColor
-            : props.theme.secondaryHoverColor};
     }
 
     > * {
@@ -127,16 +104,13 @@ export const Link = styled.a`
 export const SearchWrapper = styled.div`
     width: 300px;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
-export const Search = styled.input`
-    background: ${props =>
-        props.primary
-            ? props.theme.secondaryBackground
-            : props.theme.primaryBackground};
-    color: ${props =>
-        props.primary ? props.theme.secondaryColor : props.theme.primaryColor};
-    width: inherit;
+export const SearchInput = styled.input`
+    width: 90%;
     padding: 6px;
     border: none;
     font-size: 13px;
@@ -145,30 +119,16 @@ export const Search = styled.input`
     border-radius: 3px;
 
     &:focus {
-        background: ${props =>
-        props.primary
-            ? props.theme.primaryHoverBackground
-            : props.theme.secondaryHoverBackground};
-        color: ${props =>
-        props.primary
-            ? props.theme.primaryHoverColor
-            : props.theme.secondaryHoverColor};
     }
 `;
 
 export const SearchResult = styled.div`
     position: absolute;
     min-height: 0px;
-    width: inherit;
+    width: 90%;
     top: 34px;
+    left: 2px;
     z-index: 1;
-
-    background: ${props =>
-        props.primary
-            ? props.theme.primaryBackground
-            : props.theme.secondaryBackground};
-    color: ${props =>
-        props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
 `;
 
 export const SearchResultItem = styled.a`
@@ -176,22 +136,14 @@ export const SearchResultItem = styled.a`
     height: calc(100% / 10);
     font-size: 14px;
     text-decoration: none;
-    width: inherit;
+    width: 100%;
     padding: 5px;
     cursor: pointer;
-    color: ${props =>
-        props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
 
     &:hover {
-        background: ${props =>
-        props.primary
-            ? props.theme.primaryHoverBackground
-            : props.theme.secondaryHoverBackground};
-        color: ${props =>
-        props.primary
-            ? props.theme.primaryHoverColor
-            : props.theme.secondaryHoverColor};
     }
+
+    font-weight: ${props => (props.last ? "bold" : "normal")};
 `;
 
 export const TopSection = styled.section``;
@@ -201,8 +153,8 @@ export const TopSection = styled.section``;
 export const Photo = styled.img.attrs(({ src }) => ({
     src
 }))`
-    width: ${props => (props.topNav ? "23px" : "200px")};
-    height: ${props => (props.topNav ? "23px" : "200px")};
+    width: ${props => (props.small ? "23px" : "200px")};
+    height: ${props => (props.small ? "23px" : "200px")};
     /* border: 1px solid #eee; */
     border-radius: 50%;
 `;
@@ -214,8 +166,6 @@ export const Logo = styled.img`
     height: 33px;
     border-radius: 50%;
 `;
-
-// Forms, inputs, buttons
 
 export const Form = styled.form`
     width: 300px;
@@ -304,30 +254,19 @@ export const Label = styled.label`
 `;
 
 export const Button = styled.button`
-    background: ${props =>
-        props.primary
-            ? props.theme.primaryBackground
-            : props.theme.secondaryBackground};
-    color: ${props =>
-        props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
-    border: 1px solid ${props => props.theme.borderColor};
-    padding: 15px 32px;
+    background-color: #4caf50;
+    border: none;
+    color: white;
+    padding: 5px 12px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 14px;
+    margin: 4px 2px;
+    border-radius: 2px;
     cursor: pointer;
-    border-radius: 3px;
 
     &:hover {
-        background: ${props =>
-        props.primary
-            ? props.theme.primaryHoverBackground
-            : props.theme.secondaryHoverBackground};
-        color: ${props =>
-        props.primary
-            ? props.theme.primaryHoverColor
-            : props.theme.secondaryHoverColor};
     }
 `;
 
@@ -336,21 +275,17 @@ export const Button = styled.button`
 export const Title = styled.h1`
     font-family: "Raleway", sans-serif;
     font-weight: 600;
-    color: ${props => props.theme.h1};
     font-size: 2.2em;
 `;
 
 export const Title2 = styled.h2`
     font-family: "Raleway", sans-serif;
     font-weight: 300;
-    color: ${props => props.theme.h2};
     font-size: 1.8em;
 `;
 
 export const Text = styled.p`
     font-family: "Raleway", sans-serif;
-    color: ${props =>
-        !props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
 `;
 
 export const Hr = styled.hr`
@@ -362,14 +297,8 @@ export const Hr = styled.hr`
     margin-bottom: 1.5rem;
 `;
 
-export const Footer = styled.footer`
+export const StyledFooter = styled.footer`
     flex: none;
-    background: ${props =>
-        props.primary
-            ? props.theme.secondaryBackground
-            : props.theme.primaryBackground};
-    color: ${props =>
-        props.primary ? props.theme.secondaryColor : props.theme.primaryColor};
     overflow: hidden;
     width: 100%;
     height: 30px;

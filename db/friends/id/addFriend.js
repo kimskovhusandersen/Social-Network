@@ -12,18 +12,13 @@ if (process.env.DATABASE_URL) {
     );
 }
 
-const getProfilesBySearch = async query => {
+// insert sender_id = req.session.profileId, receiver id = profileId, and accepted = false
+
+const addFriend = async ({ senderId, receiverId }) => {
     return db.query(
-        `SELECT id, first_name, last_name,
-            (SELECT id FROM profiles
-            ORDER BY id ASC
-            LIMIT 1)
-            AS lowest_id
-        FROM profiles WHERE first_name ILIKE $1
-        ORDER BY id DESC
-        LIMIT 10;`,
-        [`${query}%`]
+        `INSERT INTO friends (sender_id, receiver_Id, accepted) VALUES ($1, $2, $3) RETURNING *;`,
+        [senderId, receiverId, false]
     );
 };
 
-module.exports = getProfilesBySearch;
+module.exports = addFriend;

@@ -1,12 +1,12 @@
 import React from "react";
-import { Text, Footer } from "./theme";
+import { Text, StyledFooter } from "./theme";
 
-const TopNavigation = ({ profile, photos }) => {
+const Footer = ({ profile, photos }) => {
     return (
-        <Footer>
+        <StyledFooter>
             <Text secondary>Copyright Kim Skovhus Andersen</Text>
-        </Footer>
+        </StyledFooter>
     );
 };
 
-export default TopNavigation;
+export default Footer;

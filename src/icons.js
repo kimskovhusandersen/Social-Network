@@ -58,13 +58,13 @@ export const MessageCircle = ({ title }) => {
     );
 };
 
-export const Search = ({ title }) => {
+export const Search = ({ title, color }) => {
     return (
         <svg
             viewBox="0 0 24 24"
             width="24"
             height="24"
-            stroke="currentColor"
+            stroke={color}
             strokeWidth="2"
             fill="none"
             strokeLinecap="round"

@@ -12,18 +12,11 @@ if (process.env.DATABASE_URL) {
     );
 }
 
-const getProfilesBySearch = async query => {
+const getFriends = async profileId => {
     return db.query(
-        `SELECT id, first_name, last_name,
-            (SELECT id FROM profiles
-            ORDER BY id ASC
-            LIMIT 1)
-            AS lowest_id
-        FROM profiles WHERE first_name ILIKE $1
-        ORDER BY id DESC
-        LIMIT 10;`,
-        [`${query}%`]
+        `SELECT * FROM friends WHERE (receiver_id = $1 OR sender_id = $1) AND accepted = TRUE;`,
+        [profileId]
     );
 };
 
-module.exports = getProfilesBySearch;
+module.exports = getFriends;
