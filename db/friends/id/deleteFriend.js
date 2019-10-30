@@ -13,7 +13,6 @@ if (process.env.DATABASE_URL) {
 }
 
 const deleteFriend = async ({ senderId, receiverId }) => {
-    console.log("LOGGING IN DELETE FRIEND", senderId, receiverId);
     return db.query(
         `DELETE FROM friends WHERE (sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1) RETURNING *;`,
         [senderId, receiverId]

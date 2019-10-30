@@ -49,26 +49,24 @@ const FriendshipButton = props => {
     };
 
     useEffect(() => {
+        let ignore = false;
         const { otherProfileId } = props;
         (async () => {
             const { data } = await axios.get(`/api/friends/${otherProfileId}`);
-            if (data.length != 0 && accepted != data[0].accepted) {
+            if (!ignore && data.length != 0 && accepted != data[0].accepted) {
                 const { accepted, receiver_id, sender_id } = data[0];
                 if (senderId != sender_id) {
                     await setSenderId(sender_id);
                     await setReceiverId(receiver_id);
                     await setAccepted(accepted);
                 }
-                let bt = getBtnTxt(
-                    accepted,
-                    otherProfileId,
-                    sender_id,
-                    receiver_id
-                );
-                setBtnTxt(bt);
             }
         })();
-        return () => {};
+        return () => {
+            let bt = getBtnTxt(accepted, otherProfileId, senderId, receiverId);
+            setBtnTxt(bt);
+            ignore = true;
+        };
     }, [accepted]);
 
     return (
