@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "./axios_csurf";
 
 export const kebabToCamel = key => {
     return key
@@ -19,27 +20,19 @@ export const camelToKebab = key => {
 };
 
 export const camelObjToKebab = obj => {
+    let newObj = {};
     for (let key in obj) {
-        Object.defineProperty(
-            obj,
-            camelToKebab(key),
-            Object.getOwnPropertyDescriptor(obj, key)
-        );
-        delete obj[key];
+        newObj[camelToKebab(key)] = obj[key];
     }
-    return obj;
+    return newObj;
 };
 
 export const kebabObjToCamel = obj => {
+    let newObj = {};
     for (let key in obj) {
-        Object.defineProperty(
-            obj,
-            kebabToCamel(key),
-            Object.getOwnPropertyDescriptor(obj, key)
-        );
-        delete obj[key];
+        newObj[kebabToCamel(key)] = obj[key];
     }
-    return obj;
+    return newObj;
 };
 
 export const optionsYear = () => {
@@ -86,4 +79,20 @@ export const optionsDay = () => {
         days.push(option);
     }
     return days;
+};
+
+export const useUpdateState = props => {
+    if (Array.isArray(props)) {
+        props.map(prop => {
+            console.log(prop);
+        });
+    }
+};
+
+export const useFetchData = async (url, values) => {
+    const { data } =
+        (values && (await axios.post(url, values))) || (await axios.get(url));
+    if (data[0]) {
+        return kebabObjToCamel(data[0]);
+    }
 };

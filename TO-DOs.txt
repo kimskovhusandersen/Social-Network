@@ -1,2 +1,5 @@
 Fix CSS
 Fix Registration + DefaultImage
+Hackerchallenges
+Jest
+Redux

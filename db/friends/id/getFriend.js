@@ -14,9 +14,9 @@ if (process.env.DATABASE_URL) {
 
 // insert sender_id = req.session.profileId, receiver id = profileId, and accepted = false
 
-const getFriend = async ({ senderId, receiverId }) => {
+const getFriend = async (senderId, receiverId) => {
     return db.query(
-        `  SELECT * FROM friends WHERE (receiver_id = $1 AND sender_id = $2) OR (receiver_id = $2 AND sender_id = $1);`,
+        `SELECT * FROM friends WHERE (receiver_id = $1 AND sender_id = $2) OR (receiver_id = $2 AND sender_id = $1);`,
         [senderId, receiverId]
     );
 };

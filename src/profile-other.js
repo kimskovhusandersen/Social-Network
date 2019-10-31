@@ -4,12 +4,14 @@ import { kebabToCamel } from "./helpers";
 import { Text, Title, Button } from "./theme";
 import ProfilePhoto from "./profile-photo";
 import FriendshipButton from "./friendship-button";
+import ErrorBoundary from "./error-boundary";
 
 class ProfileOther extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            profile: {
+            profile: {},
+            otherProfile: {
                 id: null,
                 email: "",
                 firstName: "",
@@ -26,46 +28,29 @@ class ProfileOther extends React.Component {
                 aboutMe: "",
                 favoriteQuotes: ""
             },
-            photos: {
+            otherProfilePhotos: {
                 profilePhotoUrl: ""
-            },
-            otherProfileId: null
+            }
         };
     }
 
-    async componentDidUpdate() {
-        const {
-            id: userId,
-            history,
-            match: {
-                params: { id: otherProfileId }
-            }
-        } = this.props;
-
-        if (otherProfileId != this.state.otherProfileId) {
-            this.setState({ otherProfileId });
+    async componentDidMount() {
+        const { profileId } = this.props;
+        const { id: otherProfileId } = this.props.match.params;
+        if (profileId == otherProfileId) {
+            return this.props.history.push("/");
         }
 
-        if (userId == otherProfileId) {
-            return history.push("/");
-        }
-        if (otherProfileId !== this.state.profile.id) {
-            this.upsertState("profile", {
-                id: otherProfileId
+        const [{ data: otherProfile }, { data: otherProfilePhoto }] = [
+            await axios.get(`/api/profiles/${otherProfileId}`),
+            await axios.get(`/api/profile-photo/${otherProfileId}`)
+        ];
+
+        otherProfile[0] && this.upsertState("otherProfile", otherProfile[0]);
+        otherProfilePhoto[0] &&
+            this.upsertState("otherProfilePhotos", {
+                profilePhotoUrl: otherProfilePhoto[0].url
             });
-
-            const [{ data: profile }, { data: photo }] = [
-                await axios.get(`/api/profiles/${otherProfileId}`),
-                await axios.get(`/api/profile-photo/${otherProfileId}`)
-            ];
-
-            photo[0] &&
-                this.upsertState("photos", {
-                    profilePhotoUrl: photo[0].url
-                });
-
-            profile[0] && this.upsertState("profile", profile[0]);
-        }
     }
 
     upsertState(prop, newProps) {
@@ -82,18 +67,22 @@ class ProfileOther extends React.Component {
     }
 
     render() {
-        const { profile, photos, otherProfileId } = this.state;
+        const { otherProfile, otherProfilePhotos } = this.state;
         return (
             <React.Fragment>
                 <Title>Details About You</Title>
-                <ProfilePhoto src={photos.profilePhotoUrl} />
-                <FriendshipButton otherProfileId={this.props.match.params.id} />
+                <ProfilePhoto src={otherProfilePhotos.profilePhotoUrl} />
+                <ErrorBoundary>
+                    {otherProfile.id !== null && (
+                        <FriendshipButton otherProfileId={otherProfile.id} />
+                    )}
+                </ErrorBoundary>
                 <Text>
-                    Name: {profile.firstName} {profile.lastName}
+                    Name: {otherProfile.firstName} {otherProfile.lastName}
                 </Text>
-                <Text>Email: {profile.email}</Text>
+                <Text>Email: {otherProfile.email}</Text>
 
-                <Text>{profile.aboutMe}</Text>
+                <Text>{otherProfile.aboutMe}</Text>
             </React.Fragment>
         );
     }

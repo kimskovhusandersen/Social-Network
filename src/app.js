@@ -101,6 +101,9 @@ export class App extends React.Component {
             photos,
             profile
         } = this.state;
+        if (profile.id === null) {
+            return null;
+        }
         return (
             <React.Fragment>
                 <GlobalStyle />
@@ -183,7 +186,7 @@ export class App extends React.Component {
                                 path="/user/:id"
                                 render={props => (
                                     <ProfileOther
-                                        id={profile.id}
+                                        profileId={profile.id}
                                         key={props.match.url}
                                         match={props.match}
                                         history={props.history}
