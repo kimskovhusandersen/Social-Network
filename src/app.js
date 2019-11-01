@@ -6,6 +6,7 @@ import AboutMe from "./about-me";
 import AboutMeHandler from "./about-me-handler";
 import FindPeople from "./find-people";
 import Footer from "./footer";
+import Friends from "./friends";
 import Profile from "./profile";
 import ProfileOther from "./profile-other";
 import ProfilePhoto from "./profile-photo";
@@ -205,6 +206,12 @@ export class App extends React.Component {
                                         history={props.history}
                                     />
                                 )}
+                            />
+                        </React.Fragment>
+                        <React.Fragment>
+                            <Route
+                                path="/friends"
+                                render={props => <Friends />}
                             />
                         </React.Fragment>
                     </BrowserRouter>

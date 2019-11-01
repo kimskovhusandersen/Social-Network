@@ -14,44 +14,6 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(reduxPromise))
 );
 
-// let state = {
-//     profile: {
-//         id: 1,
-//         firstName: "Kim",
-//         last: "Andersen",
-//         aboutMe: null,
-//         photos: {
-//             profilePhotos: [
-//                 {
-//                     id: 1,
-//                     url: "url"
-//                 }
-//             ],
-//             otherPhotos: [{ id: 2, url: "url" }, { id: 3, url: "url" }]
-//         }
-//     },
-//     otherProfile: {
-//         id: 504,
-//         firstName: "John",
-//         lastName: "Andersen"
-//     },
-//     isButtonVisible: false
-// };
-//
-// const changeUrl = val =>
-//     val.map(photo => ({
-//         ...photo,
-//         url: "Hi da",
-//         title: "Massage oil"
-//     }));
-// let action = {
-//     type: "UPDATE_OTHER_PHOTOS",
-//     paths: ["profile", "photos"],
-//     data: changeUrl
-// };
-//
-// const r = reducer(state, action);
-// console.log("BACK IN START", r, r === state);
 const isLoggedIn = location.pathname != "/welcome";
 
 ReactDOM.render(

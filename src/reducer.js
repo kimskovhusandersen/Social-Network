@@ -13,7 +13,7 @@ export const reducer = (state = {}, action) => {
     }
 
     const mapState = (state = {}, prop, data, paths) => {
-        if (state.hasOwnProperty(prop)) {
+        if (state.hasOwnProperty(prop) || !paths || paths.length == 0) {
             state[prop] =
                 Object.prototype.toString.call(data) == "[object Function]"
                     ? data(state[prop])
