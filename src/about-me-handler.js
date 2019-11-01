@@ -1,9 +1,7 @@
 import React from "react";
 import AboutMeFormWithFormik from "./about-me-form";
 import { handleErrors } from "./error-handler";
-import { camelObjToKebab } from "./helpers";
-
-import axios from "./axios_csurf";
+import { useFetchData, camelObjToKebab } from "./helpers";
 
 class AboutMeHandler extends React.Component {
     constructor(props) {
@@ -14,16 +12,9 @@ class AboutMeHandler extends React.Component {
 
     async handleSubmit(values) {
         values = camelObjToKebab(values);
-        const { data } = await axios.post(`api/my-profile/edit`, values);
-        if (data && data.name != "error") {
-            this.props.upsertState("profile", data[0]);
-            this.props.toggle(null, [
-                "isAboutMeFormVisible",
-                "isAboutMeVisible"
-            ]);
-        } else {
-            await this.handleErrors(data);
-        }
+        const data = await useFetchData(`api/my-profile/edit`, values);
+        data && this.props.upsertState("profile", data);
+        this.props.toggle(null, ["isAboutMeFormVisible", "isAboutMeVisible"]);
     }
 
     async handleErrors(err) {

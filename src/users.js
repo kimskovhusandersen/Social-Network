@@ -1,43 +1,33 @@
 import React, { useState, useEffect } from "react";
-import axios from "./axios_csurf";
-import { handleErrors } from "./error-handler";
-import { camelObjToKebab } from "./helpers";
+import { useFetchData } from "./helpers";
 import {
     SearchWrapper,
     SearchInput,
     SearchResult,
-    SearchResultItem,
-    Title2
+    SearchResultItem
 } from "./theme";
 import { Search as SearchIcon } from "./icons";
 
-const Users = props => {
+const Users = () => {
     const [profiles, setProfiles] = useState([]);
     const [userInput, setUserInput] = useState("");
 
     const handleChange = event => setUserInput(event.target.value);
-    const handleKeyDown = event => console.log("hi");
+
     useEffect(() => {
-        if (userInput == "") {
-            (async () => {
-                const { data } = await axios.get("/api/recent-profiles");
-                if (data && data.name != "error") {
-                    setProfiles(data);
-                }
-            })();
-        }
-        let ignore = false;
+        let ignore;
         (async () => {
-            const { data } = await axios.get(
-                `/api/profiles/search/${userInput}`
-            );
-            if (!ignore && data && data.name != "error") {
-                setProfiles(data);
+            if (userInput == "") {
+                const data = await useFetchData("/api/recent-profiles");
+                data && setProfiles(data);
+            } else {
+                ignore = false;
+                const data = await useFetchData(
+                    `/api/profiles/search/${userInput}`
+                );
+                !ignore && data && setProfiles(data);
             }
         })();
-
-        // A clean up fn, checks if the responses have come back in the correct order
-        // This function is the equivalent to componentWillUnmount, which means it will run before the render function
         return () => {
             ignore = true;
         };
@@ -45,7 +35,7 @@ const Users = props => {
 
     return (
         <React.Fragment>
-            <SearchWrapper onKeyDown={handleKeyDown}>
+            <SearchWrapper>
                 <SearchInput type="text" onChange={handleChange} />
                 <SearchIcon />
                 <SearchResult>
@@ -54,7 +44,7 @@ const Users = props => {
                             href={`/user/${profile.id}`}
                             key={profile.id}
                         >
-                            {profile.first_name} {profile.last_name}
+                            {profile.firstName} {profile.lastName}
                         </SearchResultItem>
                     ))}
                 </SearchResult>

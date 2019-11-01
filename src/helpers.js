@@ -3,6 +3,7 @@ import axios from "./axios_csurf";
 
 export const kebabToCamel = key => {
     return key
+        .toLowerCase()
         .split("_")
         .map((word, i) => {
             return i != 0 ? word[0].toUpperCase() + word.slice(1) : word;
@@ -92,7 +93,17 @@ export const useUpdateState = props => {
 export const useFetchData = async (url, values) => {
     const { data } =
         (values && (await axios.post(url, values))) || (await axios.get(url));
-    if (data[0]) {
-        return kebabObjToCamel(data[0]);
+    let result;
+    if (data.name == "error") {
+        console.log(data);
+        return;
     }
+    if (data.length == 1) {
+        result = kebabObjToCamel(data[0]);
+    } else if (data.length > 1) {
+        result = [];
+
+        data.map(obj => result.push(kebabObjToCamel(obj)));
+    }
+    return result;
 };

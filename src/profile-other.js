@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "./axios_csurf";
-import { kebabToCamel } from "./helpers";
+import { useFetchData, kebabToCamel } from "./helpers";
 import { Text, Title, Button } from "./theme";
 import ProfilePhoto from "./profile-photo";
 import FriendshipButton from "./friendship-button";
@@ -41,15 +41,17 @@ class ProfileOther extends React.Component {
             return this.props.history.push("/");
         }
 
-        const [{ data: otherProfile }, { data: otherProfilePhoto }] = [
-            await axios.get(`/api/profiles/${otherProfileId}`),
-            await axios.get(`/api/profile-photo/${otherProfileId}`)
+        const [otherProfile, otherProfilePhoto] = [
+            await useFetchData(`/api/profiles/${otherProfileId}`),
+            await useFetchData(`/api/profile-photo/${otherProfileId}`)
         ];
-
-        otherProfile[0] && this.upsertState("otherProfile", otherProfile[0]);
-        otherProfilePhoto[0] &&
+        if (!otherProfile) {
+            return this.props.history.push("/");
+        }
+        otherProfile && this.upsertState("otherProfile", otherProfile);
+        otherProfilePhoto &&
             this.upsertState("otherProfilePhotos", {
-                profilePhotoUrl: otherProfilePhoto[0].url
+                profilePhotoUrl: otherProfilePhoto.url
             });
     }
 

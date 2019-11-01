@@ -6,7 +6,6 @@ const db = require("./db");
 router.post("/api/profiles", async (req, res) => {
     try {
         const { rows } = await db.addProfile(req.body);
-        console.log("ROWS", rows);
         if (rows[0]) {
             req.session.profileId = rows[0].id;
             res.json({ data: "success" });

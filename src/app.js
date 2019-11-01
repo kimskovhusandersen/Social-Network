@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import axios from "./axios_csurf";
-import { kebabToCamel } from "./helpers";
+import { useFetchData, kebabToCamel } from "./helpers";
 import AboutMe from "./about-me";
 import AboutMeHandler from "./about-me-handler";
 import FindPeople from "./find-people";
@@ -54,19 +54,17 @@ export class App extends React.Component {
     }
 
     async componentDidMount() {
-        const [{ data: profile }, { data: photo }] = [
-            await axios.get(`/api/my-profile`),
-            await axios.get(`/api/my-profile-photo`)
+        const [profile, photo] = [
+            await useFetchData("/api/my-profile"),
+            await useFetchData(`/api/my-profile-photo`)
         ];
-        if (photo[0]) {
+        photo &&
             this.upsertState("photos", {
-                profilePhotoUrl: photo[0].url
+                profilePhotoUrl: photo.url
             });
-        }
-        if (profile[0]) {
-            this.upsertState("profile", profile[0]);
-        }
+        profile && this.upsertState("profile", profile);
     }
+
     async toggle(e, prop) {
         if (Array.isArray(prop)) {
             prop.forEach(p => {
@@ -108,10 +106,12 @@ export class App extends React.Component {
             <React.Fragment>
                 <GlobalStyle />
                 <NavWrapper>
-                    <Logo />
+                    <a href="/">
+                        <Logo />
+                    </a>
                     <FindPeople type="text" />
                     <TopNav>
-                        <TopNavItem>
+                        <TopNavItem href="/">
                             <Photo
                                 small
                                 src={
@@ -120,21 +120,21 @@ export class App extends React.Component {
                                 }
                                 title="Profile"
                             />
-                            {profile.firstName}
+                            <span>{profile.firstName}</span>
                         </TopNavItem>
-                        <TopNavItem>
+                        <TopNavItem href="/">
                             <span>Home</span>
                         </TopNavItem>
-                        <TopNavItem>
+                        <TopNavItem href="/friends/requests">
                             <UserIcon title="Friend requests" />
                         </TopNavItem>
-                        <TopNavItem>
+                        <TopNavItem href="/messages">
                             <MessageCircle title="Messages" />
                         </TopNavItem>
-                        <TopNavItem>
+                        <TopNavItem href="/notifications">
                             <Bell title="Notifications" />
                         </TopNavItem>
-                        <TopNavItem>
+                        <TopNavItem href="settings">
                             <ChevronDown title="Account Settings" />
                         </TopNavItem>
                     </TopNav>

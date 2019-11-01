@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "./axios_csurf";
-import { handleErrors } from "./error-handler";
-import { camelObjToKebab } from "./helpers";
+import { useFetchData } from "./helpers";
 import {
     SearchWrapper,
     SearchInput,
@@ -10,23 +8,23 @@ import {
 } from "./theme";
 import { Search as SearchIcon } from "./icons";
 
-const FindPeople = props => {
+const FindPeople = () => {
     const [profiles, setProfiles] = useState([]);
     const [userInput, setUserInput] = useState("");
     const handleChange = event => setUserInput(event.target.value);
 
     useEffect(() => {
+        let ignore;
         if (userInput == "") {
             setProfiles([]);
         } else {
-            let ignore = false;
+            ignore = false;
             (async () => {
-                const { data } = await axios.get(
+                const data = await useFetchData(
                     `/api/profiles/search/${userInput}`
                 );
-                if (!ignore && data && data.name != "error") {
-                    setProfiles(data);
-                }
+                !data && setProfiles([]);
+                !ignore && data && setProfiles(data);
             })();
         }
 
@@ -47,7 +45,7 @@ const FindPeople = props => {
                         href={`/user/${profile.id}`}
                         key={profile.id}
                     >
-                        {profile.first_name} {profile.last_name}
+                        {profile.firstName} {profile.lastName}
                     </SearchResultItem>
                 ))}
             </SearchResult>

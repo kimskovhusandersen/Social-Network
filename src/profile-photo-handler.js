@@ -2,7 +2,7 @@ import React from "react";
 import PhotoFormWithFormik from "./photo-form";
 import { errorHandler } from "./error-handler";
 import { Title2 } from "./theme";
-import axios from "./axios_csurf";
+import { useFetchData } from "./helpers";
 
 class ProfilePhotoHandler extends React.Component {
     constructor() {
@@ -13,19 +13,16 @@ class ProfilePhotoHandler extends React.Component {
         this.maxFileSize = 2097152;
     }
     async handleSubmit({ photo, caption, profileId }) {
+        const { upsertState } = this.props;
         const fd = new FormData();
         fd.append("photo", photo);
         fd.append("caption", caption);
         fd.append("album", "profile_photos");
-        const { data } = await axios.post("/photos", fd);
-
-        if (data && data.name != "error") {
-            await this.props.upsertState("photos", {
-                profilePhotoUrl: data[0].url
+        const data = await useFetchData("/api/photos", fd);
+        data &&
+            upsertState("photos", {
+                profilePhotoUrl: data.url
             });
-        } else {
-            await this.handleErrors(data);
-        }
     }
 
     async handleErrors(err) {
