@@ -1,7 +1,7 @@
 import React from "react";
 import { withFormik, Form } from "formik";
 import * as Yup from "yup";
-import { Button, Label, Input, Text } from "./theme";
+import { Button, Label, Input, Text } from "../style/theme";
 
 const AboutMeForm = ({ values, errors, touched, isSubmitting, toggle }) => (
     <Form>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Button } from "./theme";
+import { Text, Button } from "../style/theme";
 
 const AboutMe = ({ toggle, aboutMe }) => {
     return (

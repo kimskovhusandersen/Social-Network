@@ -1,10 +1,10 @@
 import React from "react";
-import axios from "./axios_csurf";
 import { useFetchData, kebabToCamel } from "./helpers";
-import { Text, Title, Button } from "./theme";
-import ProfilePhoto from "./profile-photo";
+// views
+import Profile from "./views/profile";
+import ProfilePhoto from "./views/profile-photo";
+// controllers
 import FriendshipButton from "./friendship-button";
-import ErrorBoundary from "./error-boundary";
 
 class ProfileOther extends React.Component {
     constructor(props) {
@@ -28,7 +28,7 @@ class ProfileOther extends React.Component {
                 aboutMe: "",
                 favoriteQuotes: ""
             },
-            otherProfilePhotos: {
+            otherPhotos: {
                 profilePhotoUrl: ""
             }
         };
@@ -69,22 +69,18 @@ class ProfileOther extends React.Component {
     }
 
     render() {
-        const { otherProfile, otherProfilePhotos } = this.state;
+        const { otherProfile, otherPhotos } = this.state;
         return (
             <React.Fragment>
-                <Title>Details About You</Title>
-                <ProfilePhoto src={otherProfilePhotos.profilePhotoUrl} />
-                <ErrorBoundary>
-                    {otherProfile.id !== null && (
+                <Profile
+                    profile={otherProfile}
+                    FriendshipButton={
                         <FriendshipButton otherProfileId={otherProfile.id} />
-                    )}
-                </ErrorBoundary>
-                <Text>
-                    Name: {otherProfile.firstName} {otherProfile.lastName}
-                </Text>
-                <Text>Email: {otherProfile.email}</Text>
-
-                <Text>{otherProfile.aboutMe}</Text>
+                    }
+                    profilePhoto={
+                        <ProfilePhoto src={otherPhotos.profilePhotoUrl} />
+                    }
+                />
             </React.Fragment>
         );
     }

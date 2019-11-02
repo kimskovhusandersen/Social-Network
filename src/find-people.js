@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useFetchData } from "./helpers";
-import {
-    SearchWrapper,
-    SearchInput,
-    SearchResult,
-    SearchResultItem
-} from "./theme";
-import { Search as SearchIcon } from "./icons";
+import Search from "./views/search";
 
 const FindPeople = () => {
     const [profiles, setProfiles] = useState([]);
@@ -36,20 +30,9 @@ const FindPeople = () => {
     }, [userInput]);
 
     return (
-        <SearchWrapper>
-            <SearchInput type="text" onChange={handleChange} />
-            <SearchIcon color={"red"} />
-            <SearchResult>
-                {profiles.map(profile => (
-                    <SearchResultItem
-                        href={`/user/${profile.id}`}
-                        key={profile.id}
-                    >
-                        {profile.firstName} {profile.lastName}
-                    </SearchResultItem>
-                ))}
-            </SearchResult>
-        </SearchWrapper>
+        <React.Fragment>
+            <Search profile={profiles} handleChange={() => handleChange()} />
+        </React.Fragment>
     );
 };
 

@@ -1,9 +1,7 @@
 import React from "react";
-import LoginFormWithFormik from "./login-form";
+import LoginFormWithFormik from "./views/login-form";
 import { errorHandler } from "./error-handler";
 import axios from "./axios_csurf";
-import { Text } from "./theme";
-import { Link } from "react-router-dom";
 
 class LoginHandler extends React.Component {
     constructor(props) {
@@ -47,9 +45,6 @@ class LoginHandler extends React.Component {
                     handleSubmit={values => this.handleSubmit(values)}
                     handleErrors={err => this.handleErrors(err)}
                 />
-                <Text>
-                    Trying to register? <Link to="/">Register!</Link>
-                </Text>
             </React.Fragment>
         );
     }

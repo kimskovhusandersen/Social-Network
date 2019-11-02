@@ -1,6 +1,5 @@
 import React from "react";
 import AboutMe from "./about-me";
-import { Text, Button } from "./theme";
 import { render, fireEvent, waitForElement } from "@testing-library/react";
 
 test(`When no aboutMe is passed to it, an "Add" button is rendered`, () => {

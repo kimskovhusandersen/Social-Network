@@ -1,6 +1,5 @@
 import React from "react";
-
-import { Photo } from "./theme";
+import { Photo } from "../style/theme";
 
 const ProfilePhoto = ({ url = "/default-avatar.jpg", toggle }) => {
     return (

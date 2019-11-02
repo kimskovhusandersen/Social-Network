@@ -1,9 +1,7 @@
 import React from "react";
-import RegistrationFormWithFormik from "./registration-form";
+import RegistrationFormWithFormik from "./views/registration-form";
 import { errorHandler } from "./error-handler";
 import axios from "./axios_csurf";
-import { Text } from "./theme";
-import { Link } from "react-router-dom";
 
 class RegistrationHandler extends React.Component {
     constructor(props) {
@@ -19,12 +17,11 @@ class RegistrationHandler extends React.Component {
 
     async componentDidMount() {}
 
-    async submit(values) {
+    async handleSubmit(values) {
         const { data } = await axios.post("/api/profiles", values);
-
-        if (data && data.name == "error") {
+        if (data.name == "error") {
             if (data.constraint == "profiles_email_key") {
-                await this.setState({
+                this.setState({
                     errors: { email: "That email is already taken" }
                 });
             }
@@ -44,12 +41,9 @@ class RegistrationHandler extends React.Component {
                     email={email}
                     password={password}
                     errors={errors}
-                    submit={values => this.submit(values)}
+                    submit={values => this.handleSubmit(values)}
                     handleErrors={err => this.handleErrors(err)}
                 />
-                <Text>
-                    Already registered? <Link to="/login">Login!</Link>
-                </Text>
             </React.Fragment>
         );
     }

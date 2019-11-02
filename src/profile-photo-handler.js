@@ -1,7 +1,6 @@
 import React from "react";
-import PhotoFormWithFormik from "./photo-form";
+import PhotoFormWithFormik from "./views/photo-form";
 import { errorHandler } from "./error-handler";
-import { Title2 } from "./theme";
 import { useFetchData } from "./helpers";
 
 class ProfilePhotoHandler extends React.Component {
@@ -12,7 +11,7 @@ class ProfilePhotoHandler extends React.Component {
         };
         this.maxFileSize = 2097152;
     }
-    async handleSubmit({ photo, caption, profileId }) {
+    async handleSubmit({ photo, caption }) {
         const { upsertState } = this.props;
         const fd = new FormData();
         fd.append("photo", photo);
@@ -33,7 +32,6 @@ class ProfilePhotoHandler extends React.Component {
         const { toggle } = this.props;
         return (
             <React.Fragment>
-                <Title2>Upload profile photo</Title2>
                 <PhotoFormWithFormik
                     toggle={toggle}
                     handleSubmit={values => this.handleSubmit(values)}

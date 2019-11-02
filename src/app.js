@@ -1,28 +1,21 @@
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import axios from "./axios_csurf";
 import { useFetchData, kebabToCamel } from "./helpers";
-import AboutMe from "./about-me";
+// views
+import AboutMe from "./views/about-me";
+import Footer from "./views/footer";
+import Friends from "./views/friends";
+import Header from "./views/header";
+import Profile from "./views/profile";
+import ProfilePhoto from "./views/profile-photo";
+import Users from "./views/users";
+// controllers & other
 import AboutMeHandler from "./about-me-handler";
-import FindPeople from "./find-people";
-import Footer from "./footer";
-import Friends from "./friends";
-import Profile from "./profile";
+
 import ProfileOther from "./profile-other";
-import ProfilePhoto from "./profile-photo";
 import ProfilePhotoHandler from "./profile-photo-handler";
-import ProfileTopSection from "./profile-top-section";
-import Users from "./users";
-import { ChevronDown, Bell, User as UserIcon, MessageCircle } from "./icons";
-import {
-    GlobalStyle,
-    PageWrapper,
-    NavWrapper,
-    Logo,
-    TopNav,
-    Photo,
-    TopNavItem
-} from "./theme";
+// style
+import { GlobalStyle, PageWrapper, Page } from "./style/theme";
 
 export class App extends React.Component {
     constructor() {
@@ -46,7 +39,7 @@ export class App extends React.Component {
                 favoriteQuotes: ""
             },
             photos: {
-                profilePhotoUrl: ""
+                profilePhotoUrl: "/default-avatar.jpg"
             },
             isPhotoUploaderVisible: false,
             isAboutMeVisible: true,
@@ -64,6 +57,7 @@ export class App extends React.Component {
                 profilePhotoUrl: photo.url
             });
         profile && this.upsertState("profile", profile);
+        console.log(this.state);
     }
 
     async toggle(e, prop) {
@@ -83,9 +77,9 @@ export class App extends React.Component {
         for (let [key, value] of Object.entries(newProps)) {
             if (value != null) {
                 this.setState(prevState => ({
-                    [`${prop}`]: {
-                        ...prevState[`${prop}`],
-                        [`${kebabToCamel(key)}`]: `${value}`
+                    [prop]: {
+                        ...prevState[prop],
+                        [key]: value
                     }
                 }));
             }
@@ -106,132 +100,91 @@ export class App extends React.Component {
         return (
             <React.Fragment>
                 <GlobalStyle />
-                <NavWrapper>
-                    <a href="/">
-                        <Logo />
-                    </a>
-                    <FindPeople type="text" />
-                    <TopNav>
-                        <TopNavItem href="/">
-                            <Photo
-                                small
-                                src={
-                                    photos.profilePhotoUrl ||
-                                    "default-avatar.jpg"
-                                }
-                                title="Profile"
-                            />
-                            <span>{profile.firstName}</span>
-                        </TopNavItem>
-                        <TopNavItem href="/">
-                            <span>Home</span>
-                        </TopNavItem>
-                        <TopNavItem href="/friends/requests">
-                            <UserIcon title="Friend requests" />
-                        </TopNavItem>
-                        <TopNavItem href="/messages">
-                            <MessageCircle title="Messages" />
-                        </TopNavItem>
-                        <TopNavItem href="/notifications">
-                            <Bell title="Notifications" />
-                        </TopNavItem>
-                        <TopNavItem href="settings">
-                            <ChevronDown title="Account Settings" />
-                        </TopNavItem>
-                    </TopNav>
-                </NavWrapper>
+                <Header profile={profile} photos={photos} />
                 <PageWrapper>
-                    <BrowserRouter>
-                        <React.Fragment>
-                            <Route
-                                exact
-                                path="/"
-                                render={() => (
-                                    <Profile
-                                        toggle={(e, prop) =>
-                                            this.toggle(e, prop)
-                                        }
-                                        profileTopSection={
-                                            <ProfileTopSection
-                                                profile={profile}
-                                                profilePhoto={
-                                                    <ProfilePhoto
-                                                        url={
-                                                            photos.profilePhotoUrl ||
-                                                            "default-avatar.jpg"
+                    <Page>
+                        <BrowserRouter>
+                            <React.Fragment>
+                                <Route
+                                    exact
+                                    path="/"
+                                    render={() => (
+                                        <Profile
+                                            toggle={(e, prop) =>
+                                                this.toggle(e, prop)
+                                            }
+                                            aboutMe={
+                                                isAboutMeVisible && (
+                                                    <AboutMe
+                                                        aboutMe={
+                                                            profile.aboutMe
                                                         }
                                                         toggle={(e, prop) =>
                                                             this.toggle(e, prop)
                                                         }
                                                     />
-                                                }
-                                            />
-                                        }
-                                        profile={profile}
-                                        aboutMe={
-                                            isAboutMeVisible && (
-                                                <AboutMe
-                                                    aboutMe={profile.aboutMe}
-                                                    toggle={(e, prop) =>
-                                                        this.toggle(e, prop)
-                                                    }
-                                                />
-                                            )
-                                        }
-                                    />
-                                )}
+                                                )
+                                            }
+                                            profile={profile}
+                                            photos={photos}
+                                            toggle={(e, prop) =>
+                                                this.toggle(e, prop)
+                                            }
+                                        />
+                                    )}
+                                />
+                            </React.Fragment>
+                            <React.Fragment>
+                                <Route
+                                    path="/user/:id"
+                                    render={props => (
+                                        <ProfileOther
+                                            profileId={profile.id}
+                                            key={props.match.url}
+                                            match={props.match}
+                                            history={props.history}
+                                        />
+                                    )}
+                                />
+                            </React.Fragment>
+                            <React.Fragment>
+                                <Route
+                                    path="/users"
+                                    render={props => (
+                                        <Users
+                                            id={profile.id}
+                                            key={props.match.url}
+                                            match={props.match}
+                                            history={props.history}
+                                        />
+                                    )}
+                                />
+                            </React.Fragment>
+                            <React.Fragment>
+                                <Route
+                                    path="/friends"
+                                    render={props => <Friends />}
+                                />
+                            </React.Fragment>
+                        </BrowserRouter>
+                        {isPhotoUploaderVisible && (
+                            <ProfilePhotoHandler
+                                toggle={(e, prop) => this.toggle(e, prop)}
+                                upsertState={(prop, newProps) =>
+                                    this.upsertState(prop, newProps)
+                                }
                             />
-                        </React.Fragment>
-                        <React.Fragment>
-                            <Route
-                                path="/user/:id"
-                                render={props => (
-                                    <ProfileOther
-                                        profileId={profile.id}
-                                        key={props.match.url}
-                                        match={props.match}
-                                        history={props.history}
-                                    />
-                                )}
+                        )}
+                        {isAboutMeFormVisible && (
+                            <AboutMeHandler
+                                aboutMe={profile.aboutMe}
+                                upsertState={(prop, newProps) =>
+                                    this.upsertState(prop, newProps)
+                                }
+                                toggle={(e, prop) => this.toggle(e, prop)}
                             />
-                        </React.Fragment>
-                        <React.Fragment>
-                            <Route
-                                path="/users"
-                                render={props => (
-                                    <Users
-                                        id={profile.id}
-                                        key={props.match.url}
-                                        match={props.match}
-                                        history={props.history}
-                                    />
-                                )}
-                            />
-                        </React.Fragment>
-                        <React.Fragment>
-                            <Route
-                                path="/friends"
-                                render={props => <Friends />}
-                            />
-                        </React.Fragment>
-                    </BrowserRouter>
-                    {isPhotoUploaderVisible && (
-                        <ProfilePhotoHandler
-                            toggle={(e, prop) => this.toggle(e, prop)}
-                            upsertState={(prop, newProps) =>
-                                this.upsertState(prop, newProps)
-                            }
-                        />
-                    )}
-                    {isAboutMeFormVisible && (
-                        <AboutMeHandler
-                            aboutMe={profile.aboutMe}
-                            upsertState={(prop, newProps) =>
-                                this.upsertState(prop, newProps)
-                            }
-                            toggle={(e, prop) => this.toggle(e, prop)}
-                        />
-                    )}
+                        )}
+                    </Page>
                 </PageWrapper>
                 <Footer>Copyright Kim Skovhus Andersen</Footer>
             </React.Fragment>

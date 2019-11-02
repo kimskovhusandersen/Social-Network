@@ -1,10 +1,7 @@
-// Third-party library used: Formik, react-dropzone
-// sources: https://www.youtube.com/watch?v=yNiJkjEwmpw
-
 import React from "react";
 import { withFormik, Form } from "formik";
 import * as Yup from "yup";
-import { Button, Text, Label, Input } from "./theme";
+import { Button, Text, Label, Input } from "../style/theme";
 
 const UploadPhotoForm = ({
     values,

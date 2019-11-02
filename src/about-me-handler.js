@@ -1,5 +1,5 @@
 import React from "react";
-import AboutMeFormWithFormik from "./about-me-form";
+import AboutMeFormWithFormik from "./views/about-me-form";
 import { handleErrors } from "./error-handler";
 import { useFetchData, camelObjToKebab } from "./helpers";
 

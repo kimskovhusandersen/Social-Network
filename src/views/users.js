@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useFetchData } from "./helpers";
+import { useFetchData } from "../helpers";
 import {
     SearchWrapper,
     SearchInput,
     SearchResult,
     SearchResultItem
-} from "./theme";
-import { Search as SearchIcon } from "./icons";
+} from "../style/theme";
+import { Search as SearchIcon } from "../style/icons";
 
 const Users = () => {
     const [profiles, setProfiles] = useState([]);

@@ -2,17 +2,9 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import FriendshipButton, {
     getBtnTxt,
-    fetchGetFriendData,
-    fetchPostFriendData
+    fetchGetFriendData
 } from "./friendship-button";
-import {
-    render,
-    fireEvent,
-    wait,
-    waitForElement,
-    waitForNextUpdate,
-    act
-} from "@testing-library/react";
+import { render, fireEvent, waitForElement, act } from "@testing-library/react";
 import axios from "./axios_csurf";
 
 let container;

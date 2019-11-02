@@ -8,7 +8,7 @@ router.post("/api/profiles", async (req, res) => {
         const { rows } = await db.addProfile(req.body);
         if (rows[0]) {
             req.session.profileId = rows[0].id;
-            res.json({ data: "success" });
+            res.json(rows[0]);
         }
     } catch (err) {
         res.json(err);
@@ -32,6 +32,7 @@ router.get("/api/my-profile", async (req, res) => {
     const { profileId: id } = req.session;
     try {
         let { rows } = await db.getProfile(id);
+        console.log("THE RESULT", rows);
         res.json(rows);
     } catch (err) {
         res.json(err);
