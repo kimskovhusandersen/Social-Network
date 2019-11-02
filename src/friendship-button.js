@@ -2,6 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Button } from "./theme";
 import { useFetchData } from "./helpers";
 
+import { useDispatch } from "react-redux";
+import {
+    makeFriendRequest,
+    acceptFriendRequest,
+    deleteFriend
+} from "./actions";
+
 export const getBtnTxt = (
     { accepted, senderId, receiverId },
     otherProfileId
@@ -18,6 +25,7 @@ export const getBtnTxt = (
 };
 
 const FriendshipButton = props => {
+    const dispatch = useDispatch();
     const [accepted, setAccepted] = useState(null);
     const [receiverId, setReceiverId] = useState(null);
     const [senderId, setSenderId] = useState(null);
@@ -25,40 +33,34 @@ const FriendshipButton = props => {
 
     const handleClick = async () => {
         const { otherProfileId } = props;
-        let url, values;
-        if (accepted === null) {
-            url = `/api/friends/add`;
-            values = {
-                receiverId: otherProfileId
-            };
-        } else if (
-            (accepted == false && otherProfileId == receiverId) ||
-            accepted == true
-        ) {
-            url = `/api/friends/delete`;
-            values = {
-                receiverId: otherProfileId
-            };
-        } else if (accepted == false && otherProfileId == senderId) {
-            url = `/api/friends/accept`;
-            values = {
-                senderId: otherProfileId
-            };
-        }
+        // makeFriendRequest
+        accepted === null && dispatch(makeFriendRequest(otherProfileId));
 
-        const data = await useFetchData(url, values);
-        setBtnTxt(getBtnTxt(data, props.otherProfileId));
-        setReceiverId(data.receiverId);
-        setSenderId(data.senderId);
+        // deleteFriend
+        accepted == false &&
+            otherProfileId == receiverId &&
+            dispatch(deleteFriend(otherProfileId));
+        accepted == true && dispatch(deleteFriend(otherProfileId));
+
+        //acceptFriendRequest
+        accepted == false &&
+            otherProfileId == senderId &&
+            dispatch(acceptFriendRequest(otherProfileId));
+
+        // Get new frindship status
+        const data = await useFetchData(`/api/friends/${otherProfileId}`);
+        // Update frindship status and button text
+        setBtnTxt(getBtnTxt(data, otherProfileId));
         setAccepted(data.accepted);
     };
 
     useEffect(() => {
         (async () => {
-            let url = `/api/friends/${props.otherProfileId}`;
-            const data = await useFetchData(url);
+            const { otherProfileId } = props;
+            // Get initial friendship status
+            const data = await useFetchData(`/api/friends/${otherProfileId}`);
             if (data) {
-                setBtnTxt(getBtnTxt(data, props.otherProfileId));
+                setBtnTxt(getBtnTxt(data, otherProfileId));
                 setReceiverId(data.receiverId);
                 setSenderId(data.senderId);
                 setAccepted(data.accepted);

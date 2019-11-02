@@ -56,6 +56,7 @@ router.get("/api/friend-requests", async (req, res) => {
     try {
         const { profileId } = req.session;
         const { rows } = await db.getFriendRequests(profileId);
+        console.log("IN GET FRIEND REUQAUEST", rows);
         res.json(rows);
     } catch (err) {
         res.json(err);
@@ -66,7 +67,6 @@ router.get("/api/friends/:id", async (req, res) => {
     try {
         const senderId = req.params.id;
         const receiverId = req.session.profileId;
-        console.log("IN GET FRIEND", senderId, receiverId);
         const { rows } = await db.getFriend(senderId, receiverId);
         res.json(rows);
     } catch (err) {

@@ -14,7 +14,14 @@ if (process.env.DATABASE_URL) {
 
 const getFriends = async profileId => {
     return db.query(
-        `SELECT * FROM friends WHERE (receiver_id = $1 OR sender_id = $1) AND accepted = TRUE;`,
+        `
+        SELECT profiles.id, profiles.first_name, profiles.last_name, accepted
+        FROM friends
+        JOIN profiles
+        ON (accepted = false AND receiver_id = $1 AND sender_id = profiles.id)
+        OR (accepted = true AND receiver_id = $1 AND sender_id = profiles.id)
+        OR (accepted = true AND receiver_id = $1 AND sender_id = profiles.id)
+    `,
         [profileId]
     );
 };
