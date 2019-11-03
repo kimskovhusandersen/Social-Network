@@ -14,12 +14,15 @@ if (process.env.DATABASE_URL) {
 
 const getProfilesBySearch = async query => {
     return db.query(
-        `SELECT id, first_name, last_name,
+        `SELECT profiles.id, first_name, last_name, photos.url,
             (SELECT id FROM profiles
             ORDER BY id ASC
             LIMIT 1)
             AS lowest_id
-        FROM profiles WHERE first_name ILIKE $1
+        FROM profiles
+        LEFT JOIN photos
+        ON (profiles.id = photos.profile_id)
+        WHERE first_name ILIKE $1
         ORDER BY id DESC
         LIMIT 10;`,
         [`${query}%`]

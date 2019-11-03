@@ -37,7 +37,7 @@ const Header = ({ profile, photos }) => {
                             </TopNavProfilePhotoWrapper>
                         </li>
                         <li>
-                            <a href="/">Home</a>
+                            <a href="/users">Home</a>
                         </li>
                         <li>
                             <a href="/friends/requests">

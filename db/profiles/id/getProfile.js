@@ -15,9 +15,12 @@ if (process.env.DATABASE_URL) {
 const getProfile = async id => {
     return await db.query(
         `
-        SELECT *
+        SELECT profiles.id, first_name, last_name, photos.url
         FROM profiles
-        WHERE id = $1;
+        LEFT JOIN photos
+        ON (profiles.id = photos.profile_id)
+        WHERE profiles.id = $1
+        ORDER BY id DESC LIMIT 1;
         `,
         [id]
     );

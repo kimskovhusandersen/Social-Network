@@ -44,7 +44,7 @@ export const StyledHeader = styled.header`
     flex: none;
     position: fixed;
     top: 0;
-    background-color: #ffa600;
+    background-color: #2851a3;
     z-index: 12;
     height: 43px;
     overflow: hidden;
@@ -126,6 +126,10 @@ export const TopNav = styled.nav`
         white-space: nowrap;
         cursor: pointer;
     }
+
+    & > li a:hover {
+        background-color: #1d3c78;
+    }
 `;
 
 export const TopNavProfilePhotoWrapper = styled.a`
@@ -146,9 +150,9 @@ export const TopNavProfilePhotoWrapper = styled.a`
     & > span img {
         border-radius: 50%;
         margin-right: 5px;
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: fit;
+        height: 100%;
+        width: 27px;
+        object-fit: cover;
     }
 `;
 
@@ -178,6 +182,9 @@ export const HeroProfilePhoto = styled.img`
     border-radius: 50%;
     object-fit: cover;
     z-index: 2;
+    padding: 3px;
+    background: white;
+    border: 1px solid #eee;
     /* border: 4px solid red; */
 `;
 

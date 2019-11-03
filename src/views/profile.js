@@ -18,7 +18,7 @@ class Profile extends React.Component {
     }
     render() {
         const { profile, photos, toggle } = this.props;
-        if (!profile || !photos) {
+        if (!profile) {
             return null;
         }
         console.log(profile.firstName);
@@ -28,7 +28,7 @@ class Profile extends React.Component {
                     <HeroImg src="https://picsum.photos/1500/500" alt="" />
                     <HeroProfilePhoto
                         onClick={e => toggle(e, "isPhotoUploaderVisible")}
-                        src={photos.profilePhotoUrl}
+                        src={profile.url}
                         alt="profile-photo"
                     />
                     <HeroName>

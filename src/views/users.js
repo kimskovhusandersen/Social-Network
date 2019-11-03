@@ -22,10 +22,11 @@ const Users = () => {
                 data && setProfiles(data);
             } else {
                 ignore = false;
-                const data = await useFetchData(
+                let data = await useFetchData(
                     `/api/profiles/search/${userInput}`
                 );
-                !ignore && data && setProfiles(data);
+                data = !Array.isArray(data) && data ? [data] : data;
+                !ignore && !!data && setProfiles(data);
             }
         })();
         return () => {
@@ -44,6 +45,7 @@ const Users = () => {
                             href={`/user/${profile.id}`}
                             key={profile.id}
                         >
+                            <img src={profile.url} width="50px" height="50px" />
                             {profile.firstName} {profile.lastName}
                         </SearchResultItem>
                     ))}

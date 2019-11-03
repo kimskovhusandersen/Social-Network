@@ -26,7 +26,8 @@ class ProfileOther extends React.Component {
                 relationshipStatus: "",
                 interestedIn: "",
                 aboutMe: "",
-                favoriteQuotes: ""
+                favoriteQuotes: "",
+                url: "/default-avatar.jpg"
             },
             otherPhotos: {
                 profilePhotoUrl: ""
@@ -37,35 +38,30 @@ class ProfileOther extends React.Component {
     async componentDidMount() {
         const { profileId } = this.props;
         const { id: otherProfileId } = this.props.match.params;
+
         if (profileId == otherProfileId) {
             return this.props.history.push("/");
         }
 
-        const [otherProfile, otherProfilePhoto] = [
-            await useFetchData(`/api/profiles/${otherProfileId}`),
-            await useFetchData(`/api/profile-photo/${otherProfileId}`)
-        ];
-        if (!otherProfile) {
+        const data = await useFetchData(`/api/profiles/${otherProfileId}`);
+        if (!data) {
             return this.props.history.push("/");
         }
-        otherProfile && this.upsertState("otherProfile", otherProfile);
-        otherProfilePhoto &&
-            this.upsertState("otherProfilePhotos", {
-                profilePhotoUrl: otherProfilePhoto.url
-            });
+        data && this.upsertState("otherProfile", data);
     }
 
     upsertState(prop, newProps) {
         for (let [key, value] of Object.entries(newProps)) {
             if (value != null) {
                 this.setState(prevState => ({
-                    [`${prop}`]: {
-                        ...prevState[`${prop}`],
-                        [`${kebabToCamel(key)}`]: `${value}`
+                    [prop]: {
+                        ...prevState[prop],
+                        [key]: value
                     }
                 }));
             }
         }
+        console.log(this.state);
     }
 
     render() {

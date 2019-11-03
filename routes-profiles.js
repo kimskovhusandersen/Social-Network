@@ -20,6 +20,7 @@ router.get("/api/profiles/:id", async (req, res) => {
     const { id } = req.params;
     try {
         let { rows } = await db.getProfile(id);
+        console.log("THE RESULT", rows);
         res.json(rows);
     } catch (err) {
         console.log("ERROR", err);
@@ -32,7 +33,6 @@ router.get("/api/my-profile", async (req, res) => {
     const { profileId: id } = req.session;
     try {
         let { rows } = await db.getProfile(id);
-        console.log("THE RESULT", rows);
         res.json(rows);
     } catch (err) {
         res.json(err);
