@@ -54,7 +54,46 @@ export const ChevronDown = ({ title }) => {
             className="css-i6dzq1"
         >
             <title>{title}</title>
+
             <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+    );
+};
+
+export const ChevronLeft = ({ title }) => {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            stroke="currentColor"
+            strokeWidth="2"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="css-i6dzq1"
+        >
+            <title>{title}</title>
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+    );
+};
+
+export const ChevronRight = ({ title }) => {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            stroke="currentColor"
+            strokeWidth="2"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="css-i6dzq1"
+        >
+            <title>{title}</title>
+            <polyline points="9 18 15 12 9 6"></polyline>
         </svg>
     );
 };

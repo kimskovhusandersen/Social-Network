@@ -45,7 +45,11 @@ const Users = () => {
                             href={`/user/${profile.id}`}
                             key={profile.id}
                         >
-                            <img src={profile.url} width="50px" height="50px" />
+                            <img
+                                src={profile.url || "/default-avatar.jpg"}
+                                width="50px"
+                                height="50px"
+                            />
                             {profile.firstName} {profile.lastName}
                         </SearchResultItem>
                     ))}

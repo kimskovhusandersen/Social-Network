@@ -47,3 +47,13 @@ export const acceptFriendRequest = async id => {
     };
     return !data ? null : action;
 };
+
+export const getPhotos = async () => {
+    let photos = await useFetchData("/api/photos");
+    console.log("PHOTOS", photos);
+    photos = photos && !Array.isArray(photos) ? [photos] : photos;
+    return {
+        type: "GET_PHOTOS",
+        data: photos || []
+    };
+};

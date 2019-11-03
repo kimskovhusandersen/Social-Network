@@ -12,18 +12,21 @@ if (process.env.DATABASE_URL) {
     );
 }
 
-const getProfile = async id => {
-    return await db.query(
+const getPhotos = profileId => {
+    return db.query(
         `
-        SELECT profiles.id, first_name, last_name, about_me, photos.url
-        FROM profiles
-        LEFT JOIN photos
-        ON (profiles.id = photos.profile_id)
-        WHERE profiles.id = $1
-        ORDER BY id DESC LIMIT 1;
+        SELECT *,
+            (SELECT id FROM images
+                ORDER BY id ASC
+                LIMIT 1)
+            AS lowest_id
+        FROM photos
+        WHERE profile_id = $1
+        ORDER BY id DESC
+        LIMIT 9;
         `,
-        [id]
+        [profileId]
     );
 };
 
-module.exports = getProfile;
+module.exports = getPhotos;

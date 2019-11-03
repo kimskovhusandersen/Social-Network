@@ -46,6 +46,17 @@ router.post(
 );
 
 // READ
+
+router.get("/api/photos", async (req, res) => {
+    const { profileId } = req.session;
+    try {
+        let { rows } = await db.getPhotos(profileId);
+        res.json(rows);
+    } catch (err) {
+        res.json(err);
+    }
+});
+
 router.get("/api/profile-photo/:id", async (req, res) => {
     const { id } = req.params;
     try {

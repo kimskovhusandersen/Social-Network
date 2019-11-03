@@ -15,9 +15,11 @@ if (process.env.DATABASE_URL) {
 const getFriends = async profileId => {
     return db.query(
         `
-        SELECT profiles.id, profiles.first_name, profiles.last_name, accepted
+        SELECT profiles.id, profiles.first_name, profiles.last_name, accepted, url
         FROM friends
         JOIN profiles
+        LEFT JOIN photos
+        ON (profiles.id = photos.profile_id)
         ON (accepted = false AND receiver_id = $1 AND sender_id = profiles.id)
         OR (accepted = true AND receiver_id = $1 AND sender_id = profiles.id)
         OR (accepted = true AND receiver_id = $1 AND sender_id = profiles.id)

@@ -82,17 +82,10 @@ export const optionsDay = () => {
     return days;
 };
 
-export const useUpdateState = props => {
-    if (Array.isArray(props)) {
-        props.map(prop => {
-            console.log(prop);
-        });
-    }
-};
-
 export const useFetchData = async (url, values) => {
     const { data } =
         (values && (await axios.post(url, values))) || (await axios.get(url));
+
     let result;
     if (data.name == "error") {
         console.log(data);

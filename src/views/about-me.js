@@ -1,10 +1,14 @@
 import React from "react";
 import { Text, Button } from "../style/theme";
 
-const AboutMe = ({ toggle, aboutMe }) => {
+const AboutMe = ({ toggle, aboutMe, aboutMeForm }) => {
     return (
         <React.Fragment>
-            <Text>About me: {aboutMe ? aboutMe : "Unknown"}</Text>
+            <Text>
+                {aboutMe
+                    ? aboutMe
+                    : "Add a short bio to tell people more about yourself."}
+            </Text>
             <Button
                 onClick={e =>
                     toggle(e, ["isAboutMeFormVisible", "isAboutMeVisible"])
@@ -12,6 +16,7 @@ const AboutMe = ({ toggle, aboutMe }) => {
             >
                 {aboutMe ? "Edit" : "Add"}
             </Button>
+            {aboutMeForm}
         </React.Fragment>
     );
 };

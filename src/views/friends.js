@@ -2,8 +2,14 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getFriends } from "../actions";
 import FriendshipButton from "../friendship-button";
+import {
+    PageWrapper,
+    Page,
+    FriendsPageWrapper,
+    PageItem
+} from "../style/theme";
 
-const Friends = () => {
+const Friends = ({ hero }) => {
     const dispatch = useDispatch();
     const friendRequests = useSelector(
         state =>
@@ -15,6 +21,7 @@ const Friends = () => {
             state.friends &&
             state.friends.filter(profile => profile.accepted == true)
     );
+    console.log(friends);
     useEffect(() => {
         dispatch(getFriends());
     }, []);
@@ -25,26 +32,52 @@ const Friends = () => {
 
     return (
         <React.Fragment>
-            {!!friendRequests.length && <h1>Friend requests</h1>}
-            {friendRequests &&
-                friendRequests.map(fr => (
-                    <div key={fr.id}>
-                        {fr.firstName} {fr.lastName}
-                        {fr.id !== null && (
-                            <FriendshipButton otherProfileId={fr.id} />
-                        )}
-                    </div>
-                ))}
-            {!!friends.length && <h1>Friends</h1>}
-            {friends &&
-                friends.map(friend => (
-                    <div key={friend.id}>
-                        {friend.firstName} {friend.lastName}
-                        {friend.id !== null && (
-                            <FriendshipButton otherProfileId={friend.id} />
-                        )}
-                    </div>
-                ))}
+            {hero}
+            <PageWrapper>
+                <Page>
+                    {!friendRequests && <h1>No New Friend Requests</h1>}
+                    {!!friendRequests.length && <h1>Friend requests</h1>}
+                    <FriendsPageWrapper>
+                        {friendRequests &&
+                            friendRequests.map(fr => (
+                                <PageItem key={fr.id}>
+                                    <img
+                                        src={fr.url || "/default-avatar.jpg"}
+                                        widht="50px"
+                                        height="50px"
+                                    />
+                                    {fr.firstName} {fr.lastName}
+                                    {fr.id !== null && (
+                                        <FriendshipButton
+                                            otherProfileId={fr.id}
+                                        />
+                                    )}
+                                </PageItem>
+                            ))}
+                    </FriendsPageWrapper>
+                    {!!friends.length && <h1>Friends</h1>}
+                    <FriendsPageWrapper>
+                        {friends &&
+                            friends.map(friend => (
+                                <PageItem key={friend.id}>
+                                    <img
+                                        src={
+                                            friend.url || "/default-avatar.jpg"
+                                        }
+                                        widht="50px"
+                                        height="50px"
+                                    />
+                                    {friend.firstName} {friend.lastName}
+                                    {friend.id !== null && (
+                                        <FriendshipButton
+                                            otherProfileId={friend.id}
+                                        />
+                                    )}
+                                </PageItem>
+                            ))}
+                    </FriendsPageWrapper>
+                </Page>
+            </PageWrapper>
         </React.Fragment>
     );
 };

@@ -1,6 +1,9 @@
 import styled, { css, createGlobalStyle } from "styled-components";
 import { Field } from "formik";
 
+let PAGE_WIDTH = 900;
+let TRANSLATE_PAGE = "-3%";
+const BORDER = "1px solid #ccc";
 export const GlobalStyle = createGlobalStyle`
     * {
         box-sizing: border-box;
@@ -21,22 +24,19 @@ export const GlobalStyle = createGlobalStyle`
         flex-direction: column;
         background: #ddd;
     }
+    main {
+        position: relative;
+    }
 `;
 
 export const PageWrapper = styled.div`
     justify-content: center;
-    transform: translateX(-5%);
+    transform: translateX(${TRANSLATE_PAGE});
     flex: auto;
     display: flex;
     margin-bottom: 10px;
+    /* border: 4px solid red; */
     /* background-color: #929292; */
-`;
-
-export const Page = styled.div`
-    min-height: 100vh;
-    margin-top: 43px;
-    width: 63%;
-    background: ghostwhite;
 `;
 
 export const StyledHeader = styled.header`
@@ -156,9 +156,26 @@ export const TopNavProfilePhotoWrapper = styled.a`
     }
 `;
 
+export const TopSectionWrapper = styled.div`
+    justify-content: center;
+    transform: translateX(${TRANSLATE_PAGE});
+    flex: auto;
+    display: flex;
+    /* background-color: #929292; */
+`;
+
 export const TopSection = styled.div`
+    width: ${PAGE_WIDTH}px;
+`;
+
+export const HeroWrapper = styled.div`
     width: 100%;
     height: 350px;
+    border: 1px solid #000;
+    border-color: rgba(0, 0, 0, 0.25);
+    border-bottom: none;
+    border-top: none;
+
     position: relative;
 `;
 
@@ -168,7 +185,7 @@ export const HeroImg = styled.img`
     left: 0;
     right: 0;
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     object-fit: cover;
 `;
 
@@ -184,7 +201,6 @@ export const HeroProfilePhoto = styled.img`
     z-index: 2;
     padding: 3px;
     background: white;
-    border: 1px solid #eee;
     /* border: 4px solid red; */
 `;
 
@@ -244,33 +260,69 @@ export const SecondarySection = styled.nav`
     background-color: #fff;
     height: 43px;
     width: 100%;
-    border-bottom: 1px solid #ddd;
+    border: ${BORDER}
+    border-top: none;
     margin-bottom: 10px;
+`;
+
+export const Page = styled.div`
+    min-height: 100vh;
+    margin-top: 2px;
+    width: ${PAGE_WIDTH}px;
+    /* border: 3px solid green; */
 `;
 
 export const TimelineWrapper = styled.div`
-    /* border: 1px solid red; */
     display: grid;
     max-width: 100%;
-    min-height: 200px;
-    /* grid-template: 43px 1fr 30px / 100%; */
-    display: grid;
-    column-gap: 20px;
-    grid-template-columns: 35% calc(65% - 20px);
+    min-height: 100px;
+    /* justify-content: space-between; */
+    column-gap: 10px;
+    grid-template-columns: 35% calc(65% - 10px);
     grid-auto-flow: row;
-    /* or 'row', 'row dense', 'column dense' */
 `;
 
-export const TimelineSmallItem = styled.div`
-    border: 1px solid yellow;
-    padding: 10px;
-    margin-bottom: 10px;
+export const FriendsPageWrapper = styled(TimelineWrapper)`
+    grid-template-columns: repeat(2, calc(50% - 5px));
 `;
 
-export const TimelineLargeItem = styled.section`
-    border: 1px solid blue;
-    padding: 10px;
+export const PhotosPageWrapper = styled(TimelineWrapper)`
+    grid-template-columns: 100%;
+`;
+
+export const PageItem = styled.div`
+    background: ghostwhite;
+    border-radius: 2px;
+    border: ${BORDER}
+    padding: 5px;
     margin-bottom: 10px;
+    & > *{
+        max-width 100%;
+    }
+`;
+
+export const PhotoCollage = styled(PageItem)`
+    display: grid;
+    grid-template-columns: repeat(4, calc(25% - 5px));
+    grid-template-rows: auto;
+    justify-content: space-evenly;
+
+    grid-gap: 5px;
+    min-height: 100px;
+    width: calc(${PAGE_WIDTH}px);
+    /* border: 2px solid green; */
+
+    /* overflow: hidden; */
+    & > a {
+        cursor: pointer;
+        width: calc(100%);
+    }
+
+    & > a img {
+        width: 100%;
+        height: calc(${PAGE_WIDTH}px / 4);
+        object-fit: cover;
+    }
 `;
 
 export const MainNav = styled.nav`
