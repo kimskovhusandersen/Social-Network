@@ -1,16 +1,29 @@
 import React, { useEffect } from "react";
-import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { getPhotos } from "../actions";
 import {
     ShowPhotoWrapper,
+    Close,
     ShowPhoto,
     PhotoWrapper,
+    Prev,
+    Next,
     CommentsWrapper,
     CommentsHeader,
+    Caption,
+    LikeCommentShare,
+    WriteComment,
     Comments,
     Comment
 } from "../style/show-photo";
+import {
+    CornerUpRight,
+    ChevronLeft,
+    ChevronRight,
+    MessageSquare,
+    ThumbsUp,
+    X
+} from "../style/icons";
 
 const Photo = ({ match, profile }) => {
     const dispatch = useDispatch();
@@ -30,28 +43,73 @@ const Photo = ({ match, profile }) => {
     return (
         <React.Fragment>
             <ShowPhotoWrapper>
+                <Close>
+                    <X color="ghostwhite" strokeWidth="2" />
+                </Close>
                 <ShowPhoto>
                     <PhotoWrapper>
-                        <a>
-                            <span>icon</span>
-                        </a>
+                        <span>
+                            <a>
+                                <ChevronLeft
+                                    color="ghostwhite"
+                                    strokeWidth="2"
+                                    height="100%"
+                                />
+                            </a>
+                        </span>
                         <img src={photo[0].url} />
-                        <a>
-                            <span>icon</span>
-                        </a>
+                        <span>
+                            <a>
+                                <ChevronRight
+                                    color="ghostwhite"
+                                    strokeWidth="2"
+                                    height="100%"
+                                />
+                            </a>
+                        </span>
                     </PhotoWrapper>
                     <CommentsWrapper>
                         <CommentsHeader>
                             <img src={profile.url || "/default-avatar.jpg"} />{" "}
-                            {profile.firstName} {profile.lastName}
-                            {moment("20111031", "YYYYMMDD").fromNow()}
+                            <div>
+                                <span>
+                                    <a href="/">
+                                        {profile.firstName} {profile.lastName}
+                                    </a>
+                                </span>
+                                <span>{photo[0].createdAt}</span>
+                            </div>
+                        </CommentsHeader>
+                        <Caption>{photo[0].caption}</Caption>
+                        <LikeCommentShare>
+                            <ul>
+                                <li>
+                                    <a>
+                                        <ThumbsUp color="#444" /> Like
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <MessageSquare color="#444" /> Comment
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <CornerUpRight color="#444" /> Share
+                                    </a>
+                                </li>
+                            </ul>
+                        </LikeCommentShare>
+                        <WriteComment>
+                            <img src={profile.url || "/default-avatar.jpg"} />{" "}
                             <input
                                 type="text"
                                 name="comment"
                                 required
                                 placeholder="Write a comment.."
                             />
-                        </CommentsHeader>
+                        </WriteComment>
+                        <Comments></Comments>
                     </CommentsWrapper>
                 </ShowPhoto>
             </ShowPhotoWrapper>

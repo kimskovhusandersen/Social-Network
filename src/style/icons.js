@@ -1,13 +1,13 @@
 import React from "react";
 
-export const Bell = ({ title }) => {
+export const Bell = ({ title, color }) => {
     return (
         <svg
             viewBox="0 0 24 24"
             width="24"
             height="24"
-            stroke="currentColor"
-            strokeWidth="2"
+            stroke={color || "black"}
+            strokeWidth="1"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -20,14 +20,14 @@ export const Bell = ({ title }) => {
     );
 };
 
-export const Camera = ({ title }) => {
+export const Camera = ({ title, color }) => {
     return (
         <svg
             viewBox="0 0 24 24"
             width="24"
             height="24"
-            stroke="currentColor"
-            strokeWidth="2"
+            stroke={color || "black"}
+            strokeWidth="1"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -40,14 +40,14 @@ export const Camera = ({ title }) => {
     );
 };
 
-export const ChevronDown = ({ title }) => {
+export const ChevronDown = ({ title, color, strokeWidth, height }) => {
     return (
         <svg
             viewBox="0 0 24 24"
             width="24"
-            height="24"
-            stroke="currentColor"
-            strokeWidth="2"
+            height={height || "24"}
+            stroke={color || "black"}
+            strokeWidth={strokeWidth || "1"}
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -60,14 +60,14 @@ export const ChevronDown = ({ title }) => {
     );
 };
 
-export const ChevronLeft = ({ title }) => {
+export const ChevronLeft = ({ title, color, strokeWidth, height }) => {
     return (
         <svg
             viewBox="0 0 24 24"
             width="24"
-            height="24"
-            stroke="currentColor"
-            strokeWidth="2"
+            height={height || "24"}
+            stroke={color || "black"}
+            strokeWidth={strokeWidth || "1"}
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -79,14 +79,14 @@ export const ChevronLeft = ({ title }) => {
     );
 };
 
-export const ChevronRight = ({ title }) => {
+export const ChevronRight = ({ title, color, strokeWidth, height }) => {
     return (
         <svg
             viewBox="0 0 24 24"
             width="24"
-            height="24"
-            stroke="currentColor"
-            strokeWidth="2"
+            height={height || "24"}
+            stroke={color || "black"}
+            strokeWidth={strokeWidth || "1"}
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -98,14 +98,52 @@ export const ChevronRight = ({ title }) => {
     );
 };
 
-export const Image = ({ title }) => {
+export const CornerUpRight = ({ title, color }) => {
     return (
         <svg
             viewBox="0 0 24 24"
             width="24"
             height="24"
-            stroke="currentColor"
-            strokeWidth="2"
+            stroke={color || "black"}
+            strokeWidth="1"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="css-i6dzq1"
+        >
+            <title>{title}</title>
+            <polyline points="15 14 20 9 15 4"></polyline>
+            <path d="M4 20v-7a4 4 0 0 1 4-4h12"></path>
+        </svg>
+    );
+};
+export const Edit2 = ({ title, color }) => {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            stroke={color || "black"}
+            strokeWidth="1"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="css-i6dzq1"
+        >
+            <title>{title}</title>
+            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+        </svg>
+    );
+};
+
+export const Image = ({ title, color }) => {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            stroke={color || "black"}
+            strokeWidth="1"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -119,14 +157,14 @@ export const Image = ({ title }) => {
     );
 };
 
-export const MessageCircle = ({ title }) => {
+export const MessageCircle = ({ title, color }) => {
     return (
         <svg
             viewBox="0 0 24 24"
             width="24"
             height="24"
-            stroke="currentColor"
-            strokeWidth="2"
+            stroke={color || "black"}
+            strokeWidth="1"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -137,6 +175,24 @@ export const MessageCircle = ({ title }) => {
         </svg>
     );
 };
+export const MessageSquare = ({ title, color }) => {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            stroke={color || "black"}
+            strokeWidth="1"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="css-i6dzq1"
+        >
+            <title>{title}</title>
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+    );
+};
 
 export const Search = ({ title, color }) => {
     return (
@@ -144,28 +200,48 @@ export const Search = ({ title, color }) => {
             viewBox="0 0 24 24"
             width="24"
             height="24"
-            stroke={color}
-            strokeWidth="2"
+            stroke={color || "black"}
+            strokeWidth="1"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
             className="css-i6dzq1"
         >
             <title>{title}</title>
+
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
     );
 };
-
-export const User = ({ title }) => {
+export const ThumbsUp = ({ title, color }) => {
     return (
         <svg
             viewBox="0 0 24 24"
             width="24"
             height="24"
-            stroke="currentColor"
-            strokeWidth="2"
+            stroke={color || "black"}
+            strokeWidth="1"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="css-i6dzq1"
+        >
+            {" "}
+            <title>{title}</title>
+            <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+        </svg>
+    );
+};
+
+export const User = ({ title, color }) => {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            stroke={color || "black"}
+            strokeWidth="1"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -174,6 +250,26 @@ export const User = ({ title }) => {
             <title>{title}</title>
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+    );
+};
+
+export const X = ({ title, strokeWidth, color, width, height }) => {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            width={width || "24"}
+            height={height || "24"}
+            stroke={color || "black"}
+            strokeWidth={strokeWidth || "1"}
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="css-i6dzq1"
+        >
+            <title>{title}</title>
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
     );
 };
