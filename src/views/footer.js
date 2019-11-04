@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledFooter } from "../style/theme";
+import { StyledFooter } from "../style/footer";
 
 const Footer = () => {
     return (

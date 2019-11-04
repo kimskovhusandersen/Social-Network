@@ -17,13 +17,6 @@ const AboutMeForm = ({ values, errors, touched, isSubmitting, toggle }) => (
         <Button disabled={isSubmitting} type="submit">
             Save
         </Button>
-        <Button
-            onClick={e =>
-                toggle(e, ["isAboutMeFormVisible", "isAboutMeVisible"])
-            }
-        >
-            Cancel
-        </Button>
     </Form>
 );
 const AboutMeFormWithFormik = withFormik({

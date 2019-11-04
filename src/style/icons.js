@@ -117,14 +117,33 @@ export const CornerUpRight = ({ title, color }) => {
         </svg>
     );
 };
-export const Edit2 = ({ title, color }) => {
+export const Clock = ({ title, color, height, width, strokeWidth }) => {
     return (
         <svg
             viewBox="0 0 24 24"
-            width="24"
-            height="24"
+            width={width || "24"}
+            height={height || "24"}
             stroke={color || "black"}
-            strokeWidth="1"
+            strokeWidth={strokeWidth || "1"}
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="css-i6dzq1"
+        >
+            <title>{title}</title>
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+    );
+};
+export const Edit2 = ({ title, color, height, width, strokeWidth }) => {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            width={width || "24"}
+            height={height || "24"}
+            stroke={color || "black"}
+            strokeWidth={strokeWidth || "1"}
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -136,6 +155,26 @@ export const Edit2 = ({ title, color }) => {
     );
 };
 
+export const Globe = ({ title, strokeWidth, color, width, height }) => {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            width={width || "24"}
+            height={height || "24"}
+            stroke={color || "black"}
+            strokeWidth={strokeWidth || "1"}
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="css-i6dzq1"
+        >
+            <title>{title}</title>
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+    );
+};
 export const Image = ({ title, color }) => {
     return (
         <svg

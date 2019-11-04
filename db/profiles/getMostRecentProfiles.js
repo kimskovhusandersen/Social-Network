@@ -14,14 +14,16 @@ if (process.env.DATABASE_URL) {
 
 const getMostRecentProfiles = () => {
     return db.query(`
-        SELECT profiles.id, first_name, last_name, photos.url,
-            (SELECT profiles.id FROM profiles
-            ORDER BY id ASC
+        SELECT profiles.id, first_name, last_name,
+            (SELECT photos.url
+            FROM photos
+            WHERE photos.profile_id = profiles.id
+            AND photos.album = 'profile_photos'
+            ORDER BY photos.id ASC
             LIMIT 1)
-            AS lowest_id
+            AS url
         FROM profiles
-        LEFT JOIN photos
-        ON (profiles.id = photos.profile_id)
-        ORDER BY id DESC LIMIT 3;`);
+        ORDER BY profiles.id DESC
+        LIMIT 3;`);
 };
 module.exports = getMostRecentProfiles;

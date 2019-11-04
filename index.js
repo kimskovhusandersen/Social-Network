@@ -1,6 +1,12 @@
 require("./db");
 const express = require("express");
 const app = (exports.app = express());
+
+// Socket.io
+const compression = require("compression");
+const server = require("http").Server(app);
+const io = require("socket.io")(server, { origins: "localhost:8080" }); // add " myherokuapp.herokuapp.com:*" to origins when deploying
+
 // middleware
 const cookieSession = require("cookie-session");
 const { SESSION_SECRET: sessionSecret } =
@@ -9,7 +15,6 @@ const { SESSION_SECRET: sessionSecret } =
         : require("./secrets.json");
 
 const csurf = require("csurf");
-const compression = require("compression");
 const authRouter = require("./routes-authentication");
 const profilesRouter = require("./routes-profiles");
 const photosRouter = require("./routes-photos");
@@ -64,6 +69,17 @@ app.get("*", function(req, res) {
     }
 });
 
+io.on("connection", socket => {
+    console.log(`A socket with the id ${socket.id} just connected`);
+    socket.on("iAmHere", data => {
+        console.log(data);
+    });
+    socket.on("disconnect", () => {
+        console.log(`A socket with the id ${socket.id} just disconnected`);
+    });
+});
+
 if (require.main === module) {
-    app.listen(process.env.PORT || 8080, console.log("I'm listening!"));
+    // app.listen(process.env.PORT || 8080, console.log("I'm listening!"));
+    server.listen(process.env.PORT || 8080, console.log("I'm listening!"));
 }

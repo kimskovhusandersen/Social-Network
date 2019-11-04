@@ -1,9 +1,11 @@
 import React from "react";
 import { useFetchData, kebabToCamel } from "./helpers";
 // views
+import Hero from "./views/hero";
+import Page from "./views/page";
 import Profile from "./views/profile";
-import ProfilePhoto from "./views/profile-photo";
 // controllers
+import AboutMeHandler from "./about-me-handler";
 import FriendshipButton from "./friendship-button";
 
 class ProfileOther extends React.Component {
@@ -25,13 +27,14 @@ class ProfileOther extends React.Component {
                 hometown: "",
                 relationshipStatus: "",
                 interestedIn: "",
-                aboutMe: "",
+                aboutMe: "This user hasn*",
                 favoriteQuotes: "",
                 url: "/default-avatar.jpg"
             },
             otherPhotos: {
                 profilePhotoUrl: ""
-            }
+            },
+            isAboutMeVisible: true
         };
     }
 
@@ -61,20 +64,34 @@ class ProfileOther extends React.Component {
                 }));
             }
         }
-        console.log(this.state);
     }
 
     render() {
-        const { otherProfile, otherPhotos } = this.state;
+        const { otherProfile, otherPhotos, isAboutMeVisible } = this.state;
+        if (!otherProfile) {
+            return null;
+        }
         return (
             <React.Fragment>
-                <Profile
-                    profile={otherProfile}
-                    FriendshipButton={
-                        <FriendshipButton otherProfileId={otherProfile.id} />
-                    }
-                    profilePhoto={
-                        <ProfilePhoto src={otherPhotos.profilePhotoUrl} />
+                <Page
+                    hero={<Hero profile={otherProfile} />}
+                    content={
+                        <Profile
+                            aboutMeHandler={
+                                <AboutMeHandler
+                                    createdAt={otherProfile.createdAt}
+                                    aboutMe={otherProfile.aboutMe}
+                                    isAboutMeVisible={isAboutMeVisible}
+                                />
+                            }
+                            FriendshipButton={
+                                <FriendshipButton
+                                    otherProfileId={otherProfile.id}
+                                />
+                            }
+                            photos={otherPhotos}
+                            profile={otherProfile}
+                        />
                     }
                 />
             </React.Fragment>

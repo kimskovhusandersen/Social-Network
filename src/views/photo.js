@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPhotos } from "../actions";
+import RelativeTime from "./relative-time";
+
 import {
     ShowPhotoWrapper,
     Close,
     ShowPhoto,
     PhotoWrapper,
-    Prev,
-    Next,
     CommentsWrapper,
     CommentsHeader,
     Caption,
@@ -32,6 +32,7 @@ const Photo = ({ match, profile }) => {
             state.photos &&
             state.photos.filter(photo => photo.id == match.params.id)
     );
+
     useEffect(() => {
         dispatch(getPhotos());
     }, []);
@@ -39,7 +40,7 @@ const Photo = ({ match, profile }) => {
     if (!photo) {
         return null;
     }
-    console.log("PHOTO?", photo);
+
     return (
         <React.Fragment>
             <ShowPhotoWrapper>
@@ -77,7 +78,11 @@ const Photo = ({ match, profile }) => {
                                         {profile.firstName} {profile.lastName}
                                     </a>
                                 </span>
-                                <span>{photo[0].createdAt}</span>
+                                <span>
+                                    <RelativeTime
+                                        timestamp={photo[0].createdAt}
+                                    />
+                                </span>
                             </div>
                         </CommentsHeader>
                         <Caption>{photo[0].caption}</Caption>

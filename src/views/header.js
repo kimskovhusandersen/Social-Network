@@ -7,7 +7,7 @@ import {
     Logo,
     TopNav,
     TopNavProfilePhotoWrapper
-} from "../style/theme";
+} from "../style/header";
 import {
     ChevronDown,
     Bell,

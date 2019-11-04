@@ -106,6 +106,7 @@ export const CommentsHeader = styled.div`
         height: 50px;
         object-fit: cover;
         border-radius: 50%;
+        border: 1px solid #ccc;
     }
 
     & > div span a {
@@ -164,6 +165,7 @@ export const WriteComment = styled.div`
         height: 35px;
         object-fit: cover;
         border-radius: 50%;
+        border: 1px solid #ccc;
         margin-right: 5px;
     }
     & > input {

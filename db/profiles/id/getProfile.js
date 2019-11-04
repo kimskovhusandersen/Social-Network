@@ -15,7 +15,7 @@ if (process.env.DATABASE_URL) {
 const getProfile = async id => {
     return await db.query(
         `
-        SELECT profiles.id, first_name, last_name, about_me, photos.url
+        SELECT profiles.id, first_name, last_name, about_me, profiles.created_at, photos.url 
         FROM profiles
         LEFT JOIN photos
         ON (profiles.id = photos.profile_id)

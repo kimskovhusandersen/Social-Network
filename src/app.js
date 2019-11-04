@@ -4,6 +4,7 @@ import { useFetchData } from "./helpers";
 // views
 import Footer from "./views/footer";
 import Friends from "./views/friends";
+import Page from "./views/page";
 import Photo from "./views/photo";
 import Photos from "./views/photos";
 import Header from "./views/header";
@@ -16,7 +17,7 @@ import AboutMeHandler from "./about-me-handler";
 import ProfileOther from "./profile-other";
 import ProfilePhotoHandler from "./profile-photo-handler";
 // style
-import { GlobalStyle, PageWrapper, Page } from "./style/theme";
+import { GlobalStyle } from "./style/theme";
 
 export class App extends React.Component {
     constructor() {
@@ -36,7 +37,7 @@ export class App extends React.Component {
                 hometown: "",
                 relationshipStatus: "",
                 interestedIn: "",
-                aboutMe: "",
+                aboutMe: "Add a short bio to tell people more about yourself.",
                 favoriteQuotes: ""
             },
             photos: {
@@ -58,7 +59,6 @@ export class App extends React.Component {
                 profilePhotoUrl: photo.url
             });
         profile && this.upsertState("profile", profile);
-        console.log("STATE IN APP", this.state);
     }
 
     async toggle(e, prop) {
@@ -111,8 +111,7 @@ export class App extends React.Component {
                         exact
                         path="/"
                         render={() => (
-                            <Profile
-                                toggle={(e, prop) => this.toggle(e, prop)}
+                            <Page
                                 hero={
                                     <Hero
                                         profile={profile}
@@ -121,23 +120,33 @@ export class App extends React.Component {
                                         }
                                     />
                                 }
-                                aboutMeHandler={
-                                    <AboutMeHandler
-                                        aboutMe={profile.aboutMe}
-                                        isAboutMeVisible={isAboutMeVisible}
-                                        isAboutMeFormVisible={
-                                            isAboutMeFormVisible
+                                content={
+                                    <Profile
+                                        aboutMeHandler={
+                                            <AboutMeHandler
+                                                createdAt={profile.createdAt}
+                                                aboutMe={profile.aboutMe}
+                                                isAboutMeVisible={
+                                                    isAboutMeVisible
+                                                }
+                                                isAboutMeFormVisible={
+                                                    isAboutMeFormVisible
+                                                }
+                                                upsertState={(prop, newProps) =>
+                                                    this.upsertState(
+                                                        prop,
+                                                        newProps
+                                                    )
+                                                }
+                                                toggle={(e, prop) =>
+                                                    this.toggle(e, prop)
+                                                }
+                                            />
                                         }
-                                        upsertState={(prop, newProps) =>
-                                            this.upsertState(prop, newProps)
-                                        }
-                                        toggle={(e, prop) =>
-                                            this.toggle(e, prop)
-                                        }
+                                        profile={profile}
+                                        photos={photos}
                                     />
                                 }
-                                profile={profile}
-                                photos={photos}
                             />
                         )}
                     />
@@ -155,12 +164,24 @@ export class App extends React.Component {
                     <Route
                         path="/photos"
                         render={() => (
-                            <Photos
+                            <Page
                                 hero={
                                     <Hero
                                         profile={profile}
                                         toggle={(e, prop) =>
                                             this.toggle(e, prop)
+                                        }
+                                    />
+                                }
+                                content={
+                                    <Photos
+                                        hero={
+                                            <Hero
+                                                profile={profile}
+                                                toggle={(e, prop) =>
+                                                    this.toggle(e, prop)
+                                                }
+                                            />
                                         }
                                     />
                                 }
@@ -170,7 +191,7 @@ export class App extends React.Component {
                     <Route
                         path="/friends"
                         render={() => (
-                            <Friends
+                            <Page
                                 hero={
                                     <Hero
                                         profile={profile}
@@ -179,6 +200,7 @@ export class App extends React.Component {
                                         }
                                     />
                                 }
+                                content={<Friends />}
                             />
                         )}
                     />

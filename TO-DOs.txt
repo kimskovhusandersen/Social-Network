@@ -1,5 +1,27 @@
 Fix CSS
 Fix Registration + DefaultImage
 Hackerchallenges
-Jest
-Redux
+
+
+Profile image update
+Friends/Users
+otherprofile -> profile
+A list of users online:
+To get the socket ID, which will be helpful to send "live" messages.
+Notices! One user can have multiple sockets open at once (multiple tabs, phone, etc.)
+But one user, can only have one socket connection per tab, so only attach event listeners once!
+
+Make a list of socketIds and userIds:
+{
+    LKJSKDA343098Jkj: 5,
+    LKJSKDA343098Jkj: 5
+}
+
+We will get the user's id from the request object sent in the "Handshake".
+
+
+To send a "message" to everybody, use io.emit("Hi everybody!") or io.socket.emit("Hi everybody!")
+To send a "message" to everybody, but one, use socket.broadcast.emit("Hi there") // this sends it to everybody, but 'this' socket (socket.broadcast)
+
+If you scale (using cluster or have multiple servers), use reddis and make sure that node has the same instance of socket. Perhaps make sure
+that only one server is hosting the socket.

@@ -8,7 +8,7 @@ import {
     HeroProfilePhoto,
     HeroName,
     SecondaryNav
-} from "../style/theme";
+} from "../style/hero";
 
 const Hero = ({ profile, toggle }) => {
     return (
@@ -17,11 +17,21 @@ const Hero = ({ profile, toggle }) => {
                 <TopSection>
                     <HeroWrapper>
                         <HeroImg src="https://picsum.photos/1500/500" alt="" />
-                        <HeroProfilePhoto
-                            onClick={e => toggle(e, "isPhotoUploaderVisible")}
-                            src={profile.url}
-                            alt="profile-photo"
-                        />
+                        {toggle ? (
+                            <HeroProfilePhoto
+                                onClick={e =>
+                                    toggle(e, "isPhotoUploaderVisible")
+                                }
+                                src={profile.url}
+                                alt="profile-photo"
+                            />
+                        ) : (
+                            <HeroProfilePhoto
+                                src={profile.url}
+                                alt="profile-photo"
+                            />
+                        )}
+
                         <HeroName>
                             {profile.firstName} {profile.lastName}
                         </HeroName>

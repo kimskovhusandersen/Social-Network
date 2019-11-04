@@ -29,249 +29,6 @@ export const GlobalStyle = createGlobalStyle`
     }
 `;
 
-export const PageWrapper = styled.div`
-    justify-content: center;
-    transform: translateX(${TRANSLATE_PAGE});
-    flex: auto;
-    display: flex;
-    margin-bottom: 10px;
-    /* border: 4px solid red; */
-    /* background-color: #929292; */
-`;
-
-export const StyledHeader = styled.header`
-    width: 100%;
-    flex: none;
-    position: fixed;
-    top: 0;
-    background-color: #2851a3;
-    z-index: 12;
-    height: 43px;
-    overflow: hidden;
-    text-align: center;
-
-    & > * {
-        height: inherit;
-    }
-`;
-
-export const InnerHeader = styled.div`
-    display: inline-grid;
-    transform: translateX(-3%);
-    grid-template-columns: 43px 400px 1fr;
-    height: 43px;
-    width: 85%;
-
-    & > form {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    & > form > * {
-        height: 23px;
-        font-size: 14px;
-    }
-
-    & > form input {
-        width: 90%;
-        padding: 3px 6px;
-    }
-
-    & > form button {
-        width: 10%;
-        cursor: pointer;
-    }
-`;
-
-export const LogoWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    & > img {
-        max-height: 27px;
-        max-width: 27px;
-        object-fit: fit;
-    }
-`;
-
-export const TopNav = styled.nav`
-    margin-left: 10px;
-    list-style-type: none;
-    display: grid;
-    grid-template-columns: 66px repeat(5, 43px);
-    width: 100%;
-    height: 100%;
-
-    & > li {
-        height: 43px;
-        float: left;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    & > li a {
-        background-color: transparent;
-        /* display: inline-block; */
-        text-decoration: none;
-        font-size: 12px;
-        font-weight: 600;
-        color: white;
-        height: 27px;
-        line-height: 28px;
-        padding: 0 12px 1px;
-        position: relative;
-        white-space: nowrap;
-        cursor: pointer;
-    }
-
-    & > li a:hover {
-        background-color: #1d3c78;
-    }
-`;
-
-export const TopNavProfilePhotoWrapper = styled.a`
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    & > span {
-        max-width: 50%;
-        height: 27px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    & > span img {
-        border-radius: 50%;
-        margin-right: 5px;
-        height: 100%;
-        width: 27px;
-        object-fit: cover;
-    }
-`;
-
-export const TopSectionWrapper = styled.div`
-    justify-content: center;
-    transform: translateX(${TRANSLATE_PAGE});
-    flex: auto;
-    display: flex;
-    /* background-color: #929292; */
-`;
-
-export const TopSection = styled.div`
-    width: ${PAGE_WIDTH}px;
-`;
-
-export const HeroWrapper = styled.div`
-    width: 100%;
-    height: 350px;
-    border: 1px solid #000;
-    border-color: rgba(0, 0, 0, 0.25);
-    border-bottom: none;
-    border-top: none;
-
-    position: relative;
-`;
-
-export const HeroImg = styled.img`
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-`;
-
-export const HeroProfilePhoto = styled.img`
-    position: absolute;
-    bottom: -25px;
-    left: 25px;
-    width: 150px;
-    height: 150px;
-    border: none;
-    border-radius: 50%;
-    object-fit: cover;
-    z-index: 2;
-    padding: 3px;
-    background: white;
-    /* border: 4px solid red; */
-`;
-
-export const HeroName = styled.span`
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100px;
-    width: 200px;
-    bottom: 0px;
-    left: 190px;
-    border: none;
-    object-fit: cover;
-    z-index: 2;
-    color: white;
-    font-size: 26px;
-    font-weight: bold;
-    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
-    /* border: 4px solid red; */
-`;
-
-export const SecondaryNav = styled.ul`
-    display: grid;
-    grid-template-columns: 33% repeat(4, 1fr);
-    list-style-type: none;
-    width: 100%;
-    height: 100%;
-
-    & > li {
-        display: inline;
-        float: right;
-    }
-    & > li a {
-        border-right: 1px solid #e9eaed;
-        font-size: 14px;
-        font-weight: 600;
-        height: 43px;
-        line-height: 3.05;
-        padding: 0 17px;
-        position: relative;
-        vertical-align: middle;
-        white-space: nowrap;
-        color: #385898;
-        cursor: pointer;
-        display: block;
-        text-align: center;
-        text-decoration: none;
-    }
-
-    & > li a:hover {
-        background-color: #efefef;
-    }
-`;
-
-export const SecondarySection = styled.nav`
-    background-color: #fff;
-    height: 43px;
-    width: 100%;
-    border: ${BORDER}
-    border-top: none;
-    margin-bottom: 10px;
-`;
-
-export const Page = styled.div`
-    min-height: 100vh;
-    margin-top: 2px;
-    width: ${PAGE_WIDTH}px;
-    /* border: 3px solid green; */
-`;
-
 export const TimelineWrapper = styled.div`
     display: grid;
     max-width: 100%;
@@ -286,10 +43,6 @@ export const FriendsPageWrapper = styled(TimelineWrapper)`
     grid-template-columns: repeat(2, calc(50% - 5px));
 `;
 
-export const PhotosPageWrapper = styled(TimelineWrapper)`
-    grid-template-columns: 100%;
-`;
-
 export const PageItem = styled.div`
     background: ghostwhite;
     border-radius: 2px;
@@ -301,30 +54,6 @@ export const PageItem = styled.div`
     }
 `;
 
-export const PhotoCollage = styled(PageItem)`
-    display: grid;
-    grid-template-columns: repeat(4, calc(25% - 5px));
-    grid-template-rows: auto;
-    justify-content: space-evenly;
-
-    grid-gap: 5px;
-    min-height: 100px;
-    width: calc(${PAGE_WIDTH}px);
-    /* border: 2px solid green; */
-
-    /* overflow: hidden; */
-    & > a {
-        cursor: pointer;
-        width: calc(100%);
-    }
-
-    & > a img {
-        width: 100%;
-        height: calc(${PAGE_WIDTH}px / 4);
-        object-fit: cover;
-    }
-`;
-
 export const MainNav = styled.nav`
     background-color: #fff;
     height: 43px;
@@ -333,15 +62,6 @@ export const MainNav = styled.nav`
     margin-bottom: 10px;
 `;
 
-export const StyledFooter = styled.footer`
-    flex: none;
-    background-color: red;
-    height: 43px;
-    z-index: 999;
-    overflow: hidden;
-`;
-
-// -----
 export const TopNavItem = styled.a`
     position: relative;
     float: left;
@@ -419,14 +139,6 @@ export const Photo = styled.img.attrs(({ src }) => ({
     width: ${props => (props.small ? "23px" : "200px")};
     height: ${props => (props.small ? "23px" : "200px")};
     /* border: 1px solid #eee; */
-    border-radius: 50%;
-`;
-
-export const Logo = styled.img`
-    background-image: url("https://s3.amazonaws.com/coriander-imageboard/ysYB3LtmBepQl9fHDGL8V6KZ9U6CdzVv.jpg");
-    background-size: cover;
-    width: 33px;
-    height: 33px;
     border-radius: 50%;
 `;
 

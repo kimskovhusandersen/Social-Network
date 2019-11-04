@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "./axios_csurf";
+import moment from "moment";
 
 export const kebabToCamel = key => {
     return key
@@ -99,4 +100,12 @@ export const useFetchData = async (url, values) => {
         data.map(obj => result.push(kebabObjToCamel(obj)));
     }
     return result;
+};
+
+export const formatTimestamp = ts => {
+    return moment(ts).format("YYYYMMDD HH:mm:ss");
+};
+
+export const useRelativeTime = timestamp => {
+    return moment(timestamp).fromNow();
 };
