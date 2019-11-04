@@ -3,14 +3,13 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { useFetchData } from "./helpers";
 // views
 import Footer from "./views/footer";
-import Friends from "./views/friends";
+import FindFriends from "./find-friends";
 import Page from "./views/page";
 import Photo from "./views/photo";
 import Photos from "./views/photos";
 import Header from "./views/header";
 import Hero from "./views/hero";
 import Profile from "./views/profile";
-import Users from "./views/users";
 // controllers & other
 import AboutMeHandler from "./about-me-handler";
 
@@ -151,6 +150,26 @@ export class App extends React.Component {
                         )}
                     />
                     <Route
+                        path="/find-friends"
+                        render={() => <Page content={<FindFriends />} />}
+                    />
+                    <Route
+                        path="/friends"
+                        render={() => (
+                            <Page
+                                hero={
+                                    <Hero
+                                        profile={profile}
+                                        toggle={(e, prop) =>
+                                            this.toggle(e, prop)
+                                        }
+                                    />
+                                }
+                                content={<Friends />}
+                            />
+                        )}
+                    />
+                    <Route
                         path="/photo/:id"
                         render={props => (
                             <Photo
@@ -189,37 +208,10 @@ export class App extends React.Component {
                         )}
                     />
                     <Route
-                        path="/friends"
-                        render={() => (
-                            <Page
-                                hero={
-                                    <Hero
-                                        profile={profile}
-                                        toggle={(e, prop) =>
-                                            this.toggle(e, prop)
-                                        }
-                                    />
-                                }
-                                content={<Friends />}
-                            />
-                        )}
-                    />
-                    <Route
                         path="/user/:id"
                         render={props => (
                             <ProfileOther
                                 profileId={profile.id}
-                                key={props.match.url}
-                                match={props.match}
-                                history={props.history}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/users"
-                        render={props => (
-                            <Users
-                                id={profile.id}
                                 key={props.match.url}
                                 match={props.match}
                                 history={props.history}

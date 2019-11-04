@@ -14,25 +14,24 @@ export const getBtnTxt = (
     otherProfileId
 ) => {
     if (accepted == true) {
-        return "End friendship";
+        return "Unfriend";
     } else if (accepted == null) {
-        return "Make friend request";
+        return "Add friend";
     } else if (accepted == false && otherProfileId == senderId) {
-        return "Accept friendship";
+        return "Accept request";
     } else if (accepted == false && otherProfileId == receiverId) {
-        return "Cancel friend request";
+        return "Cancel request";
     }
 };
 
-const FriendshipButton = props => {
+const FriendshipButton = ({ otherProfileId }) => {
     const dispatch = useDispatch();
     const [accepted, setAccepted] = useState(null);
     const [receiverId, setReceiverId] = useState(null);
     const [senderId, setSenderId] = useState(null);
-    const [btnTxt, setBtnTxt] = useState("Make friend request");
+    const [btnTxt, setBtnTxt] = useState("Add friend");
 
     const handleClick = async () => {
-        const { otherProfileId } = props;
         // makeFriendRequest
         accepted === null && dispatch(makeFriendRequest(otherProfileId));
 
@@ -56,7 +55,6 @@ const FriendshipButton = props => {
 
     useEffect(() => {
         (async () => {
-            const { otherProfileId } = props;
             // Get initial friendship status
             const data = await useFetchData(`/api/friends/${otherProfileId}`);
             if (data) {
@@ -70,7 +68,7 @@ const FriendshipButton = props => {
 
     return (
         <React.Fragment>
-            <Button onClick={handleClick}>{btnTxt}</Button>
+            <a onClick={handleClick}>{btnTxt}</a>
         </React.Fragment>
     );
 };

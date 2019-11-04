@@ -1,5 +1,4 @@
 import React from "react";
-import FindPeople from "../find-people";
 import {
     StyledHeader,
     InnerHeader,
