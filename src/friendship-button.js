@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "./style/theme";
 import { useFetchData } from "./helpers";
 
 import { useDispatch } from "react-redux";

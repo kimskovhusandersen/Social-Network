@@ -4,6 +4,7 @@ import { useFetchData } from "./helpers";
 // views
 import Footer from "./views/footer";
 import FindFriends from "./find-friends";
+import Friends from "./views/friends";
 import Page from "./views/page";
 import Photo from "./views/photo";
 import Photos from "./views/photos";
@@ -12,7 +13,7 @@ import Hero from "./views/hero";
 import Profile from "./views/profile";
 // controllers & other
 import AboutMeHandler from "./about-me-handler";
-
+import Chat from "./chat-encounter";
 import ProfileOther from "./profile-other";
 import ProfilePhotoHandler from "./profile-photo-handler";
 // style
@@ -42,7 +43,7 @@ export class App extends React.Component {
             photos: {
                 profilePhotoUrl: "/default-avatar.jpg"
             },
-            isPhotoUploaderVisible: false,
+            isPhotoUploaderVisible: true,
             isAboutMeVisible: true,
             isAboutMeFormVisible: false
         };
@@ -114,6 +115,7 @@ export class App extends React.Component {
                                 hero={
                                     <Hero
                                         profile={profile}
+                                        photos={photos}
                                         toggle={(e, prop) =>
                                             this.toggle(e, prop)
                                         }
@@ -142,12 +144,34 @@ export class App extends React.Component {
                                                 }
                                             />
                                         }
+                                        photoUploader={
+                                            isPhotoUploaderVisible && (
+                                                <ProfilePhotoHandler
+                                                    toggle={(e, prop) =>
+                                                        this.toggle(e, prop)
+                                                    }
+                                                    upsertState={(
+                                                        prop,
+                                                        newProps
+                                                    ) =>
+                                                        this.upsertState(
+                                                            prop,
+                                                            newProps
+                                                        )
+                                                    }
+                                                />
+                                            )
+                                        }
                                         profile={profile}
                                         photos={photos}
                                     />
                                 }
                             />
                         )}
+                    />
+                    <Route
+                        path="/chat"
+                        render={() => <Page content={<Chat />} />}
                     />
                     <Route
                         path="/find-friends"
@@ -159,6 +183,7 @@ export class App extends React.Component {
                             <Page
                                 hero={
                                     <Hero
+                                        photos={photos}
                                         profile={profile}
                                         toggle={(e, prop) =>
                                             this.toggle(e, prop)
@@ -186,24 +211,14 @@ export class App extends React.Component {
                             <Page
                                 hero={
                                     <Hero
+                                        photos={photos}
                                         profile={profile}
                                         toggle={(e, prop) =>
                                             this.toggle(e, prop)
                                         }
                                     />
                                 }
-                                content={
-                                    <Photos
-                                        hero={
-                                            <Hero
-                                                profile={profile}
-                                                toggle={(e, prop) =>
-                                                    this.toggle(e, prop)
-                                                }
-                                            />
-                                        }
-                                    />
-                                }
+                                content={<Photos />}
                             />
                         )}
                     />
@@ -218,14 +233,7 @@ export class App extends React.Component {
                             />
                         )}
                     />
-                    {isPhotoUploaderVisible && (
-                        <ProfilePhotoHandler
-                            toggle={(e, prop) => this.toggle(e, prop)}
-                            upsertState={(prop, newProps) =>
-                                this.upsertState(prop, newProps)
-                            }
-                        />
-                    )}
+
                     <Footer>Copyright Kim Skovhus Andersen</Footer>
                 </BrowserRouter>
             </React.Fragment>

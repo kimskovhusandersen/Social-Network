@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "./axios_csurf";
 import moment from "moment";
 
@@ -86,10 +86,8 @@ export const optionsDay = () => {
 export const useFetchData = async (url, values) => {
     const { data } =
         (values && (await axios.post(url, values))) || (await axios.get(url));
-
     let result;
     if (data.name == "error") {
-        console.log(data);
         return;
     }
     if (data.length == 1) {

@@ -12,18 +12,24 @@ if (process.env.DATABASE_URL) {
     );
 }
 
-const getMostRecentProfiles = () => {
-    return db.query(`
+const getMostRecentProfiles = profileId => {
+    console.log("ID", profileId);
+    return db.query(
+        `
         SELECT profiles.id, first_name, last_name,
             (SELECT photos.url
             FROM photos
             WHERE photos.profile_id = profiles.id
             AND photos.album = 'profile_photos'
+            AND profiles.id <> $1
             ORDER BY photos.id ASC
             LIMIT 1)
             AS url
         FROM profiles
+        WHERE profiles.id <> $1
         ORDER BY profiles.id DESC
-        LIMIT 3;`);
+        LIMIT 3;`,
+        [profileId]
+    );
 };
 module.exports = getMostRecentProfiles;

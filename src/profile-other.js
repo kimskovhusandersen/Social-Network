@@ -1,5 +1,5 @@
 import React from "react";
-import { useFetchData, kebabToCamel } from "./helpers";
+import { useFetchData } from "./helpers";
 // views
 import Hero from "./views/hero";
 import Page from "./views/page";

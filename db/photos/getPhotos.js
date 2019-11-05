@@ -23,7 +23,7 @@ const getPhotos = profileId => {
         FROM photos
         WHERE profile_id = $1
         ORDER BY id DESC
-        LIMIT 9;
+        LIMIT 20;
         `,
         [profileId]
     );

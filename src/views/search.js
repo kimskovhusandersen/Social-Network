@@ -7,7 +7,7 @@ import {
 } from "../style/theme";
 import { Search as SearchIcon } from "../style/icons";
 
-const Search = ({ profiles, handleChange }) => {
+const SearchBar = ({ profiles, handleChange }) => {
     if (!profiles) {
         return null;
     }
@@ -29,4 +29,4 @@ const Search = ({ profiles, handleChange }) => {
     );
 };
 
-export default Search;
+export default SearchBar;

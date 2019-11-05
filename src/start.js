@@ -1,36 +1,30 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import * as io from "socket.io-client";
 import App from "./app";
 import Welcome from "./welcome";
 import { createStore, applyMiddleware } from "redux";
 import reduxPromise from "redux-promise";
 import { reducer } from "./reducer";
 import { Provider } from "react-redux";
-
-const socket = io.connect();
-
-socket.emit("iAmHere", {
-    message: "Hello"
-});
-
-socket.on("goodToSeeYou", data => console.log(data));
-
 import { composeWithDevTools } from "redux-devtools-extension";
+import { init } from "./socket";
+
 const store = createStore(
     reducer,
     composeWithDevTools(applyMiddleware(reduxPromise))
 );
 
+let elem;
 const isLoggedIn = location.pathname != "/welcome";
-
-ReactDOM.render(
-    isLoggedIn ? (
+if (!isLoggedIn) {
+    elem = <Welcome />;
+} else {
+    init(store);
+    elem = (
         <Provider store={store}>
             <App />
         </Provider>
-    ) : (
-        <Welcome />
-    ),
-    document.querySelector("main")
-);
+    );
+}
+
+ReactDOM.render(elem, document.querySelector("main"));

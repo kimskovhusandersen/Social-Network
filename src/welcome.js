@@ -1,25 +1,22 @@
 import React from "react";
 import { HashRouter, Route } from "react-router-dom";
-import RegistrationHandler from "./registration-handler";
-import LoginHandler from "./login-handler";
-
-import { PageWrapper, Page, Title, Logo } from "./style/theme";
+import AuthRegistration from "./auth-registration";
+import AuthLogin from "./auth-login";
 
 // Stateless Functional Component
 const Welcome = () => {
     return (
-        <PageWrapper>
-            <Page>
-                <Title>Welcome!</Title>
-                <Logo />
+        <div>
+            <div>
+                <h1>Welcome!</h1>
                 <HashRouter>
                     <div>
-                        <Route exact path="/" component={RegistrationHandler} />
-                        <Route path="/login" component={LoginHandler} />
+                        <Route exact path="/" component={AuthRegistration} />
+                        <Route path="/login" component={AuthLogin} />
                     </div>
                 </HashRouter>
-            </Page>
-        </PageWrapper>
+            </div>
+        </div>
     );
 };
 

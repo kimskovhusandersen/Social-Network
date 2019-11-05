@@ -1,12 +1,12 @@
 import React from "react";
 import { withFormik, Form } from "formik";
 import * as Yup from "yup";
-import { Button, Label, Input, Text } from "../style/theme";
+import { Button, Label, Input, p } from "../style/theme";
 
 const AboutMeForm = ({ values, errors, touched, isSubmitting, toggle }) => (
     <Form>
         <Label>
-            {touched.aboutMe && errors.aboutMe && <Text>{errors.aboutMe}</Text>}
+            {touched.aboutMe && errors.aboutMe && <p>{errors.aboutMe}</p>}
             <Input
                 component="textarea"
                 name="aboutMe"

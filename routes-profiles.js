@@ -6,10 +6,8 @@ const db = require("./db");
 router.post("/api/profiles", async (req, res) => {
     try {
         const { rows } = await db.addProfile(req.body);
-        if (rows[0]) {
-            req.session.profileId = rows[0].id;
-            res.json(rows[0]);
-        }
+        req.session.profileId = rows[0].id;
+        res.json({ data: "success" });
     } catch (err) {
         res.json(err);
     }
@@ -20,10 +18,8 @@ router.get("/api/profiles/:id", async (req, res) => {
     const { id } = req.params;
     try {
         let { rows } = await db.getProfile(id);
-        console.log("THE RESULT", rows);
         res.json(rows);
     } catch (err) {
-        console.log("ERROR", err);
         res.json(err);
     }
 });
@@ -41,9 +37,10 @@ router.get("/api/my-profile", async (req, res) => {
 
 router.get("/api/profiles/search/:query", async (req, res) => {
     const { query } = req.params;
+    const { profileId } = req.session;
     try {
         if (query != "") {
-            let { rows } = await db.getProfilesBySearch(query);
+            let { rows } = await db.getProfilesBySearch(query, profileId);
             res.json(rows);
         }
     } catch (err) {
@@ -52,8 +49,9 @@ router.get("/api/profiles/search/:query", async (req, res) => {
 });
 
 router.get("/api/recent-profiles", async (req, res) => {
+    const { profileId } = req.session;
     try {
-        let { rows } = await db.getMostRecentProfiles();
+        let { rows } = await db.getMostRecentProfiles(profileId);
         res.json(rows);
     } catch (err) {
         res.json(err);

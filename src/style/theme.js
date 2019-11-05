@@ -58,38 +58,6 @@ export const PageItem = styled.div`
     }
 `;
 
-export const MainNav = styled.nav`
-    background-color: #fff;
-    height: 43px;
-    width: 100%;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
-`;
-
-export const TopNavItem = styled.a`
-    position: relative;
-    float: left;
-    display: block;
-    height: 100%;
-    width: 45px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    border-radius: 2px;
-    padding: 0 1px;
-
-    &:hover {
-    }
-
-    > * {
-        display: inline-block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-`;
-
 export const SearchWrapper = styled.div`
     width: 300px;
     position: relative;
@@ -231,24 +199,3 @@ export const Label = styled.label`
     font-size: 0.8em;
     margin: 0.5em 0;
 `;
-
-export const Button = styled.button`
-    background-color: #4caf50;
-    border: none;
-    color: white;
-    padding: 5px 12px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin: 4px 2px;
-    border-radius: 2px;
-    cursor: pointer;
-
-    &:hover {
-    }
-`;
-
-export const Link = styled.a``;
-export const Title = styled.h1``;
-export const Text = styled.p``;

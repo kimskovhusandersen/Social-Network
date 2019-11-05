@@ -8,7 +8,6 @@ const server = require("http").Server(app);
 const io = require("socket.io")(server, { origins: "localhost:8080" }); // add " myherokuapp.herokuapp.com:*" to origins when deploying
 
 // middleware
-const cookieSession = require("cookie-session");
 const { SESSION_SECRET: sessionSecret } =
     process.env.NODE_ENV == "production"
         ? process.env
@@ -33,13 +32,20 @@ if (process.env.NODE_ENV != "production") {
 
 app.use(compression());
 app.use(express.urlencoded({ extended: false }));
+
+const cookieSession = require("cookie-session");
+const cookieSessionMiddleware = cookieSession({
+    secret: sessionSecret,
+    maxAge: 1000 * 60 * 60 * 24 * 90
+});
+
+app.use(cookieSessionMiddleware);
+io.use((socket, next) => {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
+
 app.use(express.json());
-app.use(
-    cookieSession({
-        secret: sessionSecret,
-        maxAge: 1000 * 60 * 60 * 24 * 14
-    })
-);
+
 app.use(csurf()); // place after body-parsing (urlencoded) and cookieSession.
 app.use(function(req, res, next) {
     res.cookie("csrfToken", req.csrfToken());
@@ -69,13 +75,22 @@ app.get("*", function(req, res) {
     }
 });
 
-io.on("connection", socket => {
+io.on("connection", async socket => {
     console.log(`A socket with the id ${socket.id} just connected`);
-    socket.on("iAmHere", data => {
-        console.log(data);
-    });
     socket.on("disconnect", () => {
         console.log(`A socket with the id ${socket.id} just disconnected`);
+    });
+    if (!socket.request.session.profileId) {
+        return socket.disconnect(true);
+    }
+    const profileId = socket.request.session.profileId;
+    const db = require("./db");
+    // const { data } = await db.getLastTenChatMessages();
+
+    socket.on("newMessage", newMessage => {
+        console.log("I AM A STRING my amaying message", newMessage);
+        // do stuff
+        io.sockets.emit("newChat", newMessage);
     });
 });
 

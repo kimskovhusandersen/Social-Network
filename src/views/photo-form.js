@@ -1,7 +1,7 @@
 import React from "react";
 import { withFormik, Form } from "formik";
 import * as Yup from "yup";
-import { Button, Text, Label, Input } from "../style/theme";
+import { Label, Input } from "../style/theme";
 
 const UploadPhotoForm = ({
     values,
@@ -13,7 +13,7 @@ const UploadPhotoForm = ({
 }) => (
     <Form>
         <Label>
-            {touched.file && errors.file && <Text>{errors.file}</Text>}
+            {touched.file && errors.file && <p>{errors.file}</p>}
             <input
                 id="photo"
                 name="photo"
@@ -25,7 +25,7 @@ const UploadPhotoForm = ({
             />
         </Label>
         <Label>
-            {touched.caption && errors.caption && <Text>{errors.caption}</Text>}
+            {touched.caption && errors.caption && <p>{errors.caption}</p>}
             <Input
                 type="text"
                 name="caption"
@@ -33,10 +33,10 @@ const UploadPhotoForm = ({
                 values={values.caption}
             />
         </Label>
-        <Button disabled={isSubmitting} type="submit">
+        <button disabled={isSubmitting} type="submit">
             Submit
-        </Button>
-        <Button onClick={e => toggle(e, "isPhotoUploaderVisible")}>Back</Button>
+        </button>
+        <button onClick={e => toggle(e, "isPhotoUploaderVisible")}>Back</button>
     </Form>
 );
 const UploadPhotoFormWithFormik = withFormik({

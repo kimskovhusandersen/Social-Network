@@ -11,7 +11,7 @@ class Profile extends React.Component {
     }
     render() {
         const { profile, photos } = this.props;
-        const { aboutMeHandler, FriendshipButton } = this.props;
+        const { aboutMeHandler, photoUploader } = this.props;
         if (!profile) {
             return null;
         }
@@ -45,6 +45,9 @@ class Profile extends React.Component {
                     </div>
 
                     <div>
+                        {!!photoUploader && (
+                            <PageItem>{photoUploader}</PageItem>
+                        )}
                         <PageItem>
                             Lorem Ipsum is simply dummy text of the printing and
                             typesetting industry. Lorem Ipsum has been the

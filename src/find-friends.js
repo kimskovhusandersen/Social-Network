@@ -7,12 +7,7 @@ import { useFetchData } from "./helpers";
 import FindFriendsItem from "./views/find-friends-item";
 // Style
 import { FindFriendsItemWrapper } from "./style/find-friends-item";
-import {
-    SearchWrapper,
-    SearchInput,
-    SearchResult,
-    SearchResultItem
-} from "./style/theme";
+import { SearchInput } from "./style/theme";
 import { Search as SearchIcon } from "./style/icons";
 
 const FindFriends = () => {
@@ -63,18 +58,22 @@ const FindFriends = () => {
     return (
         <React.Fragment>
             <FindFriendsItemWrapper first>
-                {friendRequests ? (
-                    <span>No New Friend Requests</span>
-                ) : (
-                    <span>Friend requests</span>
-                )}
+                <span>
+                    {!friendRequests
+                        ? "No New Friend Requests</span>"
+                        : "New friend requests"}
+                </span>
                 {friendRequests &&
                     friendRequests.map(fr => (
                         <FindFriendsItem key={fr.id} profile={fr} />
                     ))}
             </FindFriendsItemWrapper>
             <FindFriendsItemWrapper>
-                <SearchInput type="text" onChange={handleChange} />
+                <SearchInput
+                    type="text"
+                    onChange={handleChange}
+                    placeholder="Search"
+                />
             </FindFriendsItemWrapper>
             <FindFriendsItemWrapper>
                 <span>People you may know</span>

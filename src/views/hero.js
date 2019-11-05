@@ -10,7 +10,7 @@ import {
     SecondaryNav
 } from "../style/hero";
 
-const Hero = ({ profile, toggle }) => {
+const Hero = ({ profile, toggle, photos }) => {
     return (
         <React.Fragment>
             <TopSectionWrapper>
@@ -22,7 +22,7 @@ const Hero = ({ profile, toggle }) => {
                                 onClick={e =>
                                     toggle(e, "isPhotoUploaderVisible")
                                 }
-                                src={profile.url}
+                                src={photos.profilePhotoUrl || profile.url}
                                 alt="profile-photo"
                             />
                         ) : (
