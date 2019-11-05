@@ -1,5 +1,6 @@
 import * as io from "socket.io-client";
-import { chatMessages, chatMessage } from "./actions";
+import { addMessage } from "./actions";
+import { kebabObjToCamel } from "./helpers";
 
 export let socket;
 
@@ -7,10 +8,15 @@ export const init = store => {
     if (!socket) {
         socket = io.connect();
 
-        socket.on("chatMessages", msgs => store.dispatch(chatMessages(msgs)));
+        // socket.on("chatMessages", msgs => store.dispatch(chatMessages(msgs)));
+        //
+        // socket.on("chatMessage", msg => store.dispatch(chatMessage(msg)));
 
-        socket.on("chatMessage", msg => store.dispatch(chatMessage(msg)));
+        socket.on("addMessage", msgObj => {
+            let obj = kebabObjToCamel(msgObj);
+            console.log("IN SOCKET", obj);
 
-        socket.on("newMessage", msg => console.log(msg));
+            store.dispatch(addMessage(obj));
+        });
     }
 };

@@ -50,10 +50,26 @@ export const acceptFriendRequest = async id => {
 
 export const getPhotos = async () => {
     let photos = await useFetchData("/api/photos");
-    console.log("PHOTOS", photos);
     photos = photos && !Array.isArray(photos) ? [photos] : photos;
     return {
         type: "GET_PHOTOS",
         data: photos || []
+    };
+};
+
+export const getMessages = async () => {
+    let messages = await useFetchData(`/api/messages`);
+    console.log(messages);
+    messages = messages && !Array.isArray(messages) ? [messages] : messages;
+    return {
+        type: "GET_MESSAGES",
+        data: messages || []
+    };
+};
+
+export const addMessage = async message => {
+    return {
+        type: "ADD_MESSAGES",
+        data: messages => [message, ...messages]
     };
 };

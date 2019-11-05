@@ -1,6 +1,6 @@
-require("./db");
 const express = require("express");
 const app = (exports.app = express());
+const db = require("./db");
 
 // Socket.io
 const compression = require("compression");
@@ -15,6 +15,7 @@ const { SESSION_SECRET: sessionSecret } =
 
 const csurf = require("csurf");
 const authRouter = require("./routes-authentication");
+const messagesRouter = require("./routes-messages");
 const profilesRouter = require("./routes-profiles");
 const photosRouter = require("./routes-photos");
 const friendsRouter = require("./routes-friends");
@@ -55,6 +56,7 @@ app.use(function(req, res, next) {
 app.use(express.static("public"));
 // Routes
 app.use(authRouter);
+app.use(messagesRouter);
 app.use(profilesRouter);
 app.use(photosRouter);
 app.use(friendsRouter);
@@ -75,22 +77,34 @@ app.get("*", function(req, res) {
     }
 });
 
+const onlineUsers = {};
+const threads = [];
+const participants = [];
 io.on("connection", async socket => {
-    console.log(`A socket with the id ${socket.id} just connected`);
-    socket.on("disconnect", () => {
-        console.log(`A socket with the id ${socket.id} just disconnected`);
-    });
-    if (!socket.request.session.profileId) {
+    const { profileId } = socket.request.session;
+    if (!profileId) {
         return socket.disconnect(true);
     }
-    const profileId = socket.request.session.profileId;
-    const db = require("./db");
-    // const { data } = await db.getLastTenChatMessages();
+    onlineUsers[socket.id] = profileId;
+    console.log(
+        `A socket with the id ${socket.id} just connected`,
+        `and with the profileId ${profileId}`
+    );
 
-    socket.on("newMessage", newMessage => {
-        console.log("I AM A STRING my amaying message", newMessage);
-        // do stuff
-        io.sockets.emit("newChat", newMessage);
+    // const { data } = await db.getLastTenChatMessages();
+    socket.on("addMessage", async (content, threadId) => {
+        let values = {
+            senderId: profileId,
+            content,
+            threadId
+        };
+        const { rows } = await db.addMessage(values);
+        io.sockets.emit("addMessage", rows[0]);
+    });
+
+    socket.on("disconnect", () => {
+        console.log(`A socket with the id ${socket.id} just disconnected`);
+        delete onlineUsers[socket.id];
     });
 });
 

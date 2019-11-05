@@ -13,7 +13,7 @@ import Hero from "./views/hero";
 import Profile from "./views/profile";
 // controllers & other
 import AboutMeHandler from "./about-me-handler";
-import Chat from "./chat-encounter";
+import Messages from "./messages";
 import ProfileOther from "./profile-other";
 import ProfilePhotoHandler from "./profile-photo-handler";
 // style
@@ -170,8 +170,8 @@ export class App extends React.Component {
                         )}
                     />
                     <Route
-                        path="/chat"
-                        render={() => <Page content={<Chat />} />}
+                        path="/messages"
+                        render={() => <Page content={<Messages />} />}
                     />
                     <Route
                         path="/find-friends"
