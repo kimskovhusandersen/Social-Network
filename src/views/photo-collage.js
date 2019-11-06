@@ -14,7 +14,6 @@ const PhotoCollage = ({ cols }) => {
         if (photoCollage) {
             setPhotoHeight(photoCollage.clientWidth);
         }
-        console.log(photoHeight);
     }, [photoHeight]);
 
     return (

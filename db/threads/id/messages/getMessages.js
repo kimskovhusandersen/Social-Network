@@ -25,7 +25,7 @@ const getMessages = async (threadId = 1) => {
         LEFT JOIN profiles
         ON messages.sender_id = profiles.id
         WHERE thread_id = $1
-        ORDER BY id DESC;
+        ORDER BY id ASC;
     `,
         [threadId]
     );

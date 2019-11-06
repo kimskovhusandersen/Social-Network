@@ -10,7 +10,7 @@ export const StyledHeader = styled.header`
     position: fixed;
     top: 0;
     background-color: #2851a3;
-    z-index: 12;
+    z-index: 1;
     height: 43px;
     overflow: hidden;
     text-align: center;

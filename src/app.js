@@ -2,15 +2,19 @@ import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import { useFetchData } from "./helpers";
 // views
+import AuthLogout from "./views/auth-logout";
 import Footer from "./views/footer";
 import FindFriends from "./find-friends";
 import Friends from "./views/friends";
 import Page from "./views/page";
 import Photo from "./views/photo";
 import Photos from "./views/photos";
+import ProfilesOnlineCount from "./views/profiles-online-count";
+import ProfilesOnline from "./views/profiles-online";
 import Header from "./views/header";
 import Hero from "./views/hero";
 import Profile from "./views/profile";
+import Threads from "./threads";
 // controllers & other
 import AboutMeHandler from "./about-me-handler";
 import Messages from "./messages";
@@ -195,6 +199,10 @@ export class App extends React.Component {
                         )}
                     />
                     <Route
+                        path="/logout"
+                        render={() => <Page content={<AuthLogout />} />}
+                    />
+                    <Route
                         path="/photo/:id"
                         render={props => (
                             <Photo
@@ -219,6 +227,34 @@ export class App extends React.Component {
                                     />
                                 }
                                 content={<Photos />}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/profiles-online"
+                        render={() => (
+                            <Page
+                                content={
+                                    <ProfilesOnline profileId={profile.id} />
+                                }
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/threads"
+                        render={() => (
+                            <Page
+                                pageType="chat"
+                                content={
+                                    <Threads
+                                        profileId={profile.id}
+                                        profilesOnline={
+                                            <ProfilesOnline
+                                                profileId={profile.id}
+                                            />
+                                        }
+                                    />
+                                }
                             />
                         )}
                     />

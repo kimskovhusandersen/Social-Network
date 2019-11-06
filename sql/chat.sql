@@ -6,13 +6,14 @@
 -- DELETE TABLE
 DROP TABLE IF EXISTS threads CASCADE;
 DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS participants;
 
 
 -- CREATE TABLES
 CREATE TABLE threads(
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    profile_id INT NOT NULL UNIQUE REFERENCES profiles(id),
+    owner_id INT NOT NULL UNIQUE REFERENCES profiles(id),
     is_still_participant BOOLEAN,
     thread_type VARCHAR(255) NOT NULL,
     thread_path VARCHAR(255) NOT NULL,
@@ -36,7 +37,6 @@ CREATE TABLE participants(
     thread_type VARCHAR(255) NOT NULL,
     thread_path VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT now()
-
 )
 
 

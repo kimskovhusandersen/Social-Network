@@ -1,16 +1,14 @@
 import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { socket } from "./socket";
-
 import { getMessages } from "./actions";
-import RelativeTime from "./views/relative-time";
-import {
-    FindFriendsItemWrapper,
-    StyledFindFriendItem
-} from "./style/find-friends-item";
-import { ChatWrapper, StyledTextArea } from "./style/chat";
 
-const Messages = () => {
+// Views
+import MessageItem from "./views/message-item";
+// Style
+import { MessagesWrapper, StyledTextArea } from "./style/messages";
+
+const Messages = ({ threadId, profileId }) => {
     const dispatch = useDispatch();
     const messages = useSelector(state => state && state.messages);
     const chatWrapper = useRef();
@@ -23,43 +21,38 @@ const Messages = () => {
     };
 
     useEffect(() => {
-        dispatch(getMessages());
-    }, []);
+        dispatch(getMessages(threadId));
+        console.log("runing");
+    }, [threadId]);
 
-    // useEffect(() => {
-    //     let { clientHeight, scrollHeight } = chatWrapper.current;
-    //     chatWrapper.current.scrollTop = scrollHeight - clientHeight;
-    // }, [messages]);
+    useEffect(() => {
+        if (messages) {
+            let { clientHeight, scrollHeight } = chatWrapper.current;
+            chatWrapper.current.scrollTop = scrollHeight - clientHeight;
+        }
+    }, [messages]);
+
+    if (!messages) {
+        return null;
+    }
 
     return (
         <React.Fragment>
-            <FindFriendsItemWrapper first>
-                <div>
-                    <h1>I am the chat component</h1>
-                    <StyledTextArea
-                        placeholder="Type something.."
-                        onKeyUp={e => keyCheck(e)}
-                    ></StyledTextArea>
-                    <ChatWrapper ref={chatWrapper}>
-                        {!!messages &&
-                            messages.map(message => (
-                                <div key={message.id}>
-                                    <span>
-                                        {message.firstName}&nbsp;
-                                        {message.lastName}&nbsp;
-                                        {message.content}
-                                    </span>
-                                    <span>
-                                        <RelativeTime
-                                            timestamp={message.createdAt}
-                                        />
-                                        :&nbsp;
-                                    </span>
-                                </div>
-                            ))}
-                    </ChatWrapper>
-                </div>
-            </FindFriendsItemWrapper>
+            <MessagesWrapper ref={chatWrapper}>
+                {!!messages &&
+                    messages.map(message => (
+                        <MessageItem
+                            key={message.id}
+                            message={message}
+                            senderId={message.senderId}
+                            profileId={profileId}
+                        />
+                    ))}
+            </MessagesWrapper>
+            <StyledTextArea
+                placeholder="Type a message..."
+                onKeyUp={e => keyCheck(e)}
+            ></StyledTextArea>
         </React.Fragment>
     );
 };

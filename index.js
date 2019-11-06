@@ -15,10 +15,10 @@ const { SESSION_SECRET: sessionSecret } =
 
 const csurf = require("csurf");
 const authRouter = require("./routes-authentication");
-const messagesRouter = require("./routes-messages");
+const friendsRouter = require("./routes-friends");
 const profilesRouter = require("./routes-profiles");
 const photosRouter = require("./routes-photos");
-const friendsRouter = require("./routes-friends");
+const threadsRouter = require("./routes-threads");
 // Required to run React
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -56,10 +56,10 @@ app.use(function(req, res, next) {
 app.use(express.static("public"));
 // Routes
 app.use(authRouter);
-app.use(messagesRouter);
+app.use(friendsRouter);
 app.use(profilesRouter);
 app.use(photosRouter);
-app.use(friendsRouter);
+app.use(threadsRouter);
 
 app.get("/welcome", function(req, res) {
     if (req.session.profileId) {
@@ -80,16 +80,22 @@ app.get("*", function(req, res) {
 const onlineUsers = {};
 const threads = [];
 const participants = [];
+
 io.on("connection", async socket => {
     const { profileId } = socket.request.session;
     if (!profileId) {
         return socket.disconnect(true);
     }
     onlineUsers[socket.id] = profileId;
+
     console.log(
         `A socket with the id ${socket.id} just connected`,
         `and with the profileId ${profileId}`
     );
+
+    io.sockets.emit("addProfilesOnline", [
+        ...new Set(Object.values(onlineUsers))
+    ]);
 
     // const { data } = await db.getLastTenChatMessages();
     socket.on("addMessage", async (content, threadId) => {
@@ -105,6 +111,9 @@ io.on("connection", async socket => {
     socket.on("disconnect", () => {
         console.log(`A socket with the id ${socket.id} just disconnected`);
         delete onlineUsers[socket.id];
+        io.sockets.emit("addProfilesOnline", [
+            ...new Set(Object.values(onlineUsers))
+        ]);
     });
 });
 

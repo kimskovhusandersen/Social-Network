@@ -58,6 +58,16 @@ router.get("/api/recent-profiles", async (req, res) => {
     }
 });
 
+router.post("/api/profiles-online", async (req, res) => {
+    const { profilesOnlineIds } = req.body;
+    try {
+        let { rows } = await db.getProfilesOnline(profilesOnlineIds);
+        res.json(rows);
+    } catch (err) {
+        res.json(err);
+    }
+});
+
 // UPDATE
 router.post("/api/my-profile/edit", async (req, res) => {
     try {

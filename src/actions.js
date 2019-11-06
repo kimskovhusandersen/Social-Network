@@ -1,5 +1,6 @@
 import { useFetchData } from "./helpers";
 
+// Friends
 export const getFriends = async () => {
     let friends = await useFetchData("/api/friends");
     friends = friends && !Array.isArray(friends) ? [friends] : friends;
@@ -48,6 +49,7 @@ export const acceptFriendRequest = async id => {
     return !data ? null : action;
 };
 
+// Photos
 export const getPhotos = async () => {
     let photos = await useFetchData("/api/photos");
     photos = photos && !Array.isArray(photos) ? [photos] : photos;
@@ -57,9 +59,10 @@ export const getPhotos = async () => {
     };
 };
 
-export const getMessages = async () => {
-    let messages = await useFetchData(`/api/messages`);
-    console.log(messages);
+// Messages
+export const getMessages = async threadId => {
+    console.log("THREAD ID", threadId);
+    let messages = await useFetchData(`/api/threads/${threadId}/messages`);
     messages = messages && !Array.isArray(messages) ? [messages] : messages;
     return {
         type: "GET_MESSAGES",
@@ -70,6 +73,40 @@ export const getMessages = async () => {
 export const addMessage = async message => {
     return {
         type: "ADD_MESSAGES",
-        data: messages => [message, ...messages]
+        data: messages => [...messages, message]
+    };
+};
+
+// Profiles
+export const addProfilesOnline = async profilesOnlineIds => {
+    const profilesOnline = await useFetchData(`/api/profiles-online`, {
+        profilesOnlineIds
+    });
+    return {
+        type: "UPDATE_PROFILES_ONLINE",
+        data: values => {
+            return Array.isArray(values)
+                ? [profilesOnline, ...values]
+                : profilesOnline;
+        }
+    };
+};
+
+// Threads
+export const getThreads = async () => {
+    let threads = await useFetchData(`/api/threads`);
+    threads = threads && !Array.isArray(threads) ? [threads] : threads;
+    return {
+        type: "GET_THREADS",
+        data: threads || []
+    };
+};
+
+export const getThread = async threadId => {
+    let thread = await useFetchData(`/api/threads/${threadId}`);
+    thread = thread && !Array.isArray(thread) ? [thread] : thread;
+    return {
+        type: "GET_THREAD",
+        data: thread
     };
 };

@@ -88,13 +88,13 @@ export const useFetchData = async (url, values) => {
         (values && (await axios.post(url, values))) || (await axios.get(url));
     let result;
     if (data.name == "error") {
+        console.log(data);
         return;
     }
     if (data.length == 1) {
         result = kebabObjToCamel(data[0]);
     } else if (data.length > 1) {
         result = [];
-
         data.map(obj => result.push(kebabObjToCamel(obj)));
     }
     return result;
