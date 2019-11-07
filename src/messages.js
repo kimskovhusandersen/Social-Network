@@ -8,9 +8,11 @@ import MessageItem from "./views/message-item";
 // Style
 import { MessagesWrapper, StyledTextArea } from "./style/messages";
 
-const Messages = ({ threadId, profileId }) => {
+const Messages = ({ profileId }) => {
     const dispatch = useDispatch();
     const messages = useSelector(state => state && state.messages);
+    const selectedThread = useSelector(state => state && state.selectedThread);
+
     const chatWrapper = useRef();
     const keyCheck = e => {
         e.preventDefault();
@@ -21,9 +23,8 @@ const Messages = ({ threadId, profileId }) => {
     };
 
     useEffect(() => {
-        dispatch(getMessages(threadId));
-        console.log("runing");
-    }, [threadId]);
+        dispatch(getMessages(selectedThread));
+    }, [selectedThread]);
 
     useEffect(() => {
         if (messages) {

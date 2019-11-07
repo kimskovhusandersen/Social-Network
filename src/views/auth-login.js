@@ -1,5 +1,5 @@
 import React from "react";
-import { useStatefulFields, useAuthSubmit } from "./hooks";
+import { useStatefulFields, useAuthSubmit } from "../hooks";
 import { Link } from "react-router-dom";
 
 const AuthLogin = () => {

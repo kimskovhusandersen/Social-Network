@@ -83,6 +83,20 @@ router.get("/api/friends/:id", async (req, res) => {
     }
 });
 
+router.get(
+    "/api/profiles/:profileId/friends/search/:query",
+    async (req, res) => {
+        const { query, profileId } = req.params;
+        try {
+            const { rows } = await db.getFriendsBySearch(query, profileId);
+            res.json(rows);
+        } catch (err) {
+            console.log(err);
+            res.json(err);
+        }
+    }
+);
+
 // DELETE
 
 module.exports = router;

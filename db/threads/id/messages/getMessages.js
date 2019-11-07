@@ -12,7 +12,7 @@ if (process.env.DATABASE_URL) {
     );
 }
 
-const getMessages = async (threadId = 1) => {
+const getMessages = async threadId => {
     return db.query(
         `
         SELECT messages.id, messages.content, messages.sender_id, messages.thread_id, messages.created_at,

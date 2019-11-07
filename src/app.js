@@ -5,18 +5,19 @@ import { useFetchData } from "./helpers";
 import AuthLogout from "./views/auth-logout";
 import Footer from "./views/footer";
 import FindFriends from "./find-friends";
-import Friends from "./views/friends";
+import Header from "./views/header";
+import Hero from "./views/hero";
+import Friends from "./friends";
 import Page from "./views/page";
 import Photo from "./views/photo";
 import Photos from "./views/photos";
 import ProfilesOnlineCount from "./views/profiles-online-count";
 import ProfilesOnline from "./views/profiles-online";
-import Header from "./views/header";
-import Hero from "./views/hero";
 import Profile from "./views/profile";
-import Threads from "./threads";
+import SearchForFriends from "./views/search-for-friends";
 // controllers & other
 import AboutMeHandler from "./about-me-handler";
+import Chat from "./chat";
 import Messages from "./messages";
 import ProfileOther from "./profile-other";
 import ProfilePhotoHandler from "./profile-photo-handler";
@@ -203,6 +204,24 @@ export class App extends React.Component {
                         render={() => <Page content={<AuthLogout />} />}
                     />
                     <Route
+                        path="/messages"
+                        render={() => (
+                            <Page
+                                pageType="chat"
+                                content={
+                                    <Chat
+                                        profileId={profile.id}
+                                        profilesOnline={
+                                            <ProfilesOnline
+                                                profileId={profile.id}
+                                            />
+                                        }
+                                    />
+                                }
+                            />
+                        )}
+                    />
+                    <Route
                         path="/photo/:id"
                         render={props => (
                             <Photo
@@ -241,24 +260,6 @@ export class App extends React.Component {
                         )}
                     />
                     <Route
-                        path="/threads"
-                        render={() => (
-                            <Page
-                                pageType="chat"
-                                content={
-                                    <Threads
-                                        profileId={profile.id}
-                                        profilesOnline={
-                                            <ProfilesOnline
-                                                profileId={profile.id}
-                                            />
-                                        }
-                                    />
-                                }
-                            />
-                        )}
-                    />
-                    <Route
                         path="/user/:id"
                         render={props => (
                             <ProfileOther
@@ -269,7 +270,6 @@ export class App extends React.Component {
                             />
                         )}
                     />
-
                     <Footer>Copyright Kim Skovhus Andersen</Footer>
                 </BrowserRouter>
             </React.Fragment>

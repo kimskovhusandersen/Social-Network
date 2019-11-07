@@ -293,6 +293,28 @@ export const User = ({ title, color }) => {
     );
 };
 
+export const Users = ({ title, strokeWidth, color, width, height }) => {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            width={width || "24"}
+            height={height || "24"}
+            stroke={color || "black"}
+            strokeWidth={strokeWidth || "1"}
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="css-i6dzq1"
+        >
+            <title>{title}</title>
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+    );
+};
+
 export const X = ({ title, strokeWidth, color, width, height }) => {
     return (
         <svg

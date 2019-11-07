@@ -1,6 +1,34 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import axios from "./axios_csurf";
+import { useFetchData } from "./helpers";
+
+export const useStatefulSearch = profileId => {
+    const [fields, setFields] = useState({});
+    const handleSearchForFriends = ({ target }) => {
+        let ignore;
+        (async () => {
+            if (target.value != "") {
+                console.log("IN HOOK BEFORE DB", target.value);
+                ignore = false;
+                let data = await useFetchData(
+                    `/api/profiles/${profileId}/friends/search/${target.value}`
+                );
+                console.log("IN HOOK", data);
+                data = !Array.isArray(data) && data ? [data] : data;
+                if (!ignore && data) {
+                    setFields({
+                        ...fields,
+                        data: data
+                    });
+                }
+            }
+        })();
+        return () => {
+            ignore = true;
+        };
+    };
+    return [fields, handleSearchForFriends];
+};
 
 export const useStatefulFields = () => {
     const [fields, setFields] = useState({});

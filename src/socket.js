@@ -1,5 +1,5 @@
 import * as io from "socket.io-client";
-import { addMessage, addProfilesOnline } from "./actions";
+import { addMessage, addProfilesOnline, addThread } from "./actions";
 import { kebabObjToCamel } from "./helpers";
 
 export let socket;
@@ -15,6 +15,10 @@ export const init = store => {
 
         socket.on("addProfilesOnline", profileIds => {
             store.dispatch(addProfilesOnline(profileIds));
+        });
+
+        socket.on("addThread", thread => {
+            store.dispatch(addThread(thread));
         });
     }
 };

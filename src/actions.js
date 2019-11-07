@@ -61,7 +61,7 @@ export const getPhotos = async () => {
 
 // Messages
 export const getMessages = async threadId => {
-    console.log("THREAD ID", threadId);
+    console.log("getMessages INVOKED", threadId);
     let messages = await useFetchData(`/api/threads/${threadId}/messages`);
     messages = messages && !Array.isArray(messages) ? [messages] : messages;
     return {
@@ -93,6 +93,14 @@ export const addProfilesOnline = async profilesOnlineIds => {
 };
 
 // Threads
+
+export const addThread = async thread => {
+    return {
+        type: "ADD_THREADS",
+        data: threads => [thread, ...threads]
+    };
+};
+
 export const getThreads = async () => {
     let threads = await useFetchData(`/api/threads`);
     threads = threads && !Array.isArray(threads) ? [threads] : threads;
@@ -108,5 +116,13 @@ export const getThread = async threadId => {
     return {
         type: "GET_THREAD",
         data: thread
+    };
+};
+
+export const setSelectedThread = async threadId => {
+    console.log("setSelectedThread INVOKED", threadId);
+    return {
+        type: "SET_SELECTED_THREAD",
+        data: threadId
     };
 };

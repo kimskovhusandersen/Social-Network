@@ -15,17 +15,14 @@ if (process.env.DATABASE_URL) {
 const getParticipants = async threadId => {
     return db.query(
         `
-        SELECT messages.id, messages.content, messages.sender_id, messages.thread_id, messages.created_at,
-        profiles.first_name, profiles.last_name,
-            (SELECT messages.id FROM messages
-            ORDER BY id ASC
-            LIMIT 1)
-            AS lowest_id
-        FROM messages
+        SELECT participants.thread_id, participants.profile_id, participants.title, participants.thread_type, participants.thread_path, participants.created_at,
+        profiles.first_name, profiles.last_name
+        FROM participants
         LEFT JOIN profiles
-        ON messages.sender_id = profiles.id
-        WHERE thread_id = $1
-        ORDER BY id DESC;
+        ON participants.profile_id = profiles.id
+        WHERE thread_id = 1
+        AND participants.is_still_participant = TRUE
+        ORDER BY participants.id ASC;
     `,
         [threadId]
     );

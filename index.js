@@ -108,6 +108,11 @@ io.on("connection", async socket => {
         io.sockets.emit("addMessage", rows[0]);
     });
 
+    socket.on("addThread", async values => {
+        console.log("ADDING NEW THREAD IN INDEX");
+        // Make sure that the proper values are passed
+    });
+
     socket.on("disconnect", () => {
         console.log(`A socket with the id ${socket.id} just disconnected`);
         delete onlineUsers[socket.id];

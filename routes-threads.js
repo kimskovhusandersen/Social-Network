@@ -25,7 +25,7 @@ router.get("/api/threads/:id", async (req, res) => {
 });
 
 // READ Messages
-router.get("/api/threads/:id/messages", async (req, res) => {
+router.get("/api/threads/:threadId/messages", async (req, res) => {
     try {
         const { threadId } = req.params;
         const { rows } = await db.getMessages(threadId);

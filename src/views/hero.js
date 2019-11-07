@@ -40,7 +40,7 @@ const Hero = ({ profile, toggle, photos }) => {
                         <SecondaryNav>
                             <li>&nbsp;</li>
                             <li>
-                                <a href="/timeline">Timeline</a>
+                                <a href="/">Timeline</a>
                             </li>
                             <li>
                                 <a href="/about">About</a>
