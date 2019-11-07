@@ -110,6 +110,8 @@ export const StyledFriendsItem = styled.div`
     background-color: #fff;
 
     & > img {
+        width: 75px;
+        height: 75px;
         margin-right: 5px;
     }
     & > div:nth-child(2) {

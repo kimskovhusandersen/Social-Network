@@ -14,7 +14,6 @@ import Photos from "./views/photos";
 import ProfilesOnlineCount from "./views/profiles-online-count";
 import ProfilesOnline from "./views/profiles-online";
 import Profile from "./views/profile";
-import SearchForFriends from "./views/search-for-friends";
 // controllers & other
 import AboutMeHandler from "./about-me-handler";
 import Chat from "./chat";
@@ -195,7 +194,7 @@ export class App extends React.Component {
                                         }
                                     />
                                 }
-                                content={<Friends />}
+                                content={<Friends profileId={profile.id} />}
                             />
                         )}
                     />

@@ -3,9 +3,13 @@ import { useStatefulSearch } from "../hooks";
 import {} from "../style/theme";
 import {} from "../style/icons";
 
-const SearchForFriends = ({ profileId, callback }) => {
+const SearchForFriends = ({ profileId, callback, searchCategory }) => {
     console.log("PROFILE ID", profileId);
-    const [{ data }, handleSearchForFriends] = useStatefulSearch(profileId);
+
+    const [{ data }, handleSearchForFriends] = useStatefulSearch(
+        profileId,
+        searchCategory
+    );
     useEffect(() => {
         callback(data);
     }, [data]);

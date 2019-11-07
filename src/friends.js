@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { socket } from "./socket";
 import { getFriends } from "./actions";
@@ -10,8 +10,8 @@ import SearchForFriends from "./views/search-for-friends";
 import { FriendsItemWrapper } from "./style/friends";
 
 const Friends = ({ profileId }) => {
-    console.log(profileId);
     const dispatch = useDispatch();
+    const [friendsBySearch, setFriendsBySearch] = useState([]);
     const friendRequests = useSelector(
         state =>
             state &&
@@ -28,8 +28,9 @@ const Friends = ({ profileId }) => {
     const friendsWrapper = useRef();
 
     const handleSearch = result => {
-        console.log(result);
+        setFriendsBySearch(result);
     };
+
     useEffect(() => {
         dispatch(getFriends());
     }, []);
@@ -44,7 +45,6 @@ const Friends = ({ profileId }) => {
     if (!friends) {
         return null;
     }
-
     return (
         <React.Fragment>
             <FriendsPage
@@ -52,14 +52,26 @@ const Friends = ({ profileId }) => {
                     <SearchForFriends
                         profileId={profileId}
                         callback={values => handleSearch(values)}
+                        searchCategory={"friends"}
                     />
                 }
                 friends={
                     <FriendsItemWrapper ref={friendsWrapper}>
-                        {!!friends &&
-                            friends.map(friend => (
-                                <FriendsItem key={friend.id} friend={friend} />
-                            ))}
+                        {!friendsBySearch || !friendsBySearch.length
+                            ? !!friends &&
+                              friends.map(friend => (
+                                  <FriendsItem
+                                      key={friend.id}
+                                      friend={friend}
+                                  />
+                              ))
+                            : !!friendsBySearch &&
+                              friendsBySearch.map(friend => (
+                                  <FriendsItem
+                                      key={friend.id}
+                                      friend={friend}
+                                  />
+                              ))}
                     </FriendsItemWrapper>
                 }
                 friendRequests={

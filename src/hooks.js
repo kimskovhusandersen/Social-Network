@@ -2,25 +2,35 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { useFetchData } from "./helpers";
 
-export const useStatefulSearch = profileId => {
+export const useStatefulSearch = (profileId, searchCategory) => {
     const [fields, setFields] = useState({});
     const handleSearchForFriends = ({ target }) => {
         let ignore;
         (async () => {
+            let data;
             if (target.value != "") {
-                console.log("IN HOOK BEFORE DB", target.value);
                 ignore = false;
-                let data = await useFetchData(
-                    `/api/profiles/${profileId}/friends/search/${target.value}`
-                );
-                console.log("IN HOOK", data);
-                data = !Array.isArray(data) && data ? [data] : data;
-                if (!ignore && data) {
-                    setFields({
-                        ...fields,
-                        data: data
-                    });
+                if (searchCategory == "friends") {
+                    data = await useFetchData(
+                        `/api/profiles/${profileId}/friends/search/${target.value}`
+                    );
+                } else {
+                    data = await useFetchData(
+                        `/api/profiles/search/${target.value}`
+                    );
                 }
+                if (!data) {
+                    data = [""];
+                }
+            }
+            data = !data
+                ? []
+                : (data = !Array.isArray(data) && data ? [data] : data);
+            if (!ignore && data) {
+                setFields({
+                    ...fields,
+                    data: data
+                });
             }
         })();
         return () => {

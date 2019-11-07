@@ -8,7 +8,7 @@ const FriendsItem = ({ friend }) => {
     }
     return (
         <StyledFriendsItem>
-            <img src="https://picsum.photos/100/100" />
+            <img src={friend.url || "/default-avatar.jpg"} />
             <div>
                 <div>
                     <span>
