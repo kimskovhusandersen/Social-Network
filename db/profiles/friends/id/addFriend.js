@@ -16,8 +16,8 @@ if (process.env.DATABASE_URL) {
 
 const addFriend = async ({ senderId, receiverId }) => {
     return db.query(
-        `INSERT INTO friends (sender_id, receiver_Id, accepted) VALUES ($1, $2, $3) RETURNING *;`,
-        [senderId, receiverId, false]
+        `INSERT INTO friends (sender_id, receiver_Id, accepted) VALUES ($1, $2, FALSE) RETURNING *;`,
+        [senderId, receiverId]
     );
 };
 

@@ -1,14 +1,10 @@
 import React from "react";
-import { AboutMeHeader, AboutMeBody } from "../style/about-me";
-import { Edit2, Globe } from "../style/icons";
+import { AboutMeBody } from "../style/about-me";
+import { Edit2 } from "../style/icons";
 
 const AboutMe = ({ toggle, aboutMe, aboutMeForm }) => {
     return (
         <React.Fragment>
-            <AboutMeHeader>
-                <Globe />
-                <span>Intro</span>
-            </AboutMeHeader>
             <AboutMeBody>
                 <p>
                     {aboutMe

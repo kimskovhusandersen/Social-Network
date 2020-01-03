@@ -31,7 +31,7 @@ const getFriendsBySearch = async (query, profileId) => {
         FROM friends
         JOIN profiles
         ON (friends.accepted = true AND receiver_id = $2 AND sender_id = profiles.id)
-        OR (friends.accepted = true AND receiver_id = $2 AND sender_id = profiles.id)
+        OR (friends.accepted = true AND sender_id = $2 AND receiver_id = profiles.id)
         WHERE first_name ILIKE $1 OR last_name ILIKE $1 AND profiles.id <> $2
         ORDER BY profiles.id DESC
         LIMIT 10;`,

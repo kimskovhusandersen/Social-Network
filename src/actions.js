@@ -1,6 +1,7 @@
 import { useFetchData } from "./helpers";
 
 // Friends
+
 export const getFriends = async () => {
     let friends = await useFetchData("/api/friends");
     friends = friends && !Array.isArray(friends) ? [friends] : friends;
@@ -10,33 +11,22 @@ export const getFriends = async () => {
     };
 };
 
-export const makeFriendRequest = async id => {
-    const data = await useFetchData(`/api/friends/add`, {
-        receiverId: id
-    });
-    const action = {
+export const makeFriendRequest = async data => {
+    return {
         type: "ADD_FRIEND_REQUESTS",
         data
     };
-    return !data ? null : action;
 };
 
 export const deleteFriend = async id => {
-    const data = await useFetchData(`/api/friends/delete`, {
-        receiverId: id
-    });
-    const action = {
+    return {
         type: "FILTER_FRIENDS",
         data: friends => friends.filter(friend => friend.id != id && friend)
     };
-    return !data ? null : action;
 };
 
 export const acceptFriendRequest = async id => {
-    const data = await useFetchData(`/api/friends/accept`, {
-        senderId: id
-    });
-    const action = {
+    return {
         type: "FILTER_FRIENDS",
         data: friends =>
             friends.map(friend => {
@@ -46,7 +36,6 @@ export const acceptFriendRequest = async id => {
                 return friend;
             })
     };
-    return !data ? null : action;
 };
 
 // Photos
@@ -61,8 +50,9 @@ export const getPhotos = async () => {
 
 // Messages
 export const getMessages = async threadId => {
-    console.log("getMessages INVOKED", threadId);
+    console.log("GET MESSAGES IN ACTION", threadId);
     let messages = await useFetchData(`/api/threads/${threadId}/messages`);
+    console.log("IN ACTION", messages);
     messages = messages && !Array.isArray(messages) ? [messages] : messages;
     return {
         type: "GET_MESSAGES",
@@ -71,6 +61,7 @@ export const getMessages = async threadId => {
 };
 
 export const addMessage = async message => {
+    console.log("IN ACTIO", message);
     return {
         type: "ADD_MESSAGES",
         data: messages => [...messages, message]
@@ -120,7 +111,6 @@ export const getThread = async threadId => {
 };
 
 export const setSelectedThread = async threadId => {
-    console.log("setSelectedThread INVOKED", threadId);
     return {
         type: "SET_SELECTED_THREAD",
         data: threadId

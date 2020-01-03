@@ -9,7 +9,6 @@ const ChatPage = ({
     threads,
     toggleThreadForm
 }) => {
-    console.log("IN CHAT PAGE", isThreadFormVisible);
     return (
         <StyledChat>
             <ThreadsHeader>
@@ -26,6 +25,7 @@ const ChatPage = ({
                         <span>participant</span>
                     </div>
                 )}
+
                 {!!isThreadFormVisible && (
                     <div>
                         <a onClick={e => addThread(e, "hi")}>

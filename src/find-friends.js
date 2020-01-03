@@ -8,7 +8,6 @@ import FindFriendsItem from "./views/find-friends-item";
 // Style
 import { FindFriendsItemWrapper } from "./style/find-friends-item";
 import { SearchInput } from "./style/theme";
-import { Search as SearchIcon } from "./style/icons";
 
 const FindFriends = () => {
     const dispatch = useDispatch();
@@ -16,11 +15,6 @@ const FindFriends = () => {
         state =>
             state.friends &&
             state.friends.filter(profile => profile.accepted == false)
-    );
-    const friends = useSelector(
-        state =>
-            state.friends &&
-            state.friends.filter(profile => profile.accepted == true)
     );
 
     useEffect(() => {
@@ -51,7 +45,7 @@ const FindFriends = () => {
         };
     }, [userInput]);
 
-    if (!friends) {
+    if (!friendRequests) {
         return null;
     }
 
@@ -59,8 +53,8 @@ const FindFriends = () => {
         <React.Fragment>
             <FindFriendsItemWrapper first>
                 <span>
-                    {!friendRequests
-                        ? "No New Friend Requests</span>"
+                    {!friendRequests && !friendRequests.length
+                        ? "No New Friend Requests"
                         : "New friend requests"}
                 </span>
                 {friendRequests &&
@@ -80,14 +74,6 @@ const FindFriends = () => {
                 {profiles.map(profile => (
                     <FindFriendsItem key={profile.id} profile={profile} />
                 ))}
-            </FindFriendsItemWrapper>
-
-            <FindFriendsItemWrapper>
-                {!!friends.length && <span>Friends</span>}
-                {friends &&
-                    friends.map(friend => (
-                        <FindFriendsItem key={friend.id} profile={friend} />
-                    ))}
             </FindFriendsItemWrapper>
         </React.Fragment>
     );

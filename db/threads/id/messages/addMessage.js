@@ -13,25 +13,14 @@ if (process.env.DATABASE_URL) {
 }
 
 const addMessage = async ({ content, senderId, threadId }) => {
+    console.log("content, senderId, threadId", content, senderId, threadId);
+    console.log();
     return db.query(
         `
-        WITH insertedMessage AS(
             INSERT INTO messages
             (content, sender_id, thread_id)
-            VALUES ($1, $2, $3)
-            RETURNING *
-        )
-        SELECT insertedMessage.id, insertedMessage.content, insertedMessage.sender_id, insertedMessage.thread_id, insertedMessage.created_at,
-        profiles.first_name, profiles.last_name,
-            (SELECT messages.id
-            FROM messages
-            ORDER BY id ASC
-            LIMIT 1)
-            AS lowest_id
-        FROM insertedMessage
-        LEFT JOIN profiles
-        ON insertedMessage.sender_id = profiles.id
-        WHERE thread_id = insertedMessage.thread_id;`,
+            VALUES ($1, $2, $3);
+`,
         [content, senderId, threadId]
     );
 };

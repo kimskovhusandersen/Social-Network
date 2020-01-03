@@ -8,9 +8,8 @@ export const init = store => {
     if (!socket) {
         socket = io.connect();
 
-        socket.on("addMessage", messageObject => {
-            let formattedObj = kebabObjToCamel(messageObject);
-            store.dispatch(addMessage(formattedObj));
+        socket.on("addMessage", message => {
+            store.dispatch(addMessage(message));
         });
 
         socket.on("addProfilesOnline", profileIds => {

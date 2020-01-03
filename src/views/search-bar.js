@@ -4,13 +4,13 @@ import {} from "../style/theme";
 import {} from "../style/icons";
 
 const SearchForFriends = ({ profileId, callback, searchCategory }) => {
-    console.log("PROFILE ID", profileId);
-
     const [{ data }, handleSearchForFriends] = useStatefulSearch(
         profileId,
         searchCategory
     );
     useEffect(() => {
+        console.log(data);
+
         callback(data);
     }, [data]);
     return (
@@ -18,7 +18,7 @@ const SearchForFriends = ({ profileId, callback, searchCategory }) => {
             <input
                 onChange={handleSearchForFriends}
                 name="search"
-                placeholder="Search for friends..."
+                placeholder="Search..."
             />
         </React.Fragment>
     );

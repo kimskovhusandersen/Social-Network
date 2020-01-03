@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useFetchData } from "./helpers";
-
 import { useDispatch } from "react-redux";
 import {
     makeFriendRequest,
@@ -12,15 +11,17 @@ export const getBtnTxt = (
     { accepted, senderId, receiverId },
     otherProfileId
 ) => {
+    let text;
     if (accepted == true) {
-        return "Unfriend";
+        text = "Unfriend";
     } else if (accepted == null) {
-        return "Add friend";
+        text = "Add friend";
     } else if (accepted == false && otherProfileId == senderId) {
-        return "Accept request";
+        text = "Accept request";
     } else if (accepted == false && otherProfileId == receiverId) {
-        return "Cancel request";
+        text = "Cancel request";
     }
+    return text;
 };
 
 const FriendshipButton = ({ otherProfileId }) => {
@@ -31,31 +32,51 @@ const FriendshipButton = ({ otherProfileId }) => {
     const [btnTxt, setBtnTxt] = useState("Add friend");
 
     const handleClick = async () => {
-        // makeFriendRequest
-        accepted === null && dispatch(makeFriendRequest(otherProfileId));
-
+        let data;
         // deleteFriend
-        accepted == false &&
-            otherProfileId == receiverId &&
+        if (accepted == true) {
             dispatch(deleteFriend(otherProfileId));
-        accepted == true && dispatch(deleteFriend(otherProfileId));
-
+            data = await useFetchData(`/api/friends/delete`, {
+                receiverId: otherProfileId
+            });
+        }
+        // makeFriendRequest
+        else if (accepted === null) {
+            data = await useFetchData(`/api/friends/add`, {
+                receiverId: otherProfileId
+            });
+            dispatch(makeFriendRequest(data));
+        }
         //acceptFriendRequest
-        accepted == false &&
-            otherProfileId == senderId &&
+        else if (accepted == false && otherProfileId == senderId) {
+            data = await useFetchData(`/api/friends/accept`, {
+                senderId: otherProfileId
+            });
             dispatch(acceptFriendRequest(otherProfileId));
+        }
+        // delete  friend request
+        else if (accepted == false && otherProfileId == receiverId) {
+            dispatch(deleteFriend(otherProfileId));
+            data = await useFetchData(`/api/friends/delete`, {
+                receiverId: otherProfileId
+            });
+        }
 
-        // Get new frindship status
-        const data = await useFetchData(`/api/friends/${otherProfileId}`);
         // Update frindship status and button text
-        setBtnTxt(getBtnTxt(data, otherProfileId));
-        setAccepted(data.accepted);
+        if (data) {
+            (async () => {
+                await setBtnTxt(getBtnTxt(data, otherProfileId));
+                await setAccepted(data.accepted);
+                await setSenderId(data.senderId);
+                await setReceiverId(data.receiverId);
+            })();
+        }
     };
 
     useEffect(() => {
         (async () => {
             // Get initial friendship status
-            const data = await useFetchData(`/api/friends/${otherProfileId}`);
+            let data = await useFetchData(`/api/friends/${otherProfileId}`);
             if (data) {
                 setBtnTxt(getBtnTxt(data, otherProfileId));
                 setReceiverId(data.receiverId);
@@ -65,6 +86,9 @@ const FriendshipButton = ({ otherProfileId }) => {
         })();
     }, []);
 
+    if (!otherProfileId) {
+        return null;
+    }
     return (
         <React.Fragment>
             <a onClick={handleClick}>{btnTxt}</a>

@@ -88,7 +88,6 @@ export const useFetchData = async (url, values) => {
         (values && (await axios.post(url, values))) || (await axios.get(url));
     let result;
     if (data.name == "error") {
-        console.log(data);
         return;
     }
     if (data.length == 1) {

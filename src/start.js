@@ -16,6 +16,7 @@ const store = createStore(
 
 let elem;
 const isLoggedIn = location.pathname != "/welcome";
+
 if (!isLoggedIn) {
     elem = <Welcome />;
 } else {

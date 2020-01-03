@@ -4,19 +4,9 @@ const db = require("./db");
 
 // CREATE
 router.post("/api/friends/add", async (req, res) => {
-    // step1: get the socket object for the connection
-    // "io.sockets.sockets" contains an object, which key's are the socket IDs and the value is the socket object
-    // Send message: io.sockets.sockets[socketIdOfReceipient].emit("newFriendRequest")
-    // step2:
-    // ..
-    // step3:
-    // ..
-
     try {
         req.body.senderId = req.session.profileId;
         const { rows } = await db.addFriend(req.body);
-        console.log(rows);
-        console.log(rows);
         res.json(rows);
     } catch (err) {
         res.json(err);

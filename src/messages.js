@@ -12,12 +12,13 @@ const Messages = ({ profileId }) => {
     const dispatch = useDispatch();
     const messages = useSelector(state => state && state.messages);
     const selectedThread = useSelector(state => state && state.selectedThread);
-
+    console.log(messages, selectedThread);
     const chatWrapper = useRef();
     const keyCheck = e => {
         e.preventDefault();
         if (e.key == "Enter") {
-            socket.emit("addMessage", e.target.value, 1);
+            console.log("BEFORE INSERT OF MESSAGE", selectedThread);
+            socket.emit("addMessage", e.target.value, selectedThread);
             e.target.value = "";
         }
     };
@@ -43,7 +44,7 @@ const Messages = ({ profileId }) => {
                 {!!messages &&
                     messages.map(message => (
                         <MessageItem
-                            key={message.id}
+                            key={`${message.id}/${message.senderId}`}
                             message={message}
                             senderId={message.senderId}
                             profileId={profileId}

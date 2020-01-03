@@ -46,7 +46,10 @@ const FriendsPage = ({ friendRequests, friends, searchForFriends }) => {
                             <a>More</a>
                         </li>
                     </ul>
-                    <div>{searchForFriends}</div>
+                    <div>
+                        {searchForFriends}
+                        <Search />
+                    </div>
                 </div>
             </FriendsHeader>
             {friendRequests}

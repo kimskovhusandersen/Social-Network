@@ -15,10 +15,12 @@ if (process.env.DATABASE_URL) {
 const getThreads = async profileId => {
     return db.query(
         `
-        SELECT *
+        SELECT threads.id, threads.title, threads.owner_id, threads.created_at
         FROM threads
-        WHERE threads.owner_id = $1
-        ORDER BY id DESC;
+        LEFT JOIN participants
+        ON threads.id = participants.thread_id
+        WHERE participants.profile_id = $1
+        ORDER BY threads.id DESC;
     `,
         [profileId]
     );

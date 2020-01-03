@@ -1,8 +1,10 @@
 import React from "react";
-import AboutMeFormWithFormik from "./views/about-me-form";
-import { handleErrors } from "./error-handler";
 import { useFetchData, camelObjToKebab } from "./helpers";
+// Views
+import AboutMeForm from "./views/about-me-form";
 import AboutMe from "./views/about-me";
+import { AboutMeHeader } from "./style/about-me";
+import { Globe } from "./style/icons";
 
 class AboutMeHandler extends React.Component {
     constructor(props) {
@@ -18,10 +20,6 @@ class AboutMeHandler extends React.Component {
         this.props.toggle(null, ["isAboutMeFormVisible", "isAboutMeVisible"]);
     }
 
-    async handleErrors(err) {
-        handleErrors(err);
-    }
-
     render() {
         const {
             aboutMe,
@@ -31,15 +29,18 @@ class AboutMeHandler extends React.Component {
         } = this.props;
         return (
             <React.Fragment>
+                <AboutMeHeader>
+                    <Globe />
+                    <span>Intro</span>
+                </AboutMeHeader>
                 {isAboutMeVisible && (
                     <AboutMe aboutMe={aboutMe} toggle={toggle} />
                 )}
                 {isAboutMeFormVisible && (
-                    <AboutMeFormWithFormik
+                    <AboutMeForm
                         aboutMe={aboutMe}
                         toggle={toggle}
                         handleSubmit={values => this.handleSubmit(values)}
-                        handleErrors={errors => this.handleErrors(errors)}
                     />
                 )}
             </React.Fragment>

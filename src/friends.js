@@ -5,7 +5,7 @@ import { getFriends } from "./actions";
 
 import FriendsPage from "./views/friends-page";
 import FriendsItem from "./views/friends-item";
-import SearchForFriends from "./views/search-for-friends";
+import SearchBar from "./views/search-bar";
 // Style
 import { FriendsItemWrapper } from "./style/friends";
 
@@ -45,44 +45,50 @@ const Friends = ({ profileId }) => {
     if (!friends) {
         return null;
     }
+    console.log(friends);
     return (
         <React.Fragment>
-            <FriendsPage
-                searchForFriends={
-                    <SearchForFriends
-                        profileId={profileId}
-                        callback={values => handleSearch(values)}
-                        searchCategory={"friends"}
-                    />
-                }
-                friends={
-                    <FriendsItemWrapper ref={friendsWrapper}>
-                        {!friendsBySearch || !friendsBySearch.length
-                            ? !!friends &&
-                              friends.map(friend => (
-                                  <FriendsItem
-                                      key={friend.id}
-                                      friend={friend}
-                                  />
-                              ))
-                            : !!friendsBySearch &&
-                              friendsBySearch.map(friend => (
-                                  <FriendsItem
-                                      key={friend.id}
-                                      friend={friend}
-                                  />
-                              ))}
-                    </FriendsItemWrapper>
-                }
-                friendRequests={
-                    <FriendsItemWrapper ref={friendsWrapper}>
-                        {!!friendRequests &&
-                            friendRequests.map(friend => (
-                                <FriendsItem key={friend.id} friend={friend} />
-                            ))}
-                    </FriendsItemWrapper>
-                }
-            />
+            <div ref={friendsWrapper}>
+                <FriendsPage
+                    searchForFriends={
+                        <SearchBar
+                            profileId={profileId}
+                            callback={values => handleSearch(values)}
+                            searchCategory={"friends"}
+                        />
+                    }
+                    friends={
+                        <FriendsItemWrapper>
+                            {!friendsBySearch || !friendsBySearch.length
+                                ? !!friends &&
+                                  friends.map(friend => (
+                                      <FriendsItem
+                                          key={friend.id}
+                                          friend={friend}
+                                      />
+                                  ))
+                                : !!friendsBySearch &&
+                                  friendsBySearch.map(friend => (
+                                      <FriendsItem
+                                          key={friend.id}
+                                          friend={friend}
+                                      />
+                                  ))}
+                        </FriendsItemWrapper>
+                    }
+                    friendRequests={
+                        <FriendsItemWrapper ref={friendsWrapper}>
+                            {!!friendRequests &&
+                                friendRequests.map(friend => (
+                                    <FriendsItem
+                                        key={friend.id}
+                                        friend={friend}
+                                    />
+                                ))}
+                        </FriendsItemWrapper>
+                    }
+                />
+            </div>
         </React.Fragment>
     );
 };

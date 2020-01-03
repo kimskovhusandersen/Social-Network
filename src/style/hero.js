@@ -60,9 +60,10 @@ export const HeroName = styled.span`
     width: 200px;
     bottom: 0px;
     left: 190px;
-    border: none;
     object-fit: cover;
     z-index: 2;
+
+    border: none;
     color: white;
     font-size: 26px;
     font-weight: bold;

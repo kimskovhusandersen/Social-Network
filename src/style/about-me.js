@@ -1,4 +1,7 @@
 import styled, { css, createGlobalStyle } from "styled-components";
+
+let PAGE_WIDTH = 900;
+let TRANSLATE_PAGE = "-3%";
 const BORDER = "1px solid #ccc";
 
 export const AboutMeWrapper = styled.div`
@@ -15,6 +18,31 @@ export const AboutMeWrapper = styled.div`
         & > svg {
             margin-right: 5px;
         }
+    }
+
+    & > div input {
+        width: 100%;
+        line-height: 1.4em;
+        min-height: 50px;
+    }
+
+    & > div a {
+        cursor: pointer;
+        line-height: 1.4em;
+        padding: 3px 0;
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: ${BORDER};
+        background-color: #fefefe;
+        font-size: 12px;
+        font-weight: 600;
+        color: #444;
+    }
+
+    & > div a:hover {
+        background-color: #efefef;
     }
 `;
 

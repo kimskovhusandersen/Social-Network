@@ -19,6 +19,7 @@ const friendsRouter = require("./routes-friends");
 const profilesRouter = require("./routes-profiles");
 const photosRouter = require("./routes-photos");
 const threadsRouter = require("./routes-threads");
+
 // Required to run React
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -31,22 +32,19 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
+// Middleware
 app.use(compression());
 app.use(express.urlencoded({ extended: false }));
-
 const cookieSession = require("cookie-session");
 const cookieSessionMiddleware = cookieSession({
     secret: sessionSecret,
     maxAge: 1000 * 60 * 60 * 24 * 90
 });
-
 app.use(cookieSessionMiddleware);
 io.use((socket, next) => {
     cookieSessionMiddleware(socket.request, socket.request.res, next);
 });
-
 app.use(express.json());
-
 app.use(csurf()); // place after body-parsing (urlencoded) and cookieSession.
 app.use(function(req, res, next) {
     res.cookie("csrfToken", req.csrfToken());
@@ -61,6 +59,7 @@ app.use(profilesRouter);
 app.use(photosRouter);
 app.use(threadsRouter);
 
+// Routes
 app.get("/welcome", function(req, res) {
     if (req.session.profileId) {
         res.redirect("/");
@@ -77,10 +76,10 @@ app.get("*", function(req, res) {
     }
 });
 
+// Socket.io
 const onlineUsers = {};
 const threads = [];
 const participants = [];
-
 io.on("connection", async socket => {
     const { profileId } = socket.request.session;
     if (!profileId) {
@@ -104,12 +103,13 @@ io.on("connection", async socket => {
             content,
             threadId
         };
-        const { rows } = await db.addMessage(values);
-        io.sockets.emit("addMessage", rows[0]);
+        await db.addMessage(values);
+        io.sockets.emit("addMessage", values);
     });
 
     socket.on("addThread", async values => {
         console.log("ADDING NEW THREAD IN INDEX");
+
         // Make sure that the proper values are passed
     });
 

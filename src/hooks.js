@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { useFetchData } from "./helpers";
+import axios from "./axios_csurf";
 
 export const useStatefulSearch = (profileId, searchCategory) => {
     const [fields, setFields] = useState({});

@@ -3,12 +3,14 @@ import styled from "styled-components";
 let PAGE_WIDTH = 900;
 let TRANSLATE_PAGE = "-3%";
 const BORDER = "1px solid #ccc";
+
 const LIGHT_BLUE = "#0084ff";
 const DARK_BLUE = "#2851a3";
 const LIGHT_GREY = "#eee";
 const DARK_GREY = "#333";
 
 export const FriendsWrapper = styled.div`
+    min-height: 0px;
     width: 100%;
     height: 100%;
     border: ${BORDER};
@@ -93,7 +95,8 @@ export const FriendsHeader = styled.div`
 export const FriendsItemWrapper = styled.div`
     width: 100%;
     padding: 10px;
-
+    min-height: 0px;
+    height: 100%;
     display: grid;
     grid-template-columns: repeat(2, calc(50% - 5px));
     grid-gap: 10px;

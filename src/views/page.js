@@ -16,7 +16,6 @@ const Page = ({ hero, content, pageType }) => {
     } else {
         elem = (
             <React.Fragment>
-                (
                 {!hero ? (
                     <ProfilePageWrapper first>
                         <ProfileInnerPage>{content}</ProfileInnerPage>
@@ -29,7 +28,6 @@ const Page = ({ hero, content, pageType }) => {
                         </ProfilePageWrapper>
                     </React.Fragment>
                 )}
-                )
             </React.Fragment>
         );
     }

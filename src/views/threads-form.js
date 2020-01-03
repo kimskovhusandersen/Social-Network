@@ -7,7 +7,7 @@ const ThreadForm = () => {
     const [error, submit] = useAuthSubmit("/api/login", fields);
     return (
         <div>
-            <input onChange={handleChange} name="email" placeholder="Email" />
+            <input onChange={handleChange} name="title" placeholder="title" />
             <button onClick={submit}>submit</button>
         </div>
     );

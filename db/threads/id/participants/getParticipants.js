@@ -15,7 +15,7 @@ if (process.env.DATABASE_URL) {
 const getParticipants = async threadId => {
     return db.query(
         `
-        SELECT participants.thread_id, participants.profile_id, participants.title, participants.thread_type, participants.thread_path, participants.created_at,
+        SELECT participants.profile_id, participants.title, participants.thread_type, participants.thread_path, participants.created_at,
         profiles.first_name, profiles.last_name
         FROM participants
         LEFT JOIN profiles

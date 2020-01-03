@@ -11,6 +11,7 @@ import { ThreadsWrapper, MessagesWrapper } from "./style/chat";
 const Chat = ({ profileId, profilesOnline }) => {
     const dispatch = useDispatch();
     const threads = useSelector(state => state && state.threads);
+
     const selectedThread = useSelector(state => state && state.selectedThread);
     const [isThreadFormVisible, toggle] = useState(true);
     const selectThread = async (e, threadId) => {
@@ -37,6 +38,7 @@ const Chat = ({ profileId, profilesOnline }) => {
     if (!threads) {
         return null;
     }
+    console.log("IN CHAT", threads);
 
     return (
         <React.Fragment>
