@@ -1,7 +1,7 @@
 import React from "react";
 import { HashRouter, Route } from "react-router-dom";
-import AuthRegistration from "./views/auth-registration";
-import AuthLogin from "./views/auth-login";
+import AuthRegistration from "./components/auth-registration";
+import AuthLogin from "./components/auth-login";
 
 // Stateless Functional Component
 const Welcome = () => {

@@ -1,0 +1,11 @@
+.FindFriendsItemWrapper {
+    min-height: 0px;
+    padding: 10px;
+    display: block;
+    width: 75%;
+    margin-bottom: 10px;
+    background-color: #fff;
+    margin-left: 50px;
+    align-items: center;
+    justify-content: center;
+}

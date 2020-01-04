@@ -1,0 +1,19 @@
+.ProfilePageWrapper {
+    justify-content: center;
+    flex: auto;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.ProfileInnerPage {
+    min-height: 100vh;
+    margin-top: 2px;
+    width: 900px;
+}
+
+.ChatPageWrapper {
+    height: calc(100vh - 43px);
+    width: 100vw;
+    position: absolute;
+    top: 43px;
+}

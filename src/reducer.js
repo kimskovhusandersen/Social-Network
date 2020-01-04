@@ -1,6 +1,6 @@
 import { kebabToCamel, kebabObjToCamel } from "./helpers";
 
-export const reducer = (state = {}, action) => {
+const reducer = (state = {}, action) => {
     let { type, data, paths } = action;
     const [command, ...propArr] = type.split("_");
     if (command == "@@INIT") {
@@ -30,8 +30,8 @@ export const reducer = (state = {}, action) => {
                     prop == key
                         ? { ...state, [prop]: data }
                         : {
-                            ...state
-                        };
+                              ...state
+                          };
                 paths.shift();
                 mapState(state[key], prop, data, paths);
             }
@@ -41,3 +41,5 @@ export const reducer = (state = {}, action) => {
 
     return mapState(state, prop, data, paths);
 };
+
+export default reducer;

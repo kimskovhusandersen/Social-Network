@@ -21,7 +21,7 @@ export const useStatefulSearch = (profileId, searchCategory) => {
                     );
                 }
                 if (!data) {
-                    data = [""];
+                    data = [];
                 }
             }
             data = !data
@@ -30,7 +30,7 @@ export const useStatefulSearch = (profileId, searchCategory) => {
             if (!ignore && data) {
                 setFields({
                     ...fields,
-                    data: data
+                    data
                 });
             }
         })();
@@ -38,6 +38,7 @@ export const useStatefulSearch = (profileId, searchCategory) => {
             ignore = true;
         };
     };
+    console.log("fields", fields);
     return [fields, handleSearchForFriends];
 };
 

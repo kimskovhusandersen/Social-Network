@@ -1,0 +1,35 @@
+.SearchBar svg {
+    border-left: 1px solid #ccc;
+}
+
+.SearchBar {
+    border: none;
+}
+
+.SearchBar:focus {
+    outline: 0;
+}
+
+.SearchResultWrapper {
+    width: inherit;
+    position: absolute;
+    top: 36px;
+    z-index: 150;
+    background: #fefefe;
+    padding: 5px 0;
+}
+
+.SearchResultWrapper a {
+    display: block;
+    width: 100%;
+    padding: 7px 14px;
+    background: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    color: #111;
+    font-size: 0.9em;
+}
+
+.SearchResultWrapper a:hover {
+    background-color: #ccc;
+}

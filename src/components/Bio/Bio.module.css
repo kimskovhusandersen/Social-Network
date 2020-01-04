@@ -1,0 +1,28 @@
+.Bio {
+    align-self: center;
+    text-align: center;
+    line-height: 1.4em;
+    width: 100%;
+}
+
+.Bio span a, .Bio form button {
+    cursor: pointer;
+    padding: 3px 0;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    background-color: #fefefe;
+    font-size: 12px;
+    font-weight: 600;
+    color: #444;
+}
+
+.Bio span a:hover {
+    background-color: #efefef;
+}
+
+.Bio span a svg {
+    margin-left: 3px;
+}

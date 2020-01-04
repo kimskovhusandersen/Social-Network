@@ -1,27 +1,23 @@
-import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import React, { Fragment } from "react";
+import { Route, Switch } from "react-router-dom";
 import { useFetchData } from "./helpers";
-// views
-import AuthLogout from "./views/auth-logout";
-import Footer from "./views/footer";
-import FindFriends from "./find-friends";
-import Header from "./views/header";
-import Hero from "./views/hero";
-import Friends from "./friends";
-import Page from "./views/page";
-import Photo from "./views/photo";
-import Photos from "./views/photos";
-import ProfilesOnlineCount from "./views/profiles-online-count";
-import ProfilesOnline from "./views/profiles-online";
-import Profile from "./views/profile";
-// controllers & other
-import AboutMeHandler from "./about-me-handler";
-import Chat from "./chat";
-import Messages from "./messages";
-import ProfileOther from "./profile-other";
-import ProfilePhotoHandler from "./profile-photo-handler";
-// style
-import { GlobalStyle } from "./style/theme";
+
+// hoc
+import ProfileLayout from "./hoc/ProfileLayout/ProfileLayout";
+import ChatLayout from "./hoc/ChatLayout/ChatLayout";
+import TimeLineLayout from "./hoc/TimeLineLayout/TimeLineLayout";
+import FindFriendsLayout from "./hoc/FindFriendsLayout/FindFriendsLayout";
+
+// containers
+import BioHandler from "./containers/BioHandler/BioHandler.js";
+import ProfileBuilder from "./containers/ProfileBuilder/ProfileBuilder";
+import OtherProfileBuilder from "./containers/OtherProfileBuilder/OtherProfileBuilder";
+import FriendsBuilder from "./containers/FriendsBuilder/FriendsBuilder";
+
+// components
+import AuthLogout from "./components/auth-logout";
+import Toolbar from "./components/Toolbar/Toolbar";
+import Photo from "./components/photo";
 
 export class App extends React.Component {
     constructor() {
@@ -58,11 +54,14 @@ export class App extends React.Component {
             await useFetchData("/api/my-profile"),
             await useFetchData(`/api/my-profile-photo`)
         ];
-        photo &&
-            this.upsertState("photos", {
-                profilePhotoUrl: photo.url
+
+        if (photo && profile) {
+            this.setState({
+                ...this.state,
+                profilePhotoUrl: photo.url,
+                profile
             });
-        profile && this.upsertState("profile", profile);
+        }
     }
 
     async toggle(e, prop) {
@@ -93,185 +92,63 @@ export class App extends React.Component {
 
     render() {
         const {
+            profile,
+            photos,
             isAboutMeVisible,
             isAboutMeFormVisible,
-            isPhotoUploaderVisible,
-            photos,
-            profile
+            isPhotoUploaderVisible
         } = this.state;
-        if (profile.id === null) {
-            return null;
+
+        let toolbar,
+            profileLayout,
+            timeLineLayout,
+            chatLayout,
+            photoLayout,
+            authLayout;
+
+        if (profile && photos) {
+            toolbar = (
+                <Toolbar
+                    profile={profile}
+                    photos={photos}
+                    toggle={(e, prop) => this.toggle(e, prop)}
+                />
+            );
+            profileLayout = (
+                <ProfileLayout
+                    profile={profile}
+                    photos={photos}
+                    isAboutMeVisible={isAboutMeVisible}
+                    isAboutMeFormVisible={isAboutMeFormVisible}
+                    isPhotoUploaderVisible={isPhotoUploaderVisible}
+                    upsertState={(prop, newProps) =>
+                        this.upsertState(prop, newProps)
+                    }
+                    toggle={(e, prop) => this.toggle(e, prop)}
+                />
+            );
+            timeLineLayout = <TimeLineLayout />;
+            chatLayout = <ChatLayout profile={profile} />;
+            chatLayout = <Photo />;
         }
+
+        authLayout = <AuthLogout />;
+
         return (
-            <React.Fragment>
-                <BrowserRouter>
-                    <GlobalStyle />
-                    <Header
-                        profile={profile}
-                        photos={photos}
-                        toggle={(e, prop) => this.toggle(e, prop)}
-                    />
-                    <Route
-                        exact
-                        path="/"
-                        render={() => (
-                            <Page
-                                hero={
-                                    <Hero
-                                        profile={profile}
-                                        photos={photos}
-                                        toggle={(e, prop) =>
-                                            this.toggle(e, prop)
-                                        }
-                                    />
-                                }
-                                content={
-                                    <Profile
-                                        aboutMeHandler={
-                                            <AboutMeHandler
-                                                createdAt={profile.createdAt}
-                                                aboutMe={profile.aboutMe}
-                                                isAboutMeVisible={
-                                                    isAboutMeVisible
-                                                }
-                                                isAboutMeFormVisible={
-                                                    isAboutMeFormVisible
-                                                }
-                                                upsertState={(prop, newProps) =>
-                                                    this.upsertState(
-                                                        prop,
-                                                        newProps
-                                                    )
-                                                }
-                                                toggle={(e, prop) =>
-                                                    this.toggle(e, prop)
-                                                }
-                                            />
-                                        }
-                                        photoUploader={
-                                            isPhotoUploaderVisible && (
-                                                <ProfilePhotoHandler
-                                                    toggle={(e, prop) =>
-                                                        this.toggle(e, prop)
-                                                    }
-                                                    upsertState={(
-                                                        prop,
-                                                        newProps
-                                                    ) =>
-                                                        this.upsertState(
-                                                            prop,
-                                                            newProps
-                                                        )
-                                                    }
-                                                />
-                                            )
-                                        }
-                                        profile={profile}
-                                        photos={photos}
-                                    />
-                                }
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/messages"
-                        render={() => <Page content={<Messages />} />}
-                    />
-                    <Route
-                        path="/find-friends"
-                        render={() => <Page content={<FindFriends />} />}
-                    />
-                    <Route
-                        path="/friends"
-                        render={() => (
-                            <Page
-                                hero={
-                                    <Hero
-                                        photos={photos}
-                                        profile={profile}
-                                        toggle={(e, prop) =>
-                                            this.toggle(e, prop)
-                                        }
-                                    />
-                                }
-                                content={<Friends profileId={profile.id} />}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/logout"
-                        render={() => <Page content={<AuthLogout />} />}
-                    />
-                    <Route
-                        path="/messages"
-                        render={() => (
-                            <Page
-                                pageType="chat"
-                                content={
-                                    <Chat
-                                        profileId={profile.id}
-                                        profilesOnline={
-                                            <ProfilesOnline
-                                                profileId={profile.id}
-                                            />
-                                        }
-                                    />
-                                }
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/photo/:id"
-                        render={props => (
-                            <Photo
-                                profile={profile}
-                                key={props.match.url}
-                                match={props.match}
-                                history={props.history}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/photos"
-                        render={() => (
-                            <Page
-                                hero={
-                                    <Hero
-                                        photos={photos}
-                                        profile={profile}
-                                        toggle={(e, prop) =>
-                                            this.toggle(e, prop)
-                                        }
-                                    />
-                                }
-                                content={<Photos />}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/profiles-online"
-                        render={() => (
-                            <Page
-                                content={
-                                    <ProfilesOnline profileId={profile.id} />
-                                }
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/user/:id"
-                        render={props => (
-                            <ProfileOther
-                                profileId={profile.id}
-                                key={props.match.url}
-                                match={props.match}
-                                history={props.history}
-                            />
-                        )}
-                    />
-                    <Footer>Copyright Kim Skovhus Andersen</Footer>
-                </BrowserRouter>
-            </React.Fragment>
+            <Fragment>
+                {toolbar}
+                <Switch>
+                    <Route exact path="/" render={() => timeLineLayout} />
+                    <Route path="/profile" render={() => profileLayout} />
+                    <Route path="/user/:id" render={props => profileLayout} />
+                    <Route path="/friends" render={() => profileLayout} />
+                    <Route path="/photos" render={() => profileLayout} />
+                    <Route path="/photo/:id" render={props => photoLayout} />
+                    <Route path="/find-friends" component={FindFriendsLayout} />
+                    <Route path="/messages" render={() => chatLayout} />
+                    <Route path="/logout" render={() => authLayout} />
+                </Switch>
+            </Fragment>
         );
     }
 }

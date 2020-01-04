@@ -8,13 +8,16 @@
 -- \c testdb
 
 
--- DELETE TABLE
+-- DELETE TABLES, IF EXIST
 DROP TABLE IF EXISTS profiles CASCADE;
 DROP TABLE IF EXISTS photos;
+DROP TABLE IF EXISTS friends;
+DROP TABLE IF EXISTS threads CASCADE;
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS participants;
 
 
 -- CREATE TABLE
-
 CREATE TABLE profiles(
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE CHECK (email != ''),
@@ -44,39 +47,39 @@ CREATE TABLE profiles(
      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
  );
 
+ CREATE TABLE friends (
+     id SERIAL PRIMARY KEY,
+     sender_id INT NOT NULL REFERENCES profiles(id),
+     receiver_id INT NOT NULL REFERENCES profiles(id),
+     accepted BOOLEAN DEFAULT false,
+     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+ );
 
+ CREATE TABLE threads(
+     id SERIAL PRIMARY KEY,
+     title VARCHAR(255) NOT NULL,
+     owner_id INT NOT NULL UNIQUE REFERENCES profiles(id),
+     is_still_participant BOOLEAN,
+     thread_type VARCHAR(255) NOT NULL,
+     thread_path VARCHAR(255) NOT NULL,
+     created_at TIMESTAMP DEFAULT now()
+ );
 
--- POPULATE DATABASES
+ CREATE TABLE messages(
+     id SERIAL PRIMARY KEY,
+     content VARCHAR(255) NOT NULL,
+     sender_id INT NOT NULL REFERENCES profiles(id),
+     thread_id INT NOT NULL REFERENCES threads(id),
+     created_at TIMESTAMP DEFAULT now()
+  );
 
-INSERT INTO profiles (first_name, last_name, email, hashed_password, birthday_day, birthday_month, birthday_year, gender)
-VALUES ('John', 'Due', 'johndue@gmail.com', 'bruh', 1, 05, 1998, 'male');
-INSERT INTO profiles (first_name, last_name, email, hashed_password, birthday_day, birthday_month, birthday_year, gender)
-VALUES ('Tommy', 'Toe', 'tommytoe@gmail.com', 'holymoly', 22, 12, 2001, 'male');
-INSERT INTO profiles (first_name, last_name, email, hashed_password, birthday_day, birthday_month, birthday_year, gender)
-VALUES ('Sammy', 'Soe', 'sammysoe@hotmail.com', 'asldkjölkjasdf', 18, 04, 1988, 'female');
-
-
-INSERT INTO photos (caption, url, album, profile_id) VALUES (
-    'This photo brings back so many great memories.',
-    'https://s3.amazonaws.com/spicedling/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg',
-    'profile_photos',
-    1
-);
-
-INSERT INTO photos (caption, url, album, profile_id) VALUES (
-    'This photo brings back so many great memories.',
-    'https://s3.amazonaws.com/spicedling/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg',
-    'profile_photos',
-    2
-);
-
-INSERT INTO photos (caption, url, album, profile_id) VALUES (
-    'This photo brings back so many great memories.',
-    'https://s3.amazonaws.com/spicedling/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg',
-    'profile_photos',
-    3
-);
-
-
-SELECT * FROM profiles;
-SELECT * FROM photos;
+ CREATE TABLE participants(
+     id SERIAL PRIMARY KEY,
+     thread_id INT NOT NULL REFERENCES threads(id),
+     profile_id INT NOT NULL REFERENCES profiles(id),
+     title VARCHAR(255) NOT NULL,
+     is_still_participant BOOLEAN,
+     thread_type VARCHAR(255) NOT NULL,
+     thread_path VARCHAR(255) NOT NULL,
+     created_at TIMESTAMP DEFAULT now()
+ )

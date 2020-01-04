@@ -1,0 +1,15 @@
+.BioHeader {
+    padding-bottom: 10px;
+}
+
+.BioHeader svg {
+    margin-right: 5px;
+}
+
+.BioHeader span {
+    font-weight: 400;
+    text-decoration: none;
+    cursor: pointer;
+    color: #111;
+    display: inline-block;
+}

@@ -1,0 +1,41 @@
+.IntroWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.IntroWrapper p, .IntroWrapper div p {
+    font-size: 0.9em;
+    padding: 10px 0;
+    display: inline-flex;
+    align-items: center;
+}
+
+.IntroWrapper div p svg {
+    margin-right: 5px;
+}
+
+.IntroWrapper div input {
+    width: 100%;
+    line-height: 1.4em;
+    min-height: 50px;
+}
+
+.IntroWrapper div a {
+    cursor: pointer;
+    line-height: 1.4em;
+    padding: 3px 0;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    background-color: #fefefe;
+    font-size: 12px;
+    font-weight: 600;
+    color: #444;
+}
+
+.IntroWrapper div a:hover {
+    background-color: #efefef;
+}

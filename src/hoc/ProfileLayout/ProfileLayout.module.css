@@ -1,0 +1,12 @@
+.ProfilePageWrapper {
+    justify-content: center;
+    flex: auto;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.ProfileInnerPage {
+    min-height: 100vh;
+    margin-top: 2px;
+    width: 900px;
+}
