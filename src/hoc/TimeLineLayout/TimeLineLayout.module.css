@@ -1,0 +1,24 @@
+.MainContainer {
+    padding: 10px 0;
+    display: flex;
+    margin-top: 47px;
+    width: 100%;
+    align-items: center;
+    background-color: #E9EBEE;
+}
+
+.SideNavigation {
+    width: 180px;
+    border: 1px solid green;
+    margin-right: 10px;
+}
+
+.Stream {
+    width: 500px;
+    margin-right: 10px;
+}
+
+.RightColumn {
+    width: 300px;
+    border: 1px solid red;
+}

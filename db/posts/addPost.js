@@ -12,15 +12,13 @@ if (process.env.DATABASE_URL) {
     );
 }
 
-const getProfile = async id => {
+const addPost = ({ body, profileId }) => {
     return db.query(
         `
-        SELECT profiles.id, first_name, last_name, about_me, profiles.created_at
-        FROM profiles
-        WHERE profiles.id = $1;
+        INSERT INTO posts (body, profile_id) VALUES ($1, $2) RETURNING *;
         `,
-        [id]
+        [body, profileId]
     );
 };
 
-module.exports = getProfile;
+module.exports = addPost;

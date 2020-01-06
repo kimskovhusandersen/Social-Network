@@ -14,11 +14,17 @@ const { SESSION_SECRET: sessionSecret } =
         : require("./secrets.json");
 
 const csurf = require("csurf");
+app.use(function(req, res, next) {
+    console.log(req.url);
+    next();
+});
+
 const authRouter = require("./routes-authentication");
 const friendsRouter = require("./routes-friends");
 const profilesRouter = require("./routes-profiles");
 const photosRouter = require("./routes-photos");
 const threadsRouter = require("./routes-threads");
+const postsRouter = require("./routes-posts");
 
 // Required to run React
 if (process.env.NODE_ENV != "production") {
@@ -58,6 +64,7 @@ app.use(friendsRouter);
 app.use(profilesRouter);
 app.use(photosRouter);
 app.use(threadsRouter);
+app.use(postsRouter);
 
 // Routes
 app.get("/welcome", function(req, res) {
@@ -92,9 +99,9 @@ io.on("connection", async socket => {
         `and with the profileId ${profileId}`
     );
 
-    io.sockets.emit("addProfilesOnline", [
-        ...new Set(Object.values(onlineUsers))
-    ]);
+    // io.sockets.emit("addProfilesOnline", [
+    //     ...new Set(Object.values(onlineUsers))
+    // ]);
 
     // const { data } = await db.getLastTenChatMessages();
     socket.on("addMessage", async (content, threadId) => {
@@ -103,8 +110,8 @@ io.on("connection", async socket => {
             content,
             threadId
         };
-        await db.addMessage(values);
-        io.sockets.emit("addMessage", values);
+        // await db.addMessage(values);
+        // io.sockets.emit("addMessage", values);
     });
 
     socket.on("addThread", async values => {
@@ -116,9 +123,9 @@ io.on("connection", async socket => {
     socket.on("disconnect", () => {
         console.log(`A socket with the id ${socket.id} just disconnected`);
         delete onlineUsers[socket.id];
-        io.sockets.emit("addProfilesOnline", [
-            ...new Set(Object.values(onlineUsers))
-        ]);
+        // io.sockets.emit("addProfilesOnline", [
+        //     ...new Set(Object.values(onlineUsers))
+        // ]);
     });
 });
 

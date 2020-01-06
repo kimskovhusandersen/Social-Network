@@ -4,26 +4,107 @@ import { useFetchData } from "../../helpers";
 import Toolbar from "../../components/Toolbar/Toolbar";
 import Hero from "../../components/Hero/Hero.js";
 
+import axios from "../.:/../../axios_csurf.js";
+
 import Photos from "../../components/photos";
 import ProfileBuilder from "../../containers/ProfileBuilder/ProfileBuilder";
 import FriendsBuilder from "../../containers/FriendsBuilder/FriendsBuilder";
 import BioHandler from "../../containers/BioHandler/BioHandler";
-import ProfilePhotoHandler from "../../containers/profile-photo-handler";
+import ProfilePhotoHandler from "../../containers/ProfilePhotoHandler/ProfilePhotoHandler";
 import { GlobalStyle } from "../../style/theme";
 import classes from "./ProfileLayout.module.css";
 
 class ProfileLayout extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            profile: null,
+            photos: null,
+            isOtherProfile: false,
+            isPhotoUploaderVisible: true,
+            isBioVisible: true,
+            isBioEditVisible: true,
+            isBioFormVisible: false
+        };
     }
 
     async componentDidMount() {
         console.log("[ProfileLayout.js], componentDidMount");
-        if (this.props.profileId !== this.props.match.params.id) {
-            const data = await useFetchData(
-                `/api/profiles/${this.props.match.params.id}`
-            );
-            console.log("logging state", this.props);
+        if (this.props.match.url.split("/").includes("profile")) {
+            const [profile, photo] = [
+                await useFetchData("/api/my-profile"),
+                await useFetchData(`/api/my-profile-photo`)
+            ];
+
+            if (photo && profile) {
+                this.setState({
+                    ...this.state,
+                    profile,
+                    photos: {
+                        ...this.state.photos,
+                        profilePhotoUrl: photo.url
+                    },
+                    isOtherProfile: false,
+                    isPhotoUploaderVisible: true,
+                    isBioVisible: true,
+                    isBioEditVisible: true,
+                    isBioFormVisible: false
+                });
+            }
+        } else if (
+            !this.state.profile ||
+            (this.props.match.params.id &&
+                this.state.profile.id !== this.props.match.params.id)
+        ) {
+            const [profile, photo] = [
+                await useFetchData(
+                    `/api/profiles/${this.props.match.params.id}`
+                ),
+                await useFetchData(
+                    `/api/profile-photo/${this.props.match.params.id}`
+                )
+            ];
+
+            if (photo && profile) {
+                await this.setState({
+                    ...this.state,
+                    profile,
+                    photos: {
+                        profilePhotoUrl: photo.url
+                    },
+                    isOtherProfile: true,
+                    isPhotoUploaderVisible: false,
+                    isBioVisible: true,
+                    isBioEditVisible: false,
+                    isBioFormVisible: false
+                });
+            }
+        }
+    }
+
+    toggle(e, prop) {
+        if (Array.isArray(prop)) {
+            prop.forEach(p => {
+                this.setState(prevState => ({
+                    [p]: !prevState[p]
+                }));
+            });
+        } else {
+            this.setState(prevState => ({
+                [prop]: !prevState[prop]
+            }));
+        }
+    }
+    upsertState(prop, newProps) {
+        for (let [key, value] of Object.entries(newProps)) {
+            if (value != null) {
+                this.setState(prevState => ({
+                    [prop]: {
+                        ...prevState[prop],
+                        [key]: value
+                    }
+                }));
+            }
         }
     }
     componentDidUpdate() {
@@ -38,61 +119,60 @@ class ProfileLayout extends Component {
         let friendsBuilder = null;
         let photosBuilder = null;
 
-        if (this.props.profile && this.props.photos) {
+        if (this.state.profile && this.state.photos) {
+            let toggle = (e, prop) => this.toggle(e, prop);
+            if (this.state.isOtherProfile) {
+                toggle = () => null;
+            }
             hero = (
                 <Hero
-                    fullName={this.props.profile.firstName}
+                    fullName={this.state.profile.firstName}
                     numberOfFriends={"99"}
-                    profilePhotoUrl={this.props.photos.profilePhotoUrl}
-                    toggle={this.props.toggle}
+                    profilePhotoUrl={this.state.photos.profilePhotoUrl}
+                    toggle={toggle}
                 />
             );
-            console.log(hero);
             bioHandler = (
                 <BioHandler
-                    createdAt={this.props.profile.createdAt}
-                    aboutMe={this.props.profile.aboutMe}
-                    isAboutMeVisible={this.props.isAboutMeVisible}
-                    isAboutMeFormVisible={this.props.isAboutMeFormVisible}
-                    toggle={this.props.toggle}
-                    upsertState={this.props.upsertState}
+                    createdAt={this.state.profile.createdAt}
+                    bio={this.state.profile.aboutMe}
+                    isBioVisible={this.state.isBioVisible}
+                    isBioEditVisible={this.state.isBioEditVisible}
+                    isBioFormVisible={this.state.isBioFormVisible}
+                    upsertState={(prop, newProps) =>
+                        this.upsertState(prop, newProps)
+                    }
+                    toggle={toggle}
                 />
             );
             profilePhotoHandler = (
                 <ProfilePhotoHandler
-                    toggle={this.props.toggle}
-                    upsertState={this.upsertState}
+                    isPhotoUploaderVisible={this.state.isPhotoUploaderVisible}
+                    upsertState={(prop, newProps) =>
+                        this.upsertState(prop, newProps)
+                    }
+                    toggle={(e, prop) => this.toggle(e, prop)}
                 />
             );
             profileBuilder = (
                 <ProfileBuilder
                     bioHandler={bioHandler}
+                    isBioFormVisible={this.state.isBioFormVisible}
                     photoUploader={profilePhotoHandler}
-                    profile={this.props.profile}
-                    photos={this.props.photos}
+                    isPhotoUploaderVisible={this.state.isPhotoUploaderVisible}
+                    profile={this.state.profile}
+                    photos={this.state.photos}
                 />
             );
-        }
-
-        if (this.props.profile) {
-            friendsBuilder = (
-                <FriendsBuilder profileId={this.props.profile.id} />
-            );
-        }
-        if (this.props.photos) {
-            photosBuilder = <Photos />;
+            photosBuilder = <Photos profile={this.state.profile} />;
+            friendsBuilder = <FriendsBuilder profile={this.state.profile} />;
         }
 
         return (
             <Fragment>
                 <GlobalStyle />
                 <main>
-                    <Hero
-                        fullName={this.props.profile.firstName}
-                        numberOfFriends={"99"}
-                        profilePhotoUrl={this.props.photos.profilePhotoUrl}
-                        toggle={this.props.toggle}
-                    />
+                    {hero}
                     <div className={classes.ProfilePageWrapper}>
                         <div className={classes.ProfileInnerPage}>
                             <Route
@@ -105,11 +185,11 @@ class ProfileLayout extends Component {
                                 render={props => profileBuilder}
                             />
                             <Route
-                                path="/friends"
+                                path="/profile/friends"
                                 render={() => friendsBuilder}
                             />
                             <Route
-                                path="/photos"
+                                path="/profile/photos"
                                 render={() => photosBuilder}
                             />
                         </div>

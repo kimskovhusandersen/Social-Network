@@ -1,0 +1,35 @@
+.PostForm input,
+.PostForm textarea {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    font: inherit;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.PostForm button {
+    width: 100%;
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 2px;
+    background-color: #365899;
+    font: inherit;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.PostForm button:disabled {
+    background-color: rgba(66, 103, 178, .5);
+    cursor: default;
+}
+
+.PostForm button:active {
+    color: white;
+    background-color: #365899;
+}

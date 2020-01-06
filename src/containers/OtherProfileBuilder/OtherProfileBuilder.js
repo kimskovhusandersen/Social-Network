@@ -26,14 +26,14 @@ class OtherProfileBuilder extends React.Component {
                 hometown: "",
                 relationshipStatus: "",
                 interestedIn: "",
-                aboutMe: "This user hasn*",
+                bio: "This user hasn*",
                 favoriteQuotes: "",
                 url: "/default-avatar.jpg"
             },
             otherPhotos: {
                 profilePhotoUrl: ""
             },
-            isAboutMeVisible: true
+            isBioVisible: true
         };
     }
 
@@ -66,7 +66,7 @@ class OtherProfileBuilder extends React.Component {
     }
 
     render() {
-        const { otherProfile, otherPhotos, isAboutMeVisible } = this.state;
+        const { otherProfile, otherPhotos, isBioVisible } = this.state;
         if (!otherProfile) {
             return null;
         }
@@ -75,11 +75,11 @@ class OtherProfileBuilder extends React.Component {
                 <Page
                     content={
                         <ProfileBuilder
-                            aboutMeHandler={
+                            bioHandler={
                                 <BioHandler
                                     createdAt={otherProfile.createdAt}
-                                    aboutMe={otherProfile.aboutMe}
-                                    isAboutMeVisible={isAboutMeVisible}
+                                    bio={otherProfile.bio}
+                                    isBioVisible={isBioVisible}
                                 />
                             }
                             FriendshipButton={

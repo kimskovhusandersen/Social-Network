@@ -1,14 +1,17 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { socket } from "../../socket";
 import { getFriends } from "../../actions";
 
-import FriendsPage from "../../components/friends-page";
 import FriendsItem from "../../components/friends-item";
 import SearchBar from "../../components/Search/Search.js";
 // Style
-import { FriendsItemWrapper } from "../../style/friends";
-
+import {
+    FriendsItemWrapper,
+    FriendsWrapper,
+    FriendsHeader
+} from "../../style/friends";
+import { Search, Users } from "../../style/icons";
 import classes from "./FriendsBuilde.module.css";
 
 class FriendsBuilder extends Component {
@@ -47,7 +50,7 @@ class FriendsBuilder extends Component {
     }
 
     render() {
-        let friends = null;
+        let friends = [{ id: 1 }, { id: 2 }];
         let friendsBySearch = null;
         let friendRequests = null;
 
@@ -68,25 +71,57 @@ class FriendsBuilder extends Component {
             ));
         }
         return (
-            <FriendsPage
-                searchForFriends={
-                    <SearchBar
-                        profileId={this.props.profileId}
-                        callback={values => this.handleSearch(values)}
-                        searchCategory={"friends"}
-                    />
-                }
-                friends={
-                    <div className={classes.FriendsItemWrapper}>
-                        {friendsBySearch || friends}
+            <FriendsWrapper>
+                <FriendsHeader>
+                    <div>
+                        <span>
+                            <Users /> Friends
+                        </span>
+                        <span>
+                            <a href="/find-friends">Find Friends</a>
+                        </span>
                     </div>
-                }
-                friendRequests={
-                    <div className={classes.FriendsItemWrapper}>
-                        {friendRequests}
+                    <div>
+                        <ul>
+                            <li>
+                                <a>All Friends</a>
+                            </li>
+                            <li>
+                                <a>Birthdays</a>
+                            </li>
+                            <li>
+                                <a>Work</a>
+                            </li>
+                            <li>
+                                <a>University</a>
+                            </li>
+                            <li>
+                                <a>Current City</a>
+                            </li>
+                            <li>
+                                <a>Home Town</a>
+                            </li>
+                            <li>
+                                <a>More</a>
+                            </li>
+                        </ul>
+                        <div>
+                            <SearchBar
+                                profileId={this.props.profileId}
+                                callback={values => this.handleSearch(values)}
+                                searchCategory={"friends"}
+                            />
+                            <Search />
+                        </div>
                     </div>
-                }
-            />
+                </FriendsHeader>
+                <div className={classes.FriendsItemWrapper}>
+                    {friendRequests}
+                </div>
+                <div className={classes.FriendsItemWrapper}>
+                    {friendsBySearch || friends}
+                </div>
+            </FriendsWrapper>
         );
     }
 }

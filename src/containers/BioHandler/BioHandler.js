@@ -12,21 +12,25 @@ class BioHandler extends Component {
         values = camelObjToKebab(values);
         const data = await useFetchData(`api/my-profile/edit`, values);
         data && this.props.upsertState("profile", data);
-        this.props.toggle(null, ["isAboutMeFormVisible", "isAboutMeVisible"]);
+        this.props.toggle(null, ["isBioFormVisible", "isBioVisible"]);
     }
 
     render() {
         let bio = null;
         let bioForm = null;
-        if (this.props.aboutMe && this.props.isAboutMeVisible) {
+        if (this.props.bio && this.props.isBioVisible) {
             bio = (
-                <Bio aboutMe={this.props.aboutMe} toggle={this.props.toggle} />
+                <Bio
+                    bio={this.props.bio}
+                    toggle={this.props.toggle}
+                    isBioEditVisible={this.props.isBioEditVisible}
+                />
             );
         }
-        if (this.props.aboutMe && this.props.isAboutMeFormVisible) {
+        if (this.props.bio && this.props.isBioFormVisible) {
             bioForm = (
                 <BioForm
-                    aboutMe={this.props.aboutMe}
+                    bio={this.props.bio}
                     toggle={this.props.toggle}
                     handleSubmit={values => this.handleSubmit(values)}
                 />

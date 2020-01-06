@@ -40,13 +40,13 @@ const Hero = props => {
                             <a href="/">Timeline</a>
                         </li>
                         <li>
-                            <a href="/about">About</a>
+                            <a href="/profile/about">About</a>
                         </li>
                         <li>
-                            <a href="/friends">{numberOfFriends}</a>
+                            <a href="/profile/friends">{numberOfFriends}</a>
                         </li>
                         <li>
-                            <a href="/photos">Photos</a>
+                            <a href="/profile/photos">Photos</a>
                         </li>
                     </ul>
                 </nav>

@@ -1,7 +1,7 @@
 import React from "react";
-import PhotoFormWithFormik from "../components/photo-form";
-import { errorHandler } from "../error-handler";
-import { useFetchData } from "../helpers";
+import PhotoFormWithFormik from "../../components/photo-form";
+import { errorHandler } from "../../error-handler";
+import { useFetchData } from "../../helpers";
 
 class ProfilePhotoHandler extends React.Component {
     constructor() {
@@ -29,16 +29,17 @@ class ProfilePhotoHandler extends React.Component {
     }
 
     render() {
-        const { toggle } = this.props;
-        return (
-            <React.Fragment>
+        let photoForm = null;
+        if (this.props.isPhotoUploaderVisible) {
+            photoForm = (
                 <PhotoFormWithFormik
-                    toggle={toggle}
+                    toggle={this.props.toggle}
                     handleSubmit={values => this.handleSubmit(values)}
                     maxFileSize={this.maxFileSize}
                 />
-            </React.Fragment>
-        );
+            );
+        }
+        return photoForm;
     }
 }
 

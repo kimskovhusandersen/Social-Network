@@ -1,0 +1,22 @@
+.NewPost {
+    width: 100%;
+    /* box-shadow: 0 2px 3px #ccc; */
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: white;
+}
+
+.NewPost .PostHeader {
+    margin: 0;
+    padding: 0;
+    padding: 10px;
+    background-color: #F5F6F7;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.NewPost .PostBody {
+    padding: 10px;
+}

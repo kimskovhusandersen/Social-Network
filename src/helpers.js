@@ -86,13 +86,14 @@ export const optionsDay = () => {
 export const useFetchData = async (url, values) => {
     const { data } =
         (values && (await axios.post(url, values))) || (await axios.get(url));
-    let result;
     if (data.name == "error") {
+        console.log("[helpers.js] useFetchData", data);
         return;
     }
+    let result;
     if (data.length == 1) {
         result = kebabObjToCamel(data[0]);
-    } else if (data.length > 1) {
+    } else if (Array.isArray(data) && data.length > 1) {
         result = [];
         data.map(obj => result.push(kebabObjToCamel(obj)));
     }

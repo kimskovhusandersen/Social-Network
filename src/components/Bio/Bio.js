@@ -2,27 +2,30 @@ import React from "react";
 import { Edit2 } from "../../style/icons";
 import classes from "./Bio.module.css";
 
-const Bio = ({ toggle, aboutMe, aboutMeForm }) => {
+const Bio = props => {
+    let bio = "Add a short bio to tell people more about yourself.";
+    if (props.bio) {
+        bio = props.bio;
+    }
+    let edit = null;
+    if (props.isBioEditVisible) {
+        console.log("hi");
+        edit = (
+            <a
+                onClick={e =>
+                    props.toggle(e, ["isBioFormVisible", "isBioVisible"])
+                }
+            >
+                Edit <Edit2 height="16" width="16" />
+            </a>
+        );
+    }
+
     return (
         <div className={classes.Bio}>
-            <p>
-                {aboutMe
-                    ? aboutMe
-                    : "Add a short bio to tell people more about yourself."}
-            </p>
-            {toggle && (
-                <span
-                    onClick={e =>
-                        toggle(e, ["isAboutMeFormVisible", "isAboutMeVisible"])
-                    }
-                >
-                    <a>
-                        Edit <Edit2 height="16" width="16" />
-                    </a>
-                </span>
-            )}
-
-            {aboutMeForm}
+            <p>{bio}</p>
+            {edit}
+            {props.bioForm}
         </div>
     );
 };

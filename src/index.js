@@ -3,19 +3,25 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import Welcome from "./Welcome";
 
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
 import reducer from "./reducer";
-import reduxPromise from "redux-promise";
+import profileReducer from "./store/reducer/profile";
+// import reduxPromise from "redux-promise";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 import { init } from "./socket";
 
-const store = createStore(
+const combinedReducer = combineReducers({
     reducer,
-    composeEnhancers(applyMiddleware(reduxPromise))
+    profileReducer
+});
+
+const store = createStore(
+    combinedReducer,
+    composeEnhancers(applyMiddleware(thunk))
 );
 
 let app;

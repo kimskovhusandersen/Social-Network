@@ -11,6 +11,7 @@
 -- DELETE TABLES, IF EXIST
 DROP TABLE IF EXISTS profiles CASCADE;
 DROP TABLE IF EXISTS photos;
+DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS friends;
 DROP TABLE IF EXISTS threads CASCADE;
 DROP TABLE IF EXISTS messages;
@@ -43,6 +44,13 @@ CREATE TABLE profiles(
      caption VARCHAR(255),
      url VARCHAR(300) NOT NULL CHECK (url != ''),
      album VARCHAR(255) NOT NULL CHECK (album != ''),
+     profile_id INT NOT NULL REFERENCES profiles(id),
+     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+ );
+
+ CREATE TABLE posts(
+     id SERIAL PRIMARY KEY,
+     body TEXT,
      profile_id INT NOT NULL REFERENCES profiles(id),
      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
  );

@@ -13,6 +13,9 @@ class ProfileBuilder extends React.Component {
         super(props);
         this.state = {};
     }
+    componentDidMount() {
+        console.log("[ProfileBuilder.js] componentDidMount", this.props);
+    }
     render() {
         const { profile, photos } = this.props;
 
@@ -33,8 +36,8 @@ class ProfileBuilder extends React.Component {
             );
         }
 
-        if (this.props.photoUploader) {
-            photoUploader = this.props.photoUploader;
+        if (this.props.photoUploader && this.props.isPhotoUploaderVisible) {
+            photoUploader = <PageItem>{this.props.photoUploader}</PageItem>;
         }
         if (!profile) {
             return null;
@@ -63,7 +66,7 @@ class ProfileBuilder extends React.Component {
                 </div>
 
                 <div>
-                    <PageItem>{photoUploader}</PageItem>
+                    {photoUploader}
 
                     <PageItem>
                         Lorem Ipsum is simply dummy text of the printing and

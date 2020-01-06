@@ -1,7 +1,7 @@
 import React from "react";
 import { useStatefulFields, useAuthSubmit } from "../../../hooks";
 
-const BioForm = ({ aboutMe, handleSubmit }) => {
+const BioForm = ({ bio, handleSubmit }) => {
     const [fields, handleChange] = useStatefulFields();
     return (
         <React.Fragment>
