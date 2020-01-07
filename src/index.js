@@ -10,13 +10,19 @@ import { BrowserRouter } from "react-router-dom";
 
 import reducer from "./reducer";
 import profileReducer from "./store/reducer/profile";
+import photoReducer from "./store/reducer/photo";
+import postReducer from "./store/reducer/post";
+import friendReducer from "./store/reducer/friend";
 // import reduxPromise from "redux-promise";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 import { init } from "./socket";
 
 const combinedReducer = combineReducers({
     reducer,
-    profileReducer
+    profileReducer,
+    photoReducer,
+    postReducer,
+    friendReducer
 });
 
 const store = createStore(

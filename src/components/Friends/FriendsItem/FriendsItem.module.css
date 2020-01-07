@@ -1,17 +1,19 @@
-.FindFriendItem {
+.FriendsItem {
+    width: 100%;
+    border: 1px solid #ccc;
     display: flex;
     align-items: center;
-    flex-direction: row;
-    padding: 10px;
-    width: 100%;
-    border-top: 1px solid #ccc;
+    height: 100px;
+    margin-bottom: 10px;
+    padding-right: 10px;
+    justify-content: space-between;
 }
 
 .ProfilePhoto {
     display: block;
     border-radius: 1px;
-    width: 75px;
-    height: 75px;
+    height: 100%;
+    width: 100px;
     object-fit: cover;
     margin-right: 10px;
 }
@@ -21,14 +23,13 @@
     flex-direction: column;
     height: inherit;
     justify-content: center;
-    width: 60%;
+    width: 50%;
 }
 
 .Name {
     color: #365899;
     text-decoration: none;
     font-weight: 800;
-    margin-bottom: 5px;
 }
 
 .Name:hover {
@@ -37,4 +38,5 @@
 
 .MutualFriends {
     color: #606770;
+    font-size: 13px;
 }

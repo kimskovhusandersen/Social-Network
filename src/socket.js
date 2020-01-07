@@ -1,6 +1,6 @@
 import * as io from "socket.io-client";
-import { addMessage, addProfilesOnline, addThread } from "./actions";
-import { kebabObjToCamel } from "./helpers";
+
+import * as actions from "./store/actions";
 
 export let socket;
 
@@ -8,16 +8,15 @@ export const init = store => {
     if (!socket) {
         socket = io.connect();
 
-        socket.on("addMessage", message => {
-            store.dispatch(addMessage(message));
-        });
-
-        socket.on("addProfilesOnline", profileIds => {
-            store.dispatch(addProfilesOnline(profileIds));
-        });
-
-        socket.on("addThread", thread => {
-            store.dispatch(addThread(thread));
+        socket.on("makeFriendRequest", friend => {
+            this.props.makeFriendRequest();
         });
     }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onMakeFriendRequest: () => dispatch(actions.makeFriendRequest()),
+        onAddFriend: () => dispatch(actions.addFriend())
+    };
 };

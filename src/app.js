@@ -13,6 +13,7 @@ import ChatLayout from "./hoc/ChatLayout/ChatLayout";
 import FindFriendsLayout from "./hoc/FindFriendsLayout/FindFriendsLayout";
 import PhotoLayout from "./hoc/PhotoLayout/PhotoLayout";
 import AuthLayout from "./hoc/AuthLayout/AuthLayout";
+import { GlobalStyle } from "./style/theme";
 
 // components
 import Toolbar from "./components/Toolbar/Toolbar";
@@ -20,45 +21,24 @@ import Toolbar from "./components/Toolbar/Toolbar";
 export class App extends React.Component {
     constructor() {
         super();
-        this.state = {
-            profile: null,
-            photos: null
-        };
     }
 
     async componentDidMount() {
         this.props.onFetchProfile();
-        const [profile, photo] = [
-            await useFetchData("/api/my-profile"),
-            await useFetchData(`/api/my-profile-photo`)
-        ];
-
-        if (photo && profile) {
-            this.setState({
-                ...this.state,
-                photos: {
-                    ...this.state.photos,
-                    profilePhotoUrl: photo.url
-                },
-                profile
-            });
-        }
+        this.props.onFetchPhotos();
+        this.props.onFetchFriends();
     }
 
     render() {
         let toolbar = null;
 
-        if (this.state.profile && this.state.photos) {
-            toolbar = (
-                <Toolbar
-                    profile={this.state.profile}
-                    photos={this.state.photos}
-                />
-            );
+        if (this.props.profile) {
+            toolbar = <Toolbar profile={this.props.profile} />;
         }
 
         return (
             <Fragment>
+                <GlobalStyle />
                 {toolbar}
                 <Switch>
                     <Route exact path="/" component={TimeLineLayout} />
@@ -84,7 +64,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchProfile: () => dispatch(actions.fetchProfile())
+        onFetchProfile: () => dispatch(actions.fetchProfile()),
+        onFetchPhotos: () => dispatch(actions.fetchPhotos()),
+        onFetchFriends: () => dispatch(actions.fetchFriends())
     };
 };
 

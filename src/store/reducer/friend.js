@@ -2,37 +2,36 @@ import * as actionTypes from "../actions/actionTypes";
 import updateObject from "../utility";
 
 const initialState = {
-    posts: [],
+    friends: [],
     loading: false,
     error: false
 };
 
-const fetchPostsSuccess = (state, action) => {
+const fetchFriendsSuccess = (state, action) => {
     return updateObject(state, {
-        posts: action.posts,
+        friends: action.friends,
         loading: false,
         error: false
     });
 };
 
-const addPostSuccess = (state, action) => {
-    const newPost = updateObject(action.post, { id: action.id });
+const addFriendSuccess = (state, action) => {
+    const newFriend = updateObject(action.friend, { id: action.id });
     return updateObject(state, {
-        posts: [newPost, ...state.posts]
+        friends: [newFriend, ...state.friends]
     });
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.FETCH_POSTS_SUCCESS:
-            return fetchPostsSuccess(state, action);
-        case actionTypes.FETCH_POSTS_FAILED:
+        case actionTypes.FETCH_FRIENDS_SUCCESS:
+            return fetchFriendsSuccess(state, action);
+        case actionTypes.FETCH_FRIENDS_FAILED:
             return updateObject(state, { error: true, loading: false });
-        case actionTypes.ADD_POST_SUCCESS:
-            return addPostSuccess(state, action);
-        case actionTypes.ADD_POST_FAILED:
+        case actionTypes.ADD_FRIEND_SUCCESS:
+            return addFriendSuccess(state, action);
+        case actionTypes.ADD_FRIEND_FAILED:
             return updateObject(state, { error: true, loading: false });
-
         default:
             return state;
     }

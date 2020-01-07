@@ -5,7 +5,7 @@ import Navigation from "./Navigation/Navigation.js";
 import Logo from "../Logo/Logo.js";
 import classes from "./Toolbar.module.css";
 
-const Toolbar = ({ profile, photos }) => {
+const Toolbar = props => {
     return (
         <div className={classes.OuterToolbar}>
             <div className={classes.Toolbar}>
@@ -13,10 +13,10 @@ const Toolbar = ({ profile, photos }) => {
                     <Logo />
                 </div>
                 <div className={classes.SearchWrapper}>
-                    <SearchBar profileId={profile.id} />
+                    <SearchBar profileId={props.profile.id} />
                 </div>
                 <div className={classes.NavigationWrapper}>
-                    <Navigation photos={photos} profile={profile} />
+                    <Navigation photos={props.photos} profile={props.profile} />
                 </div>
             </div>
         </div>

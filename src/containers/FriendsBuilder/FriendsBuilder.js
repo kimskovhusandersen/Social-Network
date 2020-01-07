@@ -1,17 +1,16 @@
 import React, { Component, Fragment } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, connect } from "react-redux";
 import { socket } from "../../socket";
 import { getFriends } from "../../actions";
 
-import FriendsItem from "../../components/friends-item";
-import SearchBar from "../../components/Search/Search.js";
+import * as actions from "../../store/actions";
+
+import FriendsItem from "../../components/Friends/FriendsItem/FriendsItem.js";
+
+import FriendsNavigation from "../../components/Friends/FriendsNavigation/FriendsNavigation.js";
 // Style
-import {
-    FriendsItemWrapper,
-    FriendsWrapper,
-    FriendsHeader
-} from "../../style/friends";
-import { Search, Users } from "../../style/icons";
+import { FriendsItemWrapper, FriendsWrapper } from "../../style/friends";
+
 import classes from "./FriendsBuilde.module.css";
 
 class FriendsBuilder extends Component {
@@ -50,80 +49,47 @@ class FriendsBuilder extends Component {
     }
 
     render() {
-        let friends = [{ id: 1 }, { id: 2 }];
+        let friends = null;
         let friendsBySearch = null;
-        let friendRequests = null;
 
-        if (friends) {
-            friends = friends.map(friend => (
-                <FriendsItem key={friend.id} friend={friend} />
-            ));
+        if (this.props.friends) {
+            console.log(this.props.friends);
+            friends = this.props.friends.map(profile => {
+                console.log(profile);
+                return <FriendsItem key={profile.id} profile={profile} />;
+            });
         }
+
         if (friendsBySearch && friendsBySearch.length > 0) {
-            friendsBySearch = friendsBySearch.map(friend => (
-                <FriendsItem key={friend.id} friend={friend} />
-            ));
+            friendsBySearch = friendsBySearch.map(profile => {
+                console.log("hihih", profile);
+                return <FriendsItem key={profile.id} profile={profile} />;
+            });
         }
 
-        if (friendRequests) {
-            friendRequests = friendRequests.map(friend => (
-                <FriendsItem key={friend.id} friend={friend} />
-            ));
-        }
         return (
-            <FriendsWrapper>
-                <FriendsHeader>
-                    <div>
-                        <span>
-                            <Users /> Friends
-                        </span>
-                        <span>
-                            <a href="/find-friends">Find Friends</a>
-                        </span>
-                    </div>
-                    <div>
-                        <ul>
-                            <li>
-                                <a>All Friends</a>
-                            </li>
-                            <li>
-                                <a>Birthdays</a>
-                            </li>
-                            <li>
-                                <a>Work</a>
-                            </li>
-                            <li>
-                                <a>University</a>
-                            </li>
-                            <li>
-                                <a>Current City</a>
-                            </li>
-                            <li>
-                                <a>Home Town</a>
-                            </li>
-                            <li>
-                                <a>More</a>
-                            </li>
-                        </ul>
-                        <div>
-                            <SearchBar
-                                profileId={this.props.profileId}
-                                callback={values => this.handleSearch(values)}
-                                searchCategory={"friends"}
-                            />
-                            <Search />
-                        </div>
-                    </div>
-                </FriendsHeader>
-                <div className={classes.FriendsItemWrapper}>
-                    {friendRequests}
-                </div>
-                <div className={classes.FriendsItemWrapper}>
+            <div className={classes.FriendsBuilder}>
+                <FriendsNavigation
+                    profileId={this.props.profileId}
+                    handleSearch={values => this.handleSearch(values)}
+                />
+                <div className={classes.FriendsWrapper}>
                     {friendsBySearch || friends}
                 </div>
-            </FriendsWrapper>
+            </div>
         );
     }
 }
 
-export default FriendsBuilder;
+const mapStateToProps = state => {
+    return {
+        friends: state.friendReducer.friends
+    };
+};
+const mapDispatchToProps = display => {
+    return {
+        onFetchMostRecentProfiles: () =>
+            dispatch(actions.fetchMostRecentProfiles())
+    };
+};
+export default connect(mapStateToProps)(FriendsBuilder);

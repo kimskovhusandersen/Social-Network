@@ -1,11 +1,37 @@
-.FindFriendsItemWrapper {
-    min-height: 0px;
-    padding: 10px;
+.FindFriendsBuilder {
+    width: 700px;
+    margin: auto;
+    transform: translateX(-75px);
+}
+
+.FindFriendsSecionWrapper {
+    background-color: white;
     display: block;
-    width: 75%;
-    margin-bottom: 10px;
-    background-color: #fff;
-    margin-left: 50px;
-    align-items: center;
-    justify-content: center;
+    width: 100%;
+    background-color: white;
+    margin-bottom: 30px;
+    border: 1px solid #ccc;
+}
+
+.FindFriendsHeader {
+    color: #1C1E21;
+    font-weight: 600;
+    padding: 16px 12px;
+}
+
+.FindFriendsHeader h1 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.FindFriendsHeader a {
+    font-size: 12px;
+    color: #385898;
+    text-decoration: none;
+    font-weight: 200;
+    margin: 0;
+}
+
+.FindFriendsHeader a:hover {
+    text-decoration: underline;
 }

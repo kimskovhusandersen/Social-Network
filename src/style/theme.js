@@ -20,20 +20,20 @@ export const GlobalStyle = createGlobalStyle`
         margin: 0;
         height: 100%;
         min-height: 100%;
-        line-height: 1.2
+        line-height: 1.2;
+        background-color: #E9EBEE;
     }
 
     body {
         display: flex;
         flex-direction: column;
-        background: #ddd;
     }
     main {
         position: relative;
     }
 `;
 
-export const TimelineWrapper = styled.div`
+export const ProfileWrapper = styled.div`
     display: grid;
     max-width: 100%;
     min-height: 100px;
@@ -43,19 +43,12 @@ export const TimelineWrapper = styled.div`
     grid-auto-flow: row;
 `;
 
-export const FriendsPageWrapper = styled(TimelineWrapper)`
-    grid-template-columns: repeat(2, calc(50% - 5px));
-`;
-
-export const PageItem = styled.div`
+export const ProfilePageItem = styled.div`
     background: ghostwhite;
     border-radius: 2px;
-    border: ${BORDER}
+    border: 1px solid #ccc;
     padding: 5px;
     margin-bottom: 10px;
-    & > *{
-        max-width 100%;
-    }
 `;
 
 export const SearchWrapper = styled.div`
@@ -78,32 +71,6 @@ export const SearchInput = styled.input`
     &:focus {
     }
 `;
-
-export const SearchResult = styled.div`
-    position: absolute;
-    min-height: 0px;
-    width: 90%;
-    top: 34px;
-    left: 2px;
-    z-index: 1;
-`;
-
-export const SearchResultItem = styled.a`
-    display: block;
-    height: calc(100% / 10);
-    font-size: 14px;
-    text-decoration: none;
-    width: 100%;
-    padding: 5px;
-    cursor: pointer;
-
-    &:hover {
-    }
-
-    font-weight: ${props => (props.last ? "bold" : "normal")};
-`;
-
-// Images
 
 export const Photo = styled.img.attrs(({ src }) => ({
     src

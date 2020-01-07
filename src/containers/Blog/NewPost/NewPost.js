@@ -19,13 +19,6 @@ class NewPost extends Component {
         console.log(this.state);
     }
 
-    postDataHandler() {
-        const data = {
-            body: this.state.content
-        };
-        this.props.onCreatePost(data);
-    }
-
     render() {
         let newPost = null;
         if (this.props.profile) {
@@ -48,13 +41,4 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onCreatePost: post => dispatch(actions.createPost(post))
-    };
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(NewPost);
+export default connect(mapStateToProps)(NewPost);

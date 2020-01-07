@@ -12,21 +12,11 @@ if (process.env.DATABASE_URL) {
     );
 }
 
-const getPhotos = profileId => {
+const deleteFriend = async ({ senderId, receiverId }) => {
     return db.query(
-        `
-        SELECT *,
-            (SELECT id FROM images
-                ORDER BY id ASC
-                LIMIT 1)
-            AS lowest_id
-        FROM photos
-        WHERE profile_id = $1
-        ORDER BY id DESC
-        LIMIT 20;
-        `,
-        [profileId]
+        `DELETE FROM friends WHERE (sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1) RETURNING *;`,
+        [senderId, receiverId]
     );
 };
 
-module.exports = getPhotos;
+module.exports = deleteFriend;

@@ -13,7 +13,6 @@ if (process.env.DATABASE_URL) {
 }
 
 const getMostRecentProfiles = profileId => {
-    console.log("ID", profileId);
     return db.query(
         `
         SELECT profiles.id, first_name, last_name,
@@ -28,7 +27,8 @@ const getMostRecentProfiles = profileId => {
         FROM profiles
         WHERE profiles.id <> $1
         ORDER BY profiles.id DESC
-        LIMIT 3;`,
+        LIMIT 3;
+        `,
         [profileId]
     );
 };

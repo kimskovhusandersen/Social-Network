@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import FriendshipButtonBuilder from "../../containers/FriendshipButtonBuilder/FriendshipButtonBuilder";
-import ProfilePhoto from "../ProfilePhoto/ProfilePhoto";
-import classes from "./FindFriendsItem.module.css";
+import FriendshipButtonBuilder from "../../../containers/FriendshipButtonBuilder/FriendshipButtonBuilder";
+import ProfilePhoto from "../../ProfilePhoto/ProfilePhoto";
+import classes from "./FriendsItem.module.css";
 
-const FindFriendsItem = props => {
+const FriendsItem = props => {
     let friendshipButtonBuilder = null;
     if (props.profile) {
         friendshipButtonBuilder = (
@@ -13,7 +13,7 @@ const FindFriendsItem = props => {
     }
 
     return (
-        <div className={classes.FindFriendItem}>
+        <div className={classes.FriendsItem}>
             <Link
                 className={classes.ProfilePhoto}
                 to={`/user/${props.profile.id}`}
@@ -24,12 +24,10 @@ const FindFriendsItem = props => {
                 <Link className={classes.Name} to={`/user/${props.profile.id}`}>
                     {props.profile.first_name} {props.profile.last_Name}
                 </Link>
-                <span className={classes.MutualFriends}>
-                    Number of mutual friends
-                </span>
+                <span className={classes.MutualFriends}>Number of friends</span>
             </div>
-            <div>{friendshipButtonBuilder}</div>
+            {friendshipButtonBuilder}
         </div>
     );
 };
-export default FindFriendsItem;
+export default FriendsItem;

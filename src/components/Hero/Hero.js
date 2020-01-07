@@ -1,9 +1,14 @@
 import React from "react";
-
+import { connect } from "react-redux";
+import ProfilePhoto from "../ProfilePhoto/ProfilePhoto";
 import classes from "./Hero.module.css";
 
 const Hero = props => {
-    const heroImage = (
+    let profilePhoto = null;
+    let heroImage = null;
+    let numberOfFriends = "Friends";
+
+    heroImage = (
         <img
             className={classes.HeroImg}
             src="https://picsum.photos/1500/500"
@@ -11,16 +16,18 @@ const Hero = props => {
         />
     );
 
-    let heroProfilePhoto = (
-        <img
-            className={classes.HeroProfilePhoto}
-            onClick={e => props.toggle(e, "isPhotoUploaderVisible")}
-            src={props.profilePhotoUrl}
-            alt="profile-photo"
-        />
-    );
+    if (props.profilePhotoUrl) {
+        profilePhoto = (
+            <div className={classes.HeroProfilePhoto}>
+                <ProfilePhoto
+                    clicked={e => props.toggle(e, "isPhotoUploaderVisible")}
+                    src={props.profilePhotoUrl}
+                    alt="profile-photo"
+                />
+            </div>
+        );
+    }
 
-    let numberOfFriends = "Friends";
     if (props.numberOfFriends) {
         numberOfFriends = `Friends (${props.numberOfFriends})`;
     }
@@ -30,7 +37,7 @@ const Hero = props => {
             <div className={classes.TopSection}>
                 <div className={classes.HeroWrapper}>
                     {heroImage}
-                    {heroProfilePhoto}
+                    {profilePhoto}
                     <span className={classes.HeroName}>{props.fullName}</span>
                 </div>
                 <nav className={classes.SecondarySection}>
@@ -54,5 +61,9 @@ const Hero = props => {
         </div>
     );
 };
-
-export default Hero;
+const mapStateToProps = state => {
+    return {
+        profilePhotoUrl: state.photoReducer.profilePhotoUrl
+    };
+};
+export default connect(mapStateToProps)(Hero);

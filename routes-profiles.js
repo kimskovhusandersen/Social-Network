@@ -29,6 +29,7 @@ router.get("/api/my-profile", async (req, res) => {
     const { profileId: id } = req.session;
     try {
         let { rows } = await db.getProfile(id);
+
         res.json(rows);
     } catch (err) {
         res.json(err);

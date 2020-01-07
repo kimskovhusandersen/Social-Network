@@ -2,20 +2,17 @@ import React, { Component, Fragment } from "react";
 import FindFriendsBuilder from "../../containers/FindFriendsBuilder/FindFriendsBuilder";
 import classes from "./FindFriendsLayout.module.css";
 
-class HomeLayout extends Component {
+class FindFriendsLayout extends Component {
     render() {
         return (
-            <Fragment>
-                <main>
-                    <h1>Find Friends Layout</h1>
-                    <div className={classes.ProfilePageWrapper}>
-                        <div className={classes.ProfileInnerPage}>
-                            <FindFriendsBuilder />
-                        </div>
+            <main className={classes.FindFriendsLayout}>
+                <div className={classes.ProfilePageWrapper}>
+                    <div className={classes.ProfileInnerPage}>
+                        <FindFriendsBuilder />
                     </div>
-                </main>
-            </Fragment>
+                </div>
+            </main>
         );
     }
 }
-export default HomeLayout;
+export default FindFriendsLayout;

@@ -1,10 +1,15 @@
 import React from "react";
+import { connect } from "react-redux";
+import * as actions from "../../store/actions";
 
-import { TimelineWrapper, PageItem } from "../../style/theme";
+import { ProfileWrapper, ProfilePageItem } from "../../style/theme";
 
 import { Clock } from "../../style/icons";
 import RelativeTime from "../../components/relative-time";
-import PhotoCollage from "../../components/photo-collage";
+import PhotoCollage from "../../components/PhotoCollage/PhotoCollage";
+
+import NewPost from "../../containers/Blog/NewPost/NewPost";
+import Post from "../../components/Post/Post";
 
 import classes from "./ProfileBuilder.module.css";
 
@@ -15,6 +20,7 @@ class ProfileBuilder extends React.Component {
     }
     componentDidMount() {
         console.log("[ProfileBuilder.js] componentDidMount", this.props);
+        this.props.onFetchPosts();
     }
     render() {
         const { profile, photos } = this.props;
@@ -37,22 +43,31 @@ class ProfileBuilder extends React.Component {
         }
 
         if (this.props.photoUploader && this.props.isPhotoUploaderVisible) {
-            photoUploader = <PageItem>{this.props.photoUploader}</PageItem>;
+            photoUploader = (
+                <ProfilePageItem>{this.props.photoUploader}</ProfilePageItem>
+            );
         }
         if (!profile) {
             return null;
         }
 
+        let posts = null;
+        if (this.props.posts) {
+            posts = this.props.posts.map(post => {
+                return <Post key={"post" + post.id} post={post} />;
+            });
+        }
+
         return (
-            <TimelineWrapper>
+            <ProfileWrapper>
                 <div>
-                    <PageItem>
+                    <ProfilePageItem>
                         <div className={classes.IntroWrapper}>
                             {bioHandler}
                             {joined}
                         </div>
-                    </PageItem>
-                    <PageItem>
+                    </ProfilePageItem>
+                    <ProfilePageItem>
                         <div>
                             <span>
                                 <a>Photos</a>
@@ -62,29 +77,32 @@ class ProfileBuilder extends React.Component {
                             </span>
                         </div>
                         <PhotoCollage cols="3" />
-                    </PageItem>
+                    </ProfilePageItem>
                 </div>
 
                 <div>
                     {photoUploader}
-
-                    <PageItem>
-                        Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry. Lorem Ipsum has been the
-                        industry's standard dummy text ever since the 1500s,
-                        when an unknown printer took a galley of type and
-                        scrambled it to make a type specimen book. It has
-                        survived not only five centuries, but also the leap into
-                        electronic typesetting, remaining essentially unchanged.
-                        It was popularised in the 1960s with the release of
-                        Letraset sheets containing Lorem Ipsum passages, and
-                        more recently with desktop publishing software like
-                        Aldus PageMaker including versions of Lorem Ipsum.
-                    </PageItem>
+                    <NewPost />
+                    {posts}
                 </div>
-            </TimelineWrapper>
+            </ProfileWrapper>
         );
     }
 }
 
-export default ProfileBuilder;
+const mapStateToProps = state => {
+    return {
+        posts: state.postReducer.posts
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchPosts: () => dispatch(actions.fetchPosts())
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ProfileBuilder);

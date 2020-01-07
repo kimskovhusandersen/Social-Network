@@ -9,7 +9,6 @@ const Bio = props => {
     }
     let edit = null;
     if (props.isBioEditVisible) {
-        console.log("hi");
         edit = (
             <a
                 onClick={e =>

@@ -7,45 +7,39 @@ import Hero from "../../components/Hero/Hero.js";
 import axios from "../.:/../../axios_csurf.js";
 
 import Photos from "../../components/photos";
+import ProfilePhoto from "../../components/ProfilePhoto/ProfilePhoto";
 import ProfileBuilder from "../../containers/ProfileBuilder/ProfileBuilder";
 import FriendsBuilder from "../../containers/FriendsBuilder/FriendsBuilder";
 import BioHandler from "../../containers/BioHandler/BioHandler";
 import ProfilePhotoHandler from "../../containers/ProfilePhotoHandler/ProfilePhotoHandler";
-import { GlobalStyle } from "../../style/theme";
+
 import classes from "./ProfileLayout.module.css";
 
 class ProfileLayout extends Component {
     constructor(props) {
         super(props);
-        this.state = {
+        this.defaultState = {
             profile: null,
-            photos: null,
             isOtherProfile: false,
-            isPhotoUploaderVisible: true,
+            isPhotoUploaderVisible: false,
             isBioVisible: true,
             isBioEditVisible: true,
             isBioFormVisible: false
         };
+        this.state = this.defaultState;
     }
 
     async componentDidMount() {
         console.log("[ProfileLayout.js], componentDidMount");
         if (this.props.match.url.split("/").includes("profile")) {
-            const [profile, photo] = [
-                await useFetchData("/api/my-profile"),
-                await useFetchData(`/api/my-profile-photo`)
-            ];
+            const [profile] = [await useFetchData("/api/my-profile")];
 
-            if (photo && profile) {
+            if (profile) {
                 this.setState({
                     ...this.state,
                     profile,
-                    photos: {
-                        ...this.state.photos,
-                        profilePhotoUrl: photo.url
-                    },
                     isOtherProfile: false,
-                    isPhotoUploaderVisible: true,
+                    isPhotoUploaderVisible: false,
                     isBioVisible: true,
                     isBioEditVisible: true,
                     isBioFormVisible: false
@@ -56,22 +50,16 @@ class ProfileLayout extends Component {
             (this.props.match.params.id &&
                 this.state.profile.id !== this.props.match.params.id)
         ) {
-            const [profile, photo] = [
+            const [profile] = [
                 await useFetchData(
                     `/api/profiles/${this.props.match.params.id}`
-                ),
-                await useFetchData(
-                    `/api/profile-photo/${this.props.match.params.id}`
                 )
             ];
 
-            if (photo && profile) {
+            if (profile) {
                 await this.setState({
                     ...this.state,
                     profile,
-                    photos: {
-                        profilePhotoUrl: photo.url
-                    },
                     isOtherProfile: true,
                     isPhotoUploaderVisible: false,
                     isBioVisible: true,
@@ -119,7 +107,7 @@ class ProfileLayout extends Component {
         let friendsBuilder = null;
         let photosBuilder = null;
 
-        if (this.state.profile && this.state.photos) {
+        if (this.state.profile) {
             let toggle = (e, prop) => this.toggle(e, prop);
             if (this.state.isOtherProfile) {
                 toggle = () => null;
@@ -128,7 +116,6 @@ class ProfileLayout extends Component {
                 <Hero
                     fullName={this.state.profile.firstName}
                     numberOfFriends={"99"}
-                    profilePhotoUrl={this.state.photos.profilePhotoUrl}
                     toggle={toggle}
                 />
             );
@@ -161,7 +148,6 @@ class ProfileLayout extends Component {
                     photoUploader={profilePhotoHandler}
                     isPhotoUploaderVisible={this.state.isPhotoUploaderVisible}
                     profile={this.state.profile}
-                    photos={this.state.photos}
                 />
             );
             photosBuilder = <Photos profile={this.state.profile} />;
@@ -170,7 +156,6 @@ class ProfileLayout extends Component {
 
         return (
             <Fragment>
-                <GlobalStyle />
                 <main>
                     {hero}
                     <div className={classes.ProfilePageWrapper}>

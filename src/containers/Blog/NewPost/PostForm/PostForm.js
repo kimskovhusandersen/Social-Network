@@ -71,7 +71,7 @@ class PostForm extends Component {
         for (let key in this.state.postForm) {
             formData[key] = this.state.postForm[key].value;
         }
-        this.props.onCreatePost(formData);
+        this.props.onAddPost(formData);
         this.setState({
             ...this.defaultState
         });
@@ -83,7 +83,6 @@ class PostForm extends Component {
             name: key
         }));
 
-        console.log(formElementsArray);
         let form = (
             <form onSubmit={e => this.postHandler(e)}>
                 {formElementsArray.map(el => (
@@ -120,7 +119,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onCreatePost: post => dispatch(actions.createPost(post))
+        onAddPost: post => dispatch(actions.addPost(post))
     };
 };
 

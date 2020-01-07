@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require("./db");
 
 // CREATE
-router.post("/api/friends/add", async (req, res) => {
+router.post("/api/friends", async (req, res) => {
     try {
         req.body.senderId = req.session.profileId;
         const { rows } = await db.addFriend(req.body);
@@ -26,7 +26,7 @@ router.post("/api/friends/accept", async (req, res) => {
 router.post("/api/friends/delete", async (req, res) => {
     try {
         req.body.senderId = req.session.profileId;
-        await db.deleteFriend(req.body);
+        const { rows } = await db.deleteFriend(req.body);
         res.json([
             {
                 accepted: null,

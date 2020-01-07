@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, connect } from "react-redux";
+import { Link } from "react-router-dom";
+import * as actions from "../../store/actions";
 // Controllers
 import { getFriends } from "../../actions";
 import { useFetchData } from "../../helpers";
@@ -13,42 +15,22 @@ import classes from "./FindFriendsBuilder.module.css";
 class FindFriendsBuilder extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            profiles: null,
-            userInput: null
-        };
+        this.state = {};
     }
     componentDidMount() {
-        // const dispatch = useDispatch();
-        // dispatch(getFriends());
-        // const friendRequests = useSelector(
-        //     state =>
-        //         state.friends &&
-        //         state.friends.filter(profile => profile.accepted == false)
-        // );
-    }
-    async componentDidMount() {
-        let userInput;
-        if (userInput == "") {
-            const data = await useFetchData("/api/recent-profiles");
-            data && this.setProfiles(data);
-        } else {
-            let data = await useFetchData(`/api/profiles/search/${userInput}`);
-            data = !Array.isArray(data) && data ? [data] : data;
-            !!data && this.setProfiles(data);
-        }
+        this.props.onFetchMostRecentProfiles();
     }
 
-    setProfiles(data) {
-        console.log(data);
-    }
-    setUserInput(val) {
-        console.log(val);
-    }
     handleChange(e) {
         this.setUserInput(e.target.value);
     }
     render() {
+        let mostRecentProfiles = null;
+        if (this.props.mostRecentProfiles) {
+            mostRecentProfiles = this.props.mostRecentProfiles.map(profile => {
+                return <FindFriendsItem key={profile.id} profile={profile} />;
+            });
+        }
         let statusMessage = "No New Friend Requests";
         let friendRequests = null;
         let profiles = null;
@@ -60,31 +42,47 @@ class FindFriendsBuilder extends Component {
             ));
         }
 
-        if (this.state.profiles) {
-            <Fragment>
-                <span>People you may know</span>
-                profiles = profiles.map(profile => (
-                <FindFriendsItem key={profile.id} profile={profile} />
-                ));
-            </Fragment>;
-        }
         return (
-            <Fragment>
-                <div className={classes.FindFriendsItemWrapper}>
-                    <span>{statusMessage}</span>
+            <div className={classes.FindFriendsBuilder}>
+                <div className={classes.FindFriendsSecionWrapper}>
+                    <div className={classes.FindFriendsHeader}>
+                        <h1>{statusMessage}</h1>
+                        <Link to="/">view sent requests</Link>
+                    </div>
                     {friendRequests}
                 </div>
-                <div className={classes.FindFriendsItemWrapper}>
+
+                <div className={classes.FindFriendsSecionWrapper}>
+                    <div className={classes.FindFriendsHeader}>
+                        <h1>People you may know</h1>
+                    </div>
+                    {mostRecentProfiles}
+                </div>
+
+                <div className={classes.FindFriendsSecionWrapper}>
                     <SearchInput
                         type="text"
                         onChange={e => this.handleChange(e)}
                         placeholder="Search"
                     />
                 </div>
-                <div className={classes.FindFriendsItemWrapper}>{profiles}</div>
-            </Fragment>
+            </div>
         );
     }
 }
+const mapStateToProps = state => {
+    return {
+        mostRecentProfiles: state.profileReducer.mostRecentProfiles
+    };
+};
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchMostRecentProfiles: () =>
+            dispatch(actions.fetchMostRecentProfiles())
+    };
+};
 
-export default FindFriendsBuilder;
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(FindFriendsBuilder);

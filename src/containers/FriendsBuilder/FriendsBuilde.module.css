@@ -1,13 +1,12 @@
-.FriendsWrapper {
-    min-height: 0px;
-    width: 100%;
-    height: 100%;
+.FriendsBuilder {
     border: 1px solid #ccc;
+    min-height: 1px;
 }
 
-.FriendsItemWrapper {
-    min-height: 0px;
-    width: 100%;
-    height: 100%;
-    border: 1px solid #ccc;
+.FriendsWrapper {
+    background-color: white;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, calc(50% - 5px));
+    justify-content: space-between;
 }

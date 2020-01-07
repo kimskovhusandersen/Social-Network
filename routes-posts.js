@@ -15,4 +15,14 @@ router.post("/api/posts", async (req, res) => {
     }
 });
 
+router.get("/api/posts", async (req, res) => {
+    const { profileId } = req.session;
+    try {
+        let { rows } = await db.getPosts(profileId);
+        res.json(rows);
+    } catch (err) {
+        res.json(err);
+    }
+});
+
 module.exports = router;

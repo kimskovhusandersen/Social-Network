@@ -17,7 +17,7 @@ const RelativeTime = ({ timestamp }) => {
         })();
     }, [now]);
 
-    return <React.Fragment>{relativeTime}</React.Fragment>;
+    return relativeTime;
 };
 
 export default RelativeTime;
