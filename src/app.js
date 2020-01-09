@@ -27,6 +27,7 @@ export class App extends React.Component {
         this.props.onFetchProfile();
         this.props.onFetchPhotos();
         this.props.onFetchFriends();
+        this.props.onFetchFriendRequests();
     }
 
     render() {
@@ -67,7 +68,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchProfile: () => dispatch(actions.fetchProfile()),
         onFetchPhotos: () => dispatch(actions.fetchPhotos()),
-        onFetchFriends: () => dispatch(actions.fetchFriends())
+        onFetchFriends: () => dispatch(actions.fetchFriends()),
+        onFetchFriendRequests: () => dispatch(actions.fetchFriendRequests())
     };
 };
 

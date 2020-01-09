@@ -21,9 +21,36 @@ const fetchFriendsFailed = error => {
     };
 };
 
+const fetchFriendRequestsLoading = () => {
+    return {
+        type: actionTypes.FETCH_FRIEND_REQUESTS_LOADING
+    };
+};
+
+const fetchFriendRequestsSuccess = friendRequests => {
+    return {
+        type: actionTypes.FETCH_FRIENDS_REQUESTS_SUCCESS,
+        friendRequests
+    };
+};
+
+const fetchFriendRequestsFailed = error => {
+    return {
+        type: actionTypes.FETCH_FRIEND_REQUESTS_FAILED,
+        error
+    };
+};
+
 const addFriendLoading = () => {
     return {
         type: actionTypes.ADD_FRIEND_LOADING
+    };
+};
+const addFriendRequestSuccess = (id, friend) => {
+    return {
+        type: actionTypes.ADD_FRIEND_REQUEST_SUCCESS,
+        id,
+        friend
     };
 };
 const addFriendSuccess = (id, friend) => {
@@ -104,6 +131,21 @@ export const fetchFriends = () => {
     };
 };
 
+export const fetchFriendRequests = () => {
+    return dispatch => {
+        dispatch(fetchFriendRequestsLoading());
+        axios
+            .get("/api/friend-requests")
+            .then(({ data }) => {
+                dispatch(fetchFriendRequestsSuccess(data)); //data.name holds the id of the order
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(fetchFriendRequestsFailed(error));
+            });
+    };
+};
+
 export const addFriend = profileId => {
     return dispatch => {
         dispatch(addFriendLoading());
@@ -161,7 +203,7 @@ export const deleteFriend = profileId => {
 // Socket.io
 export const addFriendRequest = friend => {
     return dispatch => {
-        dispatch(addFriendSuccess(friend[0].id, friend[0]));
+        dispatch(addFriendRequestSuccess(friend[0].id, friend[0]));
         dispatch(updateMostRecentProfilesSuccess(friend[0].id, friend[0]));
     };
 };

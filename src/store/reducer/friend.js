@@ -3,6 +3,7 @@ import updateObject from "../utility";
 
 const initialState = {
     friends: [],
+    friendRequests: [],
     loading: false,
     error: false
 };
@@ -15,7 +16,16 @@ const fetchFriendsSuccess = (state, action) => {
     });
 };
 
+const fetchFriendRequestsSuccess = (state, action) => {
+    return updateObject(state, {
+        friendRequests: action.friendRequests,
+        loading: false,
+        error: false
+    });
+};
+
 const addFriendSuccess = (state, action) => {
+    console.log("reducer [friend.js] addFriendSuccess");
     const newFriend = updateObject(action.friend, { id: action.id });
     return updateObject(state, {
         friends: [newFriend, ...state.friends],
@@ -24,24 +34,38 @@ const addFriendSuccess = (state, action) => {
     });
 };
 
-const acceptFriendSuccess = (state, action) => {
-    let updatedFriend = action.friend;
-    let updatedFriends = state.friends.map(friend => {
-        return friend.id === updatedFriend.id ? updatedFriend : friend;
+const addFriendRequestSuccess = (state, action) => {
+    const newFriendRequest = updateObject(action.friend, { id: action.id });
+    return updateObject(state, {
+        friendRequests: [newFriendRequest, ...state.friendRequests],
+        loading: false,
+        error: false
     });
+};
+
+const acceptFriendSuccess = (state, action) => {
+    const updatedFriendRequests = state.friendRequests.filter(
+        friend => friend.id !== action.friend.id
+    );
+    const updatedFriends = [...state.friends, action.friend];
     return updateObject(state, {
         friends: updatedFriends,
+        friendRequests: updatedFriendRequests,
         loading: false,
         error: false
     });
 };
 
 const deleteFriendSuccess = (state, action) => {
-    let friends = state.friends.filter(
+    const updatedFriends = state.friends.filter(
+        friend => friend.id !== action.friend.id
+    );
+    const updatedFriendRequests = state.friendRequests.filter(
         friend => friend.id !== action.friend.id
     );
     return updateObject(state, {
-        friends,
+        friends: updatedFriends,
+        friendRequests: updatedFriendRequests,
         loading: false,
         error: false
     });
@@ -56,12 +80,22 @@ const reducer = (state = initialState, action) => {
         case actionTypes.FETCH_FRIENDS_FAILED:
             return updateObject(state, { error: true, loading: false });
 
+        case actionTypes.FETCH_FRIEND_REQUESTS_LOADING:
+            return updateObject(state, { loading: true });
+        case actionTypes.FETCH_FRIENDS_REQUESTS_SUCCESS:
+            return fetchFriendRequestsSuccess(state, action);
+        case actionTypes.FETCH_FRIEND_REQUESTS_FAILED:
+            return updateObject(state, { error: true, loading: false });
+
         case actionTypes.ADD_FRIEND_LOADING:
             return updateObject(state, { loading: true });
         case actionTypes.ADD_FRIEND_SUCCESS:
             return addFriendSuccess(state, action);
         case actionTypes.ADD_FRIEND_FAILED:
             return updateObject(state, { error: true, loading: false });
+
+        case actionTypes.ADD_FRIEND_REQUEST_SUCCESS:
+            return addFriendRequestSuccess(state, action);
 
         case actionTypes.ACCEPT_FRIEND_SUCCESS:
             return acceptFriendSuccess(state, action);

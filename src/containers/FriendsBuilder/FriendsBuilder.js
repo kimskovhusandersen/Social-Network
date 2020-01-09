@@ -48,10 +48,17 @@ class FriendsBuilder extends Component {
 
     render() {
         let friends = null;
+        let friendRequests = null;
         let friendsBySearch = null;
 
         if (this.props.friends) {
             friends = this.props.friends.map(profile => {
+                return <FriendsItem key={profile.id} profile={profile} />;
+            });
+        }
+
+        if (this.props.friendRequests) {
+            friendRequests = this.props.friendRequests.map(profile => {
                 return <FriendsItem key={profile.id} profile={profile} />;
             });
         }
@@ -68,6 +75,9 @@ class FriendsBuilder extends Component {
                     profileId={this.props.profileId}
                     handleSearch={values => this.handleSearch(values)}
                 />
+                <h1>Friend requests</h1>
+                <div className={classes.FriendsWrapper}>{friendRequests}</div>
+                <h1> Friends / friends by search</h1>
                 <div className={classes.FriendsWrapper}>
                     {friendsBySearch || friends}
                 </div>
@@ -78,7 +88,8 @@ class FriendsBuilder extends Component {
 
 const mapStateToProps = state => {
     return {
-        friends: state.friendReducer.friends
+        friends: state.friendReducer.friends,
+        friendRequests: state.friendReducer.friendRequests
     };
 };
 const mapDispatchToProps = display => {

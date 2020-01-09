@@ -30,8 +30,7 @@ const getFriends = async profileId => {
             AS url
         FROM friends
         JOIN profiles
-        ON (accepted = true AND receiver_id = $1 AND sender_id = profiles.id)
-        OR (accepted = true AND sender_id = $1 AND receiver_id = profiles.id);`,
+        ON (accepted = false AND receiver_id = $1 AND sender_id = profiles.id);`,
         [profileId]
     );
 };
