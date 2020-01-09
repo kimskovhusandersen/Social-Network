@@ -51,7 +51,6 @@ router.get("/api/photos", async (req, res) => {
     const { profileId } = req.session;
     try {
         let { rows } = await db.getPhotos(profileId);
-        console.log(rows);
         res.json(rows);
     } catch (err) {
         res.json(err);

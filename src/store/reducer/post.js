@@ -8,6 +8,7 @@ const initialState = {
 };
 
 const fetchPostsSuccess = (state, action) => {
+    console.log("fetchPostsSuccess", action.posts);
     return updateObject(state, {
         posts: action.posts,
         loading: false,
@@ -17,6 +18,7 @@ const fetchPostsSuccess = (state, action) => {
 
 const addPostSuccess = (state, action) => {
     const newPost = updateObject(action.post, { id: action.id });
+    console.log(newPost, state.posts);
     return updateObject(state, {
         posts: [newPost, ...state.posts]
     });

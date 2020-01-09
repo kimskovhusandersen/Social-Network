@@ -7,8 +7,9 @@ import classes from "./FriendsItem.module.css";
 const FriendsItem = props => {
     let friendshipButtonBuilder = null;
     if (props.profile) {
+        console.log(props.profile);
         friendshipButtonBuilder = (
-            <FriendshipButtonBuilder otherProfileId={props.profile.id} />
+            <FriendshipButtonBuilder profile={props.profile} />
         );
     }
 

@@ -5,6 +5,8 @@
     top: 0;
     background-color: #2851a3;
     z-index: 100;
+    display: flex;
+    align-items: center;
 }
 
 .Toolbar {
@@ -12,11 +14,16 @@
     width: 900px;
     margin: auto;
     display: flex;
-    border: 1px solid red;
+    justify-content: space-between;
+    height: 30px;
+    overflow: hidden;
 }
 
 .LogoWrapper, .SearchWrapper, .NavigationWrapper {
-    border: 1px solid lightblue;
     margin-right: 10px;
     display: flex;
+}
+
+.SearchWrapper {
+    flex-grow: 1;
 }

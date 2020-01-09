@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { getPhotos } from "../../actions";
 import StyledPhotoCollage from "./StyledPhotoCollage";
 
 const PhotoCollage = props => {

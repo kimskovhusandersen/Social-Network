@@ -15,16 +15,18 @@ if (process.env.DATABASE_URL) {
 const getMostRecentProfiles = profileId => {
     return db.query(
         `
-        SELECT profiles.id, first_name, last_name,
+        SELECT profiles.id, profiles.first_name, profiles.last_name, friends.accepted, friends.sender_id, friends.receiver_id,
             (SELECT photos.url
             FROM photos
             WHERE photos.profile_id = profiles.id
             AND photos.album = 'profile_photos'
-            AND profiles.id <> $1
             ORDER BY photos.id ASC
             LIMIT 1)
             AS url
         FROM profiles
+        LEFT JOIN friends
+        ON profiles.id = friends.sender_id
+        OR profiles.id = friends.receiver_id
         WHERE profiles.id <> $1
         ORDER BY profiles.id DESC
         LIMIT 3;

@@ -46,6 +46,7 @@ export class App extends React.Component {
                     <Route path="/user/:id" component={ProfileLayout} />
                     <Route path="/profile/friends" component={ProfileLayout} />
                     <Route path="/profile/photos" component={ProfileLayout} />
+                    <Route path="/profile/about" component={ProfileLayout} />
                     <Route path="/photo/:id" component={PhotoLayout} />
                     <Route path="/find-friends" component={FindFriendsLayout} />
                     <Route path="/messages" component={ChatLayout} />

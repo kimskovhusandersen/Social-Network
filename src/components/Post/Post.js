@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./Post.module.css";
 
-import RelativeTime from "../relative-time.js";
+import RelativeTime from "../UI/RelativeTime/RelativeTime";
 
 const Post = props => {
     let post = null;

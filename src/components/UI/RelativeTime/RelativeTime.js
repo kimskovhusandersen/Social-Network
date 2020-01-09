@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRelativeTime } from "../helpers";
+import { useRelativeTime } from "../../../helpers";
 
 const RelativeTime = ({ timestamp }) => {
     const [now, setNow] = useState(Date.now());

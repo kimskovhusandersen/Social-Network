@@ -5,7 +5,7 @@ const db = require("./db");
 // Socket.io
 const compression = require("compression");
 const server = require("http").Server(app);
-const io = require("socket.io")(server, { origins: "localhost:8080" }); // add " myherokuapp.herokuapp.com:*" to origins when deploying
+const io = require("./socket").init(server, { origins: "localhost:8080" });
 
 // middleware
 const { SESSION_SECRET: sessionSecret } =
@@ -58,6 +58,31 @@ app.use(function(req, res, next) {
 });
 
 app.use(express.static("public"));
+
+// Socket.io
+const onlineUsers = {};
+
+exports.onlineUsers = onlineUsers;
+
+const onConnect = socket => {
+    const { profileId } = socket.request.session;
+    if (!profileId) {
+        return socket.disconnect(true);
+    }
+    onlineUsers[socket.id] = profileId;
+    socket.join(profileId);
+
+    console.log(
+        `A socket with the socket ID ${socket.id} and profile ID ${profileId} just connected`
+    );
+
+    socket.on("disconnect", () => {
+        console.log(`A socket with the id ${socket.id} just disconnected`);
+        delete onlineUsers[socket.id];
+    });
+};
+io.on("connection", onConnect);
+
 // Routes
 app.use(authRouter);
 app.use(friendsRouter);
@@ -81,52 +106,6 @@ app.get("*", function(req, res) {
     } else {
         res.sendFile(__dirname + "/index.html");
     }
-});
-
-// Socket.io
-const onlineUsers = {};
-const threads = [];
-const participants = [];
-io.on("connection", async socket => {
-    const { profileId } = socket.request.session;
-    if (!profileId) {
-        return socket.disconnect(true);
-    }
-    onlineUsers[socket.id] = profileId;
-
-    console.log(
-        `A socket with the id ${socket.id} just connected`,
-        `and with the profileId ${profileId}`
-    );
-
-    // io.sockets.emit("addProfilesOnline", [
-    //     ...new Set(Object.values(onlineUsers))
-    // ]);
-
-    // const { data } = await db.getLastTenChatMessages();
-    socket.on("addMessage", async (content, threadId) => {
-        let values = {
-            senderId: profileId,
-            content,
-            threadId
-        };
-        // await db.addMessage(values);
-        // io.sockets.emit("addMessage", values);
-    });
-
-    socket.on("addThread", async values => {
-        console.log("ADDING NEW THREAD IN INDEX");
-
-        // Make sure that the proper values are passed
-    });
-
-    socket.on("disconnect", () => {
-        console.log(`A socket with the id ${socket.id} just disconnected`);
-        delete onlineUsers[socket.id];
-        // io.sockets.emit("addProfilesOnline", [
-        //     ...new Set(Object.values(onlineUsers))
-        // ]);
-    });
 });
 
 if (require.main === module) {

@@ -6,7 +6,6 @@ router.post("/api/posts", async (req, res) => {
     try {
         req.body.profileId = req.session.profileId;
         const { rows } = await db.addPost(req.body);
-        console.log(rows);
         if (rows) {
             res.json(rows);
         }

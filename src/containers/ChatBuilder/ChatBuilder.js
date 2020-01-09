@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { socket } from "../../socket";
-import { getThreads, setSelectedThread } from "../../actions";
+
 import Messages from "../messages";
 
 import ChatPage from "../../components/chat-page";

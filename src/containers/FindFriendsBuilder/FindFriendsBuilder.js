@@ -2,12 +2,8 @@ import React, { Component, Fragment } from "react";
 import { useDispatch, useSelector, connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as actions from "../../store/actions";
-// Controllers
-import { getFriends } from "../../actions";
 import { useFetchData } from "../../helpers";
-// Views
 import FindFriendsItem from "../../components/FindFriendsItem/FindFriendsItem";
-
 import { SearchInput } from "../../style/theme";
 
 import classes from "./FindFriendsBuilder.module.css";

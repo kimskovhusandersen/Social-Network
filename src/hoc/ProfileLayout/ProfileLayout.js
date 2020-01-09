@@ -6,10 +6,11 @@ import Hero from "../../components/Hero/Hero.js";
 
 import axios from "../.:/../../axios_csurf.js";
 
-import Photos from "../../components/photos";
 import ProfilePhoto from "../../components/ProfilePhoto/ProfilePhoto";
 import ProfileBuilder from "../../containers/ProfileBuilder/ProfileBuilder";
+import PhotoBuilder from "../../containers/PhotoBuilder/PhotoBuilder";
 import FriendsBuilder from "../../containers/FriendsBuilder/FriendsBuilder";
+import AboutBuilder from "../../containers/AboutBuilder/AboutBuilder";
 import BioHandler from "../../containers/BioHandler/BioHandler";
 import ProfilePhotoHandler from "../../containers/ProfilePhotoHandler/ProfilePhotoHandler";
 
@@ -63,7 +64,7 @@ class ProfileLayout extends Component {
                     isOtherProfile: true,
                     isPhotoUploaderVisible: false,
                     isBioVisible: true,
-                    isBioEditVisible: false,
+                    isBioEditVisible: true,
                     isBioFormVisible: false
                 });
             }
@@ -106,6 +107,7 @@ class ProfileLayout extends Component {
         let profileBuilder = null;
         let friendsBuilder = null;
         let photosBuilder = null;
+        let aboutBuilder = null;
 
         if (this.state.profile) {
             let toggle = (e, prop) => this.toggle(e, prop);
@@ -150,7 +152,9 @@ class ProfileLayout extends Component {
                     profile={this.state.profile}
                 />
             );
-            photosBuilder = <Photos profile={this.state.profile} />;
+
+            aboutBuilder = <AboutBuilder profile={this.state.profile} />;
+            photosBuilder = <PhotoBuilder profile={this.state.profile} />;
             friendsBuilder = <FriendsBuilder profile={this.state.profile} />;
         }
 
@@ -176,6 +180,10 @@ class ProfileLayout extends Component {
                             <Route
                                 path="/profile/photos"
                                 render={() => photosBuilder}
+                            />
+                            <Route
+                                path="/profile/about"
+                                render={() => aboutBuilder}
                             />
                         </div>
                     </div>

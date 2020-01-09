@@ -4,9 +4,7 @@ const StyledPhotoCollage = styled.div`
     display: grid;
     background: ghostwhite;
     border-radius: 2px;
-    border: 1px solid #ccc;
     padding: 5px;
-    margin-bottom: 10px;
 
     grid-template-columns: ${props =>
         props.cols

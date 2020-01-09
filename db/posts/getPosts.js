@@ -15,16 +15,20 @@ if (process.env.DATABASE_URL) {
 const getPosts = profileId => {
     return db.query(
         `
-        SELECT *, posts.id as id,
+        SELECT posts.id, posts.body, posts.profile_id,
             (SELECT id FROM posts
                 ORDER BY id ASC
                 LIMIT 1)
-            AS lowest_id
+            AS lowest_id,
+            (SELECT photos.url
+                FROM photos
+                WHERE photos.profile_id = posts.profile_id
+                AND photos.album = 'profile_photos'
+                ORDER BY photos.id DESC
+            LIMIT 1) as url
         FROM posts
-        LEFT JOIN profiles
+        JOIN profiles
         ON posts.profile_id = profiles.id
-        LEFT JOIN photos
-        ON posts.profile_id = photos.profile_id
         WHERE posts.profile_id = $1
         ORDER BY posts.id DESC
         LIMIT 20;

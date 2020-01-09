@@ -15,7 +15,7 @@ if (process.env.DATABASE_URL) {
 const getFriends = async profileId => {
     return db.query(
         `
-        SELECT profiles.id, profiles.first_name, profiles.last_name, accepted,
+        SELECT profiles.id, profiles.first_name, profiles.last_name, friends.accepted, friends.receiver_id, friends.sender_id,
             (SELECT id FROM profiles
                 ORDER BY id ASC
                 LIMIT 1)

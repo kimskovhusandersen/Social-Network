@@ -15,7 +15,7 @@ if (process.env.DATABASE_URL) {
 const addPost = ({ body, profileId }) => {
     return db.query(
         `
-        INSERT INTO posts (body, profile_id) VALUES ('hi', 1) RETURNING *
+        INSERT INTO posts (body, profile_id) VALUES ($1, $2) RETURNING *
         `,
         [body, profileId]
     );

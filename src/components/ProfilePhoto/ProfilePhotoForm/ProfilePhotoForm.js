@@ -1,9 +1,9 @@
 import React from "react";
 import { withFormik, Form } from "formik";
 import * as Yup from "yup";
-import { Label, Input } from "../style/theme";
+import { Label, Input } from "../../../style/theme";
 
-const UploadPhotoForm = ({
+const ProfilePhotoForm = ({
     values,
     errors,
     touched,
@@ -72,5 +72,5 @@ const UploadPhotoFormWithFormik = withFormik({
         }
         setSubmitting(false);
     }
-})(UploadPhotoForm);
+})(ProfilePhotoForm);
 export default UploadPhotoFormWithFormik;

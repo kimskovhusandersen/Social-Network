@@ -1,6 +1,5 @@
 import React from "react";
-import PhotoFormWithFormik from "../../components/photo-form";
-import { errorHandler } from "../../error-handler";
+import PhotoFormWithFormik from "../../components/ProfilePhoto/ProfilePhotoForm/ProfilePhotoForm";
 import { useFetchData } from "../../helpers";
 
 class ProfilePhotoHandler extends React.Component {
@@ -22,10 +21,6 @@ class ProfilePhotoHandler extends React.Component {
             upsertState("photos", {
                 profilePhotoUrl: data.url
             });
-    }
-
-    async handleErrors(err) {
-        await errorHandler(err);
     }
 
     render() {

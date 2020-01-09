@@ -1,0 +1,18 @@
+.PhotoBuilder {
+    border: 1px solid #ccc;
+    background-color: #F8F8FF;
+}
+
+.PhotoHeader {
+    background-color: #F5F6F7;
+}
+
+.PhotoHeader h1 {
+    color: #4B4F56;
+    padding: 10px;
+    font-size: 28px;
+}
+
+.PhotoBody {
+    border-top: 1px solid #ccc;
+}

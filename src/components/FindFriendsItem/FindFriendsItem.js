@@ -8,7 +8,7 @@ const FindFriendsItem = props => {
     let friendshipButtonBuilder = null;
     if (props.profile) {
         friendshipButtonBuilder = (
-            <FriendshipButtonBuilder otherProfileId={props.profile.id} />
+            <FriendshipButtonBuilder profile={props.profile} />
         );
     }
 

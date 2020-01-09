@@ -1,119 +1,81 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { useFetchData } from "../../helpers";
-
 import * as actions from "../../store/actions";
+import { socket } from "../../socket";
 
 import FriendshipButton from "../../components/FriendshipButton/FriendshipButton.js";
 
-import {
-    makeFriendRequest,
-    acceptFriendRequest,
-    deleteFriend
-} from "../../actions";
-
 class FriendshipButtonBuilder extends Component {
-    constructor(props) {
-        super(props);
-        this.defaultState = {
-            accepted: null,
-            friendshipRequested: null,
-            receiverId: null,
-            senderId: null,
-            btnTxt: "Add Friend"
-        };
-        this.state = this.defaultState;
-    }
-
     async handleClick() {
         let data;
-        // deleteFriend
-        if (this.state.accepted == true) {
-            data = await useFetchData(`/api/friends/delete`, {
-                receiverId: this.props.otherProfileId
-            });
-            this.props.onDeleteFriend(this.props.otherProfileId);
+        // unfriend
+        if (this.props.profile.accepted == true) {
+            this.props.onDeleteFriend(this.props.profile.id);
         }
-        // makeFriendRequest
-        else if (this.state.accepted === null) {
-            data = await useFetchData(`/api/friends`, {
-                receiverId: this.props.otherProfileId
-            });
+        // make friend request
+        else if (this.props.profile.accepted === null) {
+            this.props.onAddFriend(this.props.profile.id);
         }
-        //acceptFriendRequest
+        //accept friend request
         else if (
-            this.state.accepted == false &&
-            this.props.otherProfileId == this.state.senderId
+            this.props.profile.accepted == false &&
+            this.props.profile.id == this.props.profile.sender_id
         ) {
-            data = await useFetchData(`/api/friends/accept`, {
-                senderId: this.props.otherProfileId
-            });
-            this.props.onAddFriend(this.props.otherProfileId);
+            this.props.onAcceptFriend(this.props.profile.id);
         }
-        // delete  friend request
+        // cancel friend request
         else if (
-            this.state.accepted == false &&
-            this.props.otherProfileId == this.state.receiverId
+            this.props.profile.accepted == false &&
+            this.props.profile.id == this.props.profile.receiver_id
         ) {
-            data = await useFetchData(`/api/friends/delete`, {
-                receiverId: this.props.otherProfileId
-            });
-        }
-
-        // Update frindship status and button text
-        if (data) {
-            this.setState({
-                accepted: data.accepted,
-                receiverId: data.receiverId,
-                senderId: data.senderId,
-                btnTxt: this.getBtnTxt(data, this.props.otherProfileId)
-            });
+            this.props.onDeleteFriend(this.props.profile.id);
         }
     }
 
-    getBtnTxt({ accepted, senderId, receiverId }, otherProfileId) {
+    getBtnTxt(profile) {
         let text;
-        if (accepted == true) {
+        if (profile.accepted == true) {
             text = "Unfriend";
-        } else if (accepted == null) {
+        } else if (profile.accepted == null) {
             text = "Add friend";
-        } else if (accepted == false && otherProfileId == senderId) {
+        } else if (
+            profile.accepted == false &&
+            profile.id == profile.sender_id
+        ) {
             text = "Accept request";
-        } else if (accepted == false && otherProfileId == receiverId) {
+        } else if (
+            profile.accepted == false &&
+            profile.id == profile.receiver_id
+        ) {
             text = "Cancel request";
         }
         return text;
     }
 
-    async componentDidMount() {
-        let data = await useFetchData(
-            `/api/friends/${this.props.otherProfileId}`
-        );
-
-        if (data) {
-            this.setState({
-                accepted: data.accepted,
-                receiverId: data.receiverId,
-                senderId: data.senderId,
-                btnTxt: this.getBtnTxt(data, this.props.otherProfileId)
-            });
-        }
-    }
-
     render() {
-        return (
-            <FriendshipButton
-                clicked={() => this.handleClick()}
-                text={this.state.btnTxt}
-            />
-        );
+        let friendshipButton = null;
+        let btnTxt = null;
+        if (this.props.profile) {
+            btnTxt = this.getBtnTxt(this.props.profile);
+        }
+        if (btnTxt) {
+            friendshipButton = (
+                <FriendshipButton
+                    clicked={() => this.handleClick()}
+                    text={btnTxt}
+                />
+            );
+        }
+        return friendshipButton;
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddFriend: () => dispatch(actions.addFriend()),
-        onDeleteFriend: () => dispatch(actions.deleteFriend())
+        onAddFriend: profileId => dispatch(actions.addFriend(profileId)),
+        onAcceptFriend: profileId => dispatch(actions.acceptFriend(profileId)),
+        onDeleteFriend: profileId => dispatch(actions.deleteFriend(profileId))
     };
 };
 export default connect(

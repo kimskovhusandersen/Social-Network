@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from "react";
 import { useDispatch, useSelector, connect } from "react-redux";
-import { socket } from "../../socket";
-import { getFriends } from "../../actions";
 
 import * as actions from "../../store/actions";
 
@@ -11,7 +9,7 @@ import FriendsNavigation from "../../components/Friends/FriendsNavigation/Friend
 // Style
 import { FriendsItemWrapper, FriendsWrapper } from "../../style/friends";
 
-import classes from "./FriendsBuilde.module.css";
+import classes from "./FriendsBuilder.module.css";
 
 class FriendsBuilder extends Component {
     constructor(props) {
@@ -53,16 +51,13 @@ class FriendsBuilder extends Component {
         let friendsBySearch = null;
 
         if (this.props.friends) {
-            console.log(this.props.friends);
             friends = this.props.friends.map(profile => {
-                console.log(profile);
                 return <FriendsItem key={profile.id} profile={profile} />;
             });
         }
 
         if (friendsBySearch && friendsBySearch.length > 0) {
             friendsBySearch = friendsBySearch.map(profile => {
-                console.log("hihih", profile);
                 return <FriendsItem key={profile.id} profile={profile} />;
             });
         }

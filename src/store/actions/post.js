@@ -32,6 +32,7 @@ export const addPost = post => {
         axios
             .post("/api/posts", post)
             .then(({ data }) => {
+                console.log(data);
                 dispatch(addPostSuccess(data[0].id, data[0])); //data.name holds the id of the order
             })
             .catch(error => {

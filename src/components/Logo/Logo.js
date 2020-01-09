@@ -1,7 +1,12 @@
 import React from "react";
-import logo from "../../assets/images/logo.svg";
+import { Link } from "react-router-dom";
+
 import classes from "./Logo.module.css";
 
-const Logo = props => <img className={classes.Logo} src={logo} alt="logo" />;
+const Logo = props => (
+    <Link to="/">
+        <img className={classes.Logo} src={"/logo.jpg"} alt="logo" />
+    </Link>
+);
 
 export default Logo;

@@ -1,0 +1,37 @@
+.AboutBuilder {
+    border: 1px solid #ccc;
+}
+
+.AboutHeader {
+    background-color: #F5F6F7;
+}
+
+.AboutHeader h1 {
+    color: #4B4F56;
+    padding: 10px;
+    font-size: 28px;
+}
+
+.AboutBody {
+    border-top: 1px solid #ccc;
+    background-color: #FFFFFF;
+}
+
+.leftNavigation {
+    width: 33%;
+    height: 100%;
+    border-right: 1px solid #ccc;
+    padding: 10px;
+}
+
+.leftNavigation a {
+    padding: 10px;
+    color: #90949c;
+    text-decoration: none;
+    cursor: pointer;
+    display: block;
+}
+
+.leftNavigation a:hover {
+    color: #1c1e21;
+}

@@ -5,7 +5,7 @@ import * as actions from "../../store/actions";
 import { ProfileWrapper, ProfilePageItem } from "../../style/theme";
 
 import { Clock } from "../../style/icons";
-import RelativeTime from "../../components/relative-time";
+import RelativeTime from "../../components/UI/RelativeTime/RelativeTime";
 import PhotoCollage from "../../components/PhotoCollage/PhotoCollage";
 
 import NewPost from "../../containers/Blog/NewPost/NewPost";

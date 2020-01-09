@@ -1,5 +1,5 @@
 import React from "react";
-import RelativeTime from "./relative-time";
+import RelativeTime from "./UI/RelativeTime/RelativeTime";
 import { StyledMessageItem } from "../style/messages";
 
 const MessageItem = ({ message, senderId, profileId }) => {
