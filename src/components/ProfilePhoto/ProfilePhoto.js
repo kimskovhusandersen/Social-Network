@@ -4,7 +4,7 @@ import classes from "./ProfilePhoto.module.css";
 const ProfilePhoto = props => {
     return (
         <img
-            src={props.src}
+            src={props.src || "/default-avatar.jpg"}
             alt={props.alt}
             onClick={props.clicked}
             className={classes.ProfilePhoto}

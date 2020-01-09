@@ -25,7 +25,7 @@ const getProfilesBySearch = async (query, profileId) => {
             WHERE photos.profile_id = profiles.id
             AND photos.album = 'profile_photos'
             AND profiles.id <> $2
-            ORDER BY photos.id ASC
+            ORDER BY photos.id DESC
             LIMIT 1)
             AS url
         FROM profiles

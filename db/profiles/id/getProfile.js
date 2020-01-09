@@ -20,7 +20,7 @@ const getProfile = async id => {
             FROM photos
             WHERE photos.profile_id = profiles.id
             AND photos.album = 'profile_photos'
-            ORDER BY photos.id ASC
+            ORDER BY photos.id DESC
         LIMIT 1)
         AS url
         FROM profiles

@@ -12,40 +12,6 @@ import { FriendsItemWrapper, FriendsWrapper } from "../../style/friends";
 import classes from "./FriendsBuilder.module.css";
 
 class FriendsBuilder extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-    componentDidMount() {
-        // const friendsWrapper = useRef();
-        // if (friends) {
-        //     let { clientHeight, scrollHeight } = friendsWrapper.current;
-        //     friendsWrapper.current.scrollTop = scrollHeight - clientHeight;
-        // }
-        // const dispatch = useDispatch();
-        // dispatch(getFriends());
-        // const [friendsBySearch, setFriendsBySearch] = useState([]);
-        // const friendRequests = useSelector(
-        //     state =>
-        //         state &&
-        //         state.friends &&
-        //         state.friends.filter(friend => friend.accepted == false && friend)
-        // );
-        // const friends = useSelector(
-        //     state =>
-        //         state &&
-        //         state.friends &&
-        //         state.friends.filter(friend => friend.accepted == true && friend)
-        // );
-    }
-    handleSearch(result) {
-        this.setFriendsBySearch(result);
-    }
-
-    setFriendsBySearch(result) {
-        console.log(result);
-    }
-
     render() {
         let friends = null;
         let friendRequests = null;
@@ -75,9 +41,7 @@ class FriendsBuilder extends Component {
                     profileId={this.props.profileId}
                     handleSearch={values => this.handleSearch(values)}
                 />
-                <h1>Friend requests</h1>
                 <div className={classes.FriendsWrapper}>{friendRequests}</div>
-                <h1> Friends / friends by search</h1>
                 <div className={classes.FriendsWrapper}>
                     {friendsBySearch || friends}
                 </div>
@@ -92,10 +56,5 @@ const mapStateToProps = state => {
         friendRequests: state.friendReducer.friendRequests
     };
 };
-const mapDispatchToProps = display => {
-    return {
-        onFetchMostRecentProfiles: () =>
-            dispatch(actions.fetchMostRecentProfiles())
-    };
-};
+
 export default connect(mapStateToProps)(FriendsBuilder);
