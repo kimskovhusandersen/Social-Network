@@ -1,4 +1,4 @@
-# Social Network
+# Social Network - "a Facebook replica"
 
 The social network project is a single-page application made with React,
 
