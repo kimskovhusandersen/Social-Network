@@ -6,6 +6,8 @@ Imagine a place where users can sign up, write something about themselves, and b
 
 It uses Amazon Web Services' (AWS) Simple Storage Service (S3) to store the uploaded images.
 
+![Social network snapshot](snapshot.png)
+
 ## Installation
 
 Clone the repository from https://github.com/kimskovhusandersen/Social-Network.git
