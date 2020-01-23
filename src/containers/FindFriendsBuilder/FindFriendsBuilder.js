@@ -3,23 +3,28 @@ import { useDispatch, useSelector, connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as actions from "../../store/actions";
 import { useFetchData } from "../../helpers";
-import FindFriendsItem from "../../components/FindFriendsItem/FindFriendsItem";
-import { SearchInput } from "../../style/theme";
+import FindFriendsItem from "../../components/FindFriends/FindFriendsItem/FindFriendsItem";
+import Search from "../../components/FindFriends/SearchBar/SearchBar";
 
 import classes from "./FindFriendsBuilder.module.css";
 
 class FindFriendsBuilder extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            searchResult: []
+        };
     }
     componentDidMount() {
         this.props.onFetchMostRecentProfiles();
     }
 
-    handleChange(e) {
-        this.setUserInput(e.target.value);
+    handleSearchResult(searchResult) {
+        if (searchResult) {
+            this.setState({ ...this.state, searchResult });
+        }
     }
+
     render() {
         let mostRecentProfiles = null;
         if (this.props.mostRecentProfiles) {
@@ -38,6 +43,17 @@ class FindFriendsBuilder extends Component {
             ));
         }
 
+        let searchResult = null;
+        if (this.state.searchResult.length > 0) {
+            searchResult = (
+                <div className={classes.SearchResultWrapper}>
+                    {this.state.searchResult.map(profile => (
+                        <FindFriendsItem key={profile.id} profile={profile} />
+                    ))}
+                </div>
+            );
+        }
+
         return (
             <div className={classes.FindFriendsBuilder}>
                 <div className={classes.FindFriendsSecionWrapper}>
@@ -52,15 +68,14 @@ class FindFriendsBuilder extends Component {
                     <div className={classes.FindFriendsHeader}>
                         <h1>People you may know</h1>
                     </div>
-                    {mostRecentProfiles}
-                </div>
 
-                <div className={classes.FindFriendsSecionWrapper}>
-                    <SearchInput
-                        type="text"
-                        onChange={e => this.handleChange(e)}
-                        placeholder="Search"
+                    <Search
+                        handleSearchResult={searchResult =>
+                            this.handleSearchResult(searchResult)
+                        }
                     />
+
+                    {searchResult || mostRecentProfiles}
                 </div>
             </div>
         );

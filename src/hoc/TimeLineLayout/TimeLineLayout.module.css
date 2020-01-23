@@ -5,6 +5,7 @@
     margin: auto;
     align-items: center;
     background-color: #E9EBEE;
+    align-items: flex-start;    
 }
 
 .SideNavigation {

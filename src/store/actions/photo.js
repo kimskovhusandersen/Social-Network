@@ -1,6 +1,12 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../axios_csurf";
 
+const fetchPhotosLoading = () => {
+    return {
+        type: actionTypes.FETCH_PHOTOS_LOADING
+    };
+};
+
 const fetchPhotosSuccess = photos => {
     return {
         type: actionTypes.FETCH_PHOTOS_SUCCESS,
@@ -11,6 +17,12 @@ const fetchPhotosSuccess = photos => {
 const fetchPhotosFailed = () => {
     return {
         type: actionTypes.FETCH_PHOTOS_FAILED
+    };
+};
+
+const addPhotoLoading = () => {
+    return {
+        type: actionTypes.ADD_PHOTO_LOADING
     };
 };
 
@@ -29,6 +41,7 @@ const addPhotoFailed = error => {
 
 export const addPhoto = photo => {
     return dispatch => {
+        dispatch(addPhotoLoading());
         axios
             .post("/api/photos", photo)
             .then(({ data }) => {
@@ -42,8 +55,9 @@ export const addPhoto = photo => {
 
 export const fetchPhotos = () => {
     return dispatch => {
+        dispatch(fetchPhotosLoading());
         axios
-            .get("/api/photos")
+            .get("/api/my-photos")
             .then(({ data }) => {
                 dispatch(fetchPhotosSuccess(data)); //data.name holds the id of the order
             })

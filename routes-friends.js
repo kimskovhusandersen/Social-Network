@@ -31,7 +31,6 @@ router.post("/api/friends", async (req, res) => {
             }
         ];
 
-        console.log(sender, receiver);
         io.getIo()
             .to(req.body.receiverId)
             .emit("friends", {

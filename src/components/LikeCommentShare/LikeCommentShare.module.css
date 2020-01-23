@@ -1,0 +1,26 @@
+.LikeCommentShare {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    height: 100%;
+}
+
+.LikeCommentShare span {
+    display: inline-flex;
+    width: 33%;
+    text-align: center;
+}
+
+.LikeCommentShare span a {
+    cursor: pointer;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+}
+
+.LikeCommentShare span a:hover {
+    background-color: #F2F2F2;
+}

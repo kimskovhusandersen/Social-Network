@@ -12,6 +12,8 @@ import profileReducer from "./store/reducer/profile";
 import photoReducer from "./store/reducer/photo";
 import postReducer from "./store/reducer/post";
 import friendReducer from "./store/reducer/friend";
+import otherProfile from "./store/reducer/otherProfile";
+import otherPhoto from "./store/reducer/otherPhoto";
 // import reduxPromise from "redux-promise";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 import { init } from "./socket";
@@ -20,7 +22,9 @@ const combinedReducer = combineReducers({
     profileReducer,
     photoReducer,
     postReducer,
-    friendReducer
+    friendReducer,
+    otherProfile,
+    otherPhoto
 });
 
 const store = createStore(

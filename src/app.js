@@ -9,6 +9,7 @@ import { useFetchData } from "./helpers";
 // hoc
 import TimeLineLayout from "./hoc/TimeLineLayout/TimeLineLayout";
 import ProfileLayout from "./hoc/ProfileLayout/ProfileLayout";
+import OtherProfileLayout from "./hoc/OtherProfileLayout/OtherProfileLayout";
 import ChatLayout from "./hoc/ChatLayout/ChatLayout";
 import FindFriendsLayout from "./hoc/FindFriendsLayout/FindFriendsLayout";
 import PhotoLayout from "./hoc/PhotoLayout/PhotoLayout";
@@ -32,9 +33,13 @@ export class App extends React.Component {
 
     render() {
         let toolbar = null;
-
-        if (this.props.profile) {
-            toolbar = <Toolbar profile={this.props.profile} />;
+        if (this.props.profile && this.props.photos) {
+            toolbar = (
+                <Toolbar
+                    profile={this.props.profile}
+                    photos={this.props.photos}
+                />
+            );
         }
 
         return (
@@ -43,11 +48,27 @@ export class App extends React.Component {
                 {toolbar}
                 <Switch>
                     <Route exact path="/" component={TimeLineLayout} />
-                    <Route exact path="/profile" component={ProfileLayout} />
-                    <Route path="/user/:id" component={ProfileLayout} />
-                    <Route path="/profile/friends" component={ProfileLayout} />
-                    <Route path="/profile/photos" component={ProfileLayout} />
-                    <Route path="/profile/about" component={ProfileLayout} />
+
+                    <Route
+                        path="/profile"
+                        render={() => (
+                            <ProfileLayout
+                                profile={this.props.profile}
+                                photos={this.props.photos}
+                            />
+                        )}
+                    />
+
+                    <Route
+                        path="/user/:id"
+                        render={() => (
+                            <OtherProfileLayout
+                                profile={this.props.profile}
+                                photos={this.props.photos}
+                            />
+                        )}
+                    />
+
                     <Route path="/photo/:id" component={PhotoLayout} />
                     <Route path="/find-friends" component={FindFriendsLayout} />
                     <Route path="/messages" component={ChatLayout} />
@@ -60,7 +81,8 @@ export class App extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        profile: state.profileReducer.profile
+        profile: state.profileReducer.profile,
+        photos: state.photoReducer.photos
     };
 };
 

@@ -16,7 +16,6 @@
     display: flex;
     justify-content: space-between;
     height: 30px;
-    overflow: hidden;
 }
 
 .LogoWrapper, .SearchWrapper, .NavigationWrapper {

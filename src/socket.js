@@ -18,5 +18,14 @@ export const init = store => {
                     store.dispatch(actions.deleteFriendRequest(data.payload));
             }
         });
+        socket.on("posts", data => {
+            console.log(data.payload);
+            switch (data.action) {
+                case "addPost":
+                    store.dispatch(
+                        actions.addPostSuccess(data.payload.id, data.payload)
+                    );
+            }
+        });
     }
 };

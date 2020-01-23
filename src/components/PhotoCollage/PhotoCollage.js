@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
+
 import StyledPhotoCollage from "./StyledPhotoCollage";
 
 const PhotoCollage = props => {
@@ -11,7 +11,9 @@ const PhotoCollage = props => {
             setPhotoHeight(photoCollageRef.clientWidth);
         }
     }, [photoHeight]);
-
+    const showImage = id => {
+        console.log("hi image", id);
+    };
     let photoCollage = null;
     if (props.photos) {
         photoCollage = (
@@ -20,11 +22,16 @@ const PhotoCollage = props => {
                 height={photoHeight}
                 cols={props.cols || 3}
             >
-                {props.photos.map(photo => (
-                    <a href={`/photo/${photo.id}`} key={photo.id}>
-                        <img src={photo.url} />
-                    </a>
-                ))}
+                {props.photos.map(photo => {
+                    console.log(photo);
+                    return (
+                        <img
+                            src={photo.url}
+                            key={photo.id}
+                            onClick={id => showImage(photo.id)}
+                        />
+                    );
+                })}
             </StyledPhotoCollage>
         );
     }
@@ -32,10 +39,4 @@ const PhotoCollage = props => {
     return photoCollage;
 };
 
-const mapStateToProps = state => {
-    return {
-        photos: state.photoReducer.photos
-    };
-};
-
-export default connect(mapStateToProps)(PhotoCollage);
+export default PhotoCollage;

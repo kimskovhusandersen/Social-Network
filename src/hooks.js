@@ -38,7 +38,6 @@ export const useStatefulSearch = (profileId, searchCategory) => {
             ignore = true;
         };
     };
-    console.log("fields", fields);
     return [fields, handleSearchForFriends];
 };
 

@@ -14,17 +14,11 @@ import Post from "../../components/Post/Post";
 import classes from "./ProfileBuilder.module.css";
 
 class ProfileBuilder extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
     componentDidMount() {
         console.log("[ProfileBuilder.js] componentDidMount", this.props);
         this.props.onFetchPosts();
     }
     render() {
-        const { profile, photos } = this.props;
-
         let bioHandler = null;
         let joined = null;
         let photoUploader = null;
@@ -37,7 +31,8 @@ class ProfileBuilder extends React.Component {
             joined = (
                 <p>
                     <Clock width="16" height="16" />
-                    Joined <RelativeTime timestamp={profile.createdAt} />
+                    Joined{" "}
+                    <RelativeTime timestamp={this.props.profile.createdAt} />
                 </p>
             );
         }
@@ -47,15 +42,29 @@ class ProfileBuilder extends React.Component {
                 <ProfilePageItem>{this.props.photoUploader}</ProfilePageItem>
             );
         }
-        if (!profile) {
-            return null;
+
+        let photoCollage = null;
+        if (this.props.photos) {
+            let photos = [];
+            for (let photoArr in this.props.photos) {
+                if (this.props.photos[photoArr].length > 0) {
+                    this.props.photos[photoArr].map(photo =>
+                        photos.push(photo)
+                    );
+                }
+            }
+            if (photos.length > 0) {
+                photoCollage = <PhotoCollage cols="3" photos={photos} />;
+            }
         }
 
         let posts = null;
-        if (this.props.posts) {
-            posts = this.props.posts.map(post => {
-                return <Post key={"post" + post.id} post={post} />;
-            });
+        if (this.props.posts && this.props.profile) {
+            posts = this.props.posts
+                .filter(post => post.profile_id === this.props.profile.id)
+                .map(post => {
+                    return <Post key={"post" + post.id} post={post} />;
+                });
         }
 
         return (
@@ -68,7 +77,7 @@ class ProfileBuilder extends React.Component {
                         </div>
                     </ProfilePageItem>
                     <ProfilePageItem>
-                        <div>
+                        <div className={classes.Header}>
                             <span>
                                 <a>Photos</a>
                             </span>
@@ -76,7 +85,7 @@ class ProfileBuilder extends React.Component {
                                 <a>Add photo</a>
                             </span>
                         </div>
-                        <PhotoCollage cols="3" />
+                        {photoCollage}
                     </ProfilePageItem>
                 </div>
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import FriendshipButtonBuilder from "../../containers/FriendshipButtonBuilder/FriendshipButtonBuilder";
-import ProfilePhoto from "../ProfilePhoto/ProfilePhoto";
+import FriendshipButtonBuilder from "../../../containers/FriendshipButtonBuilder/FriendshipButtonBuilder";
+import ProfilePhoto from "../../ProfilePhoto/ProfilePhoto";
 import classes from "./FindFriendsItem.module.css";
 
 const FindFriendsItem = props => {
@@ -22,7 +22,8 @@ const FindFriendsItem = props => {
             </Link>
             <div className={classes.NameAndFriendsWrapper}>
                 <Link className={classes.Name} to={`/user/${props.profile.id}`}>
-                    {props.profile.first_name} {props.profile.last_Name}
+                    {props.profile.firstName || props.profile.first_name}{" "}
+                    {props.profile.lastName || props.profile.last_name}
                 </Link>
                 <span className={classes.MutualFriends}>
                     Number of mutual friends

@@ -13,8 +13,17 @@ import classes from "./Navigation.module.css";
 
 const Navigation = props => {
     let profilePhoto = null;
-    if (props.profilePhotoUrl) {
-        profilePhoto = <ProfilePhoto src={props.profilePhotoUrl} />;
+    if (props.photos && props.photos.profile_photos) {
+        profilePhoto = (
+            <ProfilePhoto
+                src={props.photos.profile_photos[0].url}
+                alt="profile-photo"
+            />
+        );
+    }
+    let firstName = null;
+    if (props.profile && props.profile.firstName) {
+        firstName = props.profile.firstName;
     }
 
     return (
@@ -22,7 +31,7 @@ const Navigation = props => {
             <li>
                 <a href="/profile">
                     {profilePhoto}
-                    <span>{props.profile.first_name}</span>
+                    <span>{firstName}</span>
                 </a>
             </li>
             <li>
@@ -52,10 +61,4 @@ const Navigation = props => {
     );
 };
 
-const mapStateToProps = state => {
-    return {
-        profilePhotoUrl: state.photoReducer.profilePhotoUrl
-    };
-};
-
-export default connect(mapStateToProps)(Navigation);
+export default Navigation;

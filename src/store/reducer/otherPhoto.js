@@ -14,7 +14,7 @@ const initialState = {
     error: false
 };
 
-const fetchPhotosSuccess = (state, action) => {
+const fetchOtherPhotosSuccess = (state, action) => {
     let photos = {};
     action.photos.forEach(photo => {
         if (photos[photo.album]) {
@@ -40,29 +40,20 @@ const fetchPhotosSuccess = (state, action) => {
     });
 };
 
-const addPhotoSuccess = (state, action) => {
-    const newPhoto = updateObject(action.photo, { id: action.id });
-    return updateObject(state, {
-        photos: [...state.photos, newPhoto],
-        loading: false,
-        error: false
-    });
-};
-
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.FETCH_PHOTOS_LOADING:
+        case actionTypes.FETCH_OTHER_PHOTOS_LOADING:
             return updateObject(state, { loading: true });
-        case actionTypes.FETCH_PHOTOS_SUCCESS:
-            return fetchPhotosSuccess(state, action);
-        case actionTypes.FETCH_PHOTOS_FAILED:
+        case actionTypes.FETCH_OTHER_PHOTOS_SUCCESS:
+            return fetchOtherPhotosSuccess(state, action);
+        case actionTypes.FETCH_OTHER_PHOTOS_FAILED:
             return updateObject(state, { error: true, loading: false });
 
-        case actionTypes.ADD_PHOTO_LOADING:
+        case actionTypes.ADD_OTHER_PHOTO_LOADING:
             return updateObject(state, { loading: true });
-        case actionTypes.ADD_PHOTO_SUCCESS:
-            return addPhotoSuccess(state, action);
-        case actionTypes.ADD_PHOTO_FAILED:
+        case actionTypes.ADD_OTHER_PHOTO_SUCCESS:
+            return addOtherPhotoSuccess(state, action);
+        case actionTypes.ADD_OTHER_PHOTO_FAILED:
             return updateObject(state, { error: true, loading: false });
         default:
             return state;

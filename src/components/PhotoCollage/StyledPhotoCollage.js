@@ -14,13 +14,9 @@ const StyledPhotoCollage = styled.div`
     justify-content: space-evenly;
     grid-gap: 5px;
 
-    & > a {
+    & > img {
         cursor: pointer;
         width: calc(100%);
-    }
-
-    & > a img {
-        width: 100%;
         height: ${props =>
             props.height ? `${props.height / props.cols}px` : `${100 / 3}%`};
         object-fit: cover;

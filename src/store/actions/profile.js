@@ -1,6 +1,12 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../axios_csurf.js";
 
+const fecthProfileLoading = () => {
+    return {
+        type: actionTypes.FETCH_PROFILE_LOADING
+    };
+};
+
 const fetchProfileSuccess = profile => {
     return {
         type: actionTypes.FETCH_PROFILE_SUCCESS,
@@ -16,6 +22,7 @@ const fetchProfileFailed = () => {
 
 export const fetchProfile = () => {
     return dispatch => {
+        dispatch(fecthProfileLoading());
         axios
             .get("/api/my-profile")
             .then(({ data }) => {
@@ -25,6 +32,12 @@ export const fetchProfile = () => {
                 console.log(error);
                 dispatch(fetchProfileFailed());
             });
+    };
+};
+
+const fetchMostRecentProfilesLoading = () => {
+    return {
+        type: actionTypes.FETCH_MOST_RECENT_PROFILES_LOADING
     };
 };
 
@@ -43,6 +56,7 @@ const fetchMostRecentProfilesFailed = () => {
 
 export const fetchMostRecentProfiles = () => {
     return dispatch => {
+        dispatch(fetchMostRecentProfilesLoading());
         axios
             .get("/api/recent-profiles")
             .then(({ data }) => {

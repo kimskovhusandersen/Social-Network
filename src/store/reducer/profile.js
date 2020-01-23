@@ -1,5 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 import updateObject from "../utility";
+import { kebabObjToCamel } from "../../helpers.js";
 
 const initialState = {
     profile: null,
@@ -9,8 +10,9 @@ const initialState = {
 };
 
 const fetchProfileSuccess = (state, action) => {
+    let profile = kebabObjToCamel(action.profile[0]);
     return updateObject(state, {
-        profile: action.profile[0],
+        profile,
         loading: false,
         error: false
     });

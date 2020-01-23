@@ -14,6 +14,7 @@ const SearchForFriends = ({ profileId, callback, searchCategory }) => {
             onChange={handleSearchForFriends}
             name="search"
             placeholder="Search..."
+            autoComplete="off"
         />
     );
 };

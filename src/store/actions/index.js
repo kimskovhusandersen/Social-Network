@@ -1,6 +1,8 @@
 export { fetchProfile, fetchMostRecentProfiles } from "./profile";
-export { fetchPosts, addPost } from "./post";
+export { fetchOtherProfile } from "./otherProfile";
+export { fetchPosts, addPost, addPostSuccess } from "./post";
 export { fetchPhotos, addPhoto } from "./photo";
+export { fetchOtherPhotos } from "./otherPhoto";
 export {
     fetchFriends,
     fetchFriendRequests,

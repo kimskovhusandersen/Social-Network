@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./Post.module.css";
 
+import LikeCommentShare from "../LikeCommentShare/LikeCommentShare";
 import RelativeTime from "../UI/RelativeTime/RelativeTime";
 
 const Post = props => {
@@ -15,8 +16,7 @@ const Post = props => {
 
                     <div className={classes.NameDateWrapper}>
                         <div className={classes.Name}>
-                            {props.post.first_name}
-                            {props.post.middle_name}
+                            {props.post.first_name} {props.post.middle_name}{" "}
                             {props.post.last_name}
                         </div>
                         <div>
@@ -25,7 +25,9 @@ const Post = props => {
                     </div>
                 </div>
                 <div className={classes.PostBody}>{props.post.body}</div>
-                <div className={classes.PostFooter}>{props.post.body}</div>
+                <div className={classes.PostFooter}>
+                    <LikeCommentShare />
+                </div>
             </div>
         );
     }

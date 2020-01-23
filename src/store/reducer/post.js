@@ -8,7 +8,6 @@ const initialState = {
 };
 
 const fetchPostsSuccess = (state, action) => {
-    console.log("fetchPostsSuccess", action.posts);
     return updateObject(state, {
         posts: action.posts,
         loading: false,
@@ -18,18 +17,24 @@ const fetchPostsSuccess = (state, action) => {
 
 const addPostSuccess = (state, action) => {
     const newPost = updateObject(action.post, { id: action.id });
-    console.log(newPost, state.posts);
     return updateObject(state, {
-        posts: [newPost, ...state.posts]
+        posts: [newPost, ...state.posts],
+        loading: false,
+        error: false
     });
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.FETCH_POSTS_LOADING:
+            return updateObject(state, { loading: true });
         case actionTypes.FETCH_POSTS_SUCCESS:
             return fetchPostsSuccess(state, action);
         case actionTypes.FETCH_POSTS_FAILED:
             return updateObject(state, { error: true, loading: false });
+
+        case actionTypes.ADD_POSTS_LOADING:
+            return updateObject(state, { loading: true });
         case actionTypes.ADD_POST_SUCCESS:
             return addPostSuccess(state, action);
         case actionTypes.ADD_POST_FAILED:

@@ -12,10 +12,10 @@ if (process.env.DATABASE_URL) {
     );
 }
 
-const getPosts = profileId => {
+const getPosts = () => {
     return db.query(
         `
-        SELECT posts.id, posts.body, posts.profile_id,
+        SELECT posts.id, posts.body, posts.profile_id, profiles.first_name, profiles.middle_name, profiles.last_name,
             (SELECT id FROM posts
                 ORDER BY id ASC
                 LIMIT 1)
@@ -29,11 +29,9 @@ const getPosts = profileId => {
         FROM posts
         JOIN profiles
         ON posts.profile_id = profiles.id
-        WHERE posts.profile_id = $1
         ORDER BY posts.id DESC
         LIMIT 20;
-        `,
-        [profileId]
+        `
     );
 };
 

@@ -1,12 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 import ProfilePhoto from "../ProfilePhoto/ProfilePhoto";
+import SecondaryNav from "./SecondaryNav/SecondaryNav";
+
 import classes from "./Hero.module.css";
 
 const Hero = props => {
     let profilePhoto = null;
     let heroImage = null;
-    let numberOfFriends = "Friends";
+    let numberOfFriends = null;
+    let name = null;
+    let url = null;
+    let secondaryNav = null;
 
     heroImage = (
         <img
@@ -16,20 +21,32 @@ const Hero = props => {
         />
     );
 
-    if (props.profilePhotoUrl) {
+    if (props.photos && props.photos.profile_photos) {
         profilePhoto = (
             <div className={classes.HeroProfilePhoto}>
                 <ProfilePhoto
                     clicked={e => props.toggle(e, "isPhotoUploaderVisible")}
-                    src={props.profilePhotoUrl}
+                    src={props.photos.profile_photos[0].url}
                     alt="profile-photo"
                 />
             </div>
         );
     }
 
-    if (props.numberOfFriends) {
-        numberOfFriends = `Friends (${props.numberOfFriends})`;
+    if (props.profile) {
+        {
+            let nameArr = [
+                props.profile.firstName,
+                props.profile.middleName,
+                props.profile.lastName
+            ];
+            name = nameArr.filter(name => name !== undefined).join(" ");
+        }
+    }
+    if (props.url) {
+        secondaryNav = (
+            <SecondaryNav url={props.url} numberOfFriends={numberOfFriends} />
+        );
     }
 
     return (
@@ -38,32 +55,12 @@ const Hero = props => {
                 <div className={classes.HeroWrapper}>
                     {heroImage}
                     {profilePhoto}
-                    <span className={classes.HeroName}>{props.fullName}</span>
+                    <span className={classes.HeroName}>{name}</span>
                 </div>
-                <nav className={classes.SecondarySection}>
-                    <ul className={classes.SecondaryNav}>
-                        <li>&nbsp;</li>
-                        <li>
-                            <a href="/">Timeline</a>
-                        </li>
-                        <li>
-                            <a href="/profile/about">About</a>
-                        </li>
-                        <li>
-                            <a href="/profile/friends">{numberOfFriends}</a>
-                        </li>
-                        <li>
-                            <a href="/profile/photos">Photos</a>
-                        </li>
-                    </ul>
-                </nav>
+                <nav className={classes.SecondarySection}>{secondaryNav}</nav>
             </div>
         </div>
     );
 };
-const mapStateToProps = state => {
-    return {
-        profilePhotoUrl: state.photoReducer.profilePhotoUrl
-    };
-};
-export default connect(mapStateToProps)(Hero);
+
+export default Hero;
