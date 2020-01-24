@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ProfilePhoto from "../../ProfilePhoto/ProfilePhoto";
 
@@ -29,33 +30,33 @@ const Navigation = props => {
     return (
         <ul className={classes.Navigation}>
             <li>
-                <a href="/profile">
+                <Link to="/profile">
                     {profilePhoto}
                     <span>{firstName}</span>
-                </a>
+                </Link>
             </li>
             <li>
-                <a href="/">Home</a>
+                <Link to="/">Home</Link>
             </li>
             <li>
-                <a href="/friends/requests">
+                <Link to="/friends/requests">
                     <UserIcon title="Friend requests" />
-                </a>
+                </Link>
             </li>
             <li>
-                <a href="/messages">
+                <Link to="/messages">
                     <MessageCircle title="Messages" />
-                </a>
+                </Link>
             </li>
             <li>
-                <a href="/notifications">
+                <Link to="/notifications">
                     <Bell title="Notifications" />
-                </a>
+                </Link>
             </li>
             <li>
-                <a href="settings">
+                <Link to="/settings">
                     <ChevronDown title="Account Settings" />
-                </a>
+                </Link>
             </li>
         </ul>
     );

@@ -1,5 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 import updateObject from "../utility";
+import { kebabObjToCamel } from "../../helpers.js";
 
 const initialState = {
     friends: [],
@@ -9,8 +10,10 @@ const initialState = {
 };
 
 const fetchFriendsSuccess = (state, action) => {
+    let friends = [];
+    action.friends.map(friend => friends.push(kebabObjToCamel(friend)));
     return updateObject(state, {
-        friends: action.friends,
+        friends,
         loading: false,
         error: false
     });
@@ -25,8 +28,10 @@ const fetchFriendRequestsSuccess = (state, action) => {
 };
 
 const addFriendSuccess = (state, action) => {
-    console.log("reducer [friend.js] addFriendSuccess");
-    const newFriend = updateObject(action.friend, { id: action.id });
+    let friend = kebabObjToCamel(action.friend);
+    const newFriend = updateObject(friend, {
+        id: action.id
+    });
     return updateObject(state, {
         friends: [newFriend, ...state.friends],
         loading: false,

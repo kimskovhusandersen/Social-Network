@@ -23,7 +23,8 @@ const FriendsItem = props => {
             </Link>
             <div className={classes.NameAndFriendsWrapper}>
                 <Link className={classes.Name} to={`/user/${props.profile.id}`}>
-                    {props.profile.first_name} {props.profile.last_Name}
+                    {props.profile.firstName} {props.profile.middleName}{" "}
+                    {props.profile.lastName}
                 </Link>
                 <span className={classes.MutualFriends}>Number of friends</span>
             </div>

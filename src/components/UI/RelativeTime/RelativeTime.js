@@ -9,12 +9,19 @@ const RelativeTime = ({ timestamp }) => {
     );
 
     useEffect(() => {
+        let isCancelled = false;
         (async () => {
             setRelativeTime(await useRelativeTime(timestamp));
             setTimeout(() => {
-                setNow(Date.now());
+                if (!isCancelled) {
+                    setNow(Date.now());
+                }
             }, 1000);
         })();
+
+        return () => {
+            isCancelled = true;
+        };
     }, [now]);
 
     return relativeTime;
