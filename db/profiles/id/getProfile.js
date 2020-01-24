@@ -15,13 +15,15 @@ if (process.env.DATABASE_URL) {
 const getProfile = async id => {
     return db.query(
         `
-        SELECT profiles.id, first_name, last_name, about_me, profiles.created_at,
-        (SELECT photos.url
+        SELECT profiles.id, first_name, middle_name, last_name, about_me, profiles.created_at,
+        (
+            SELECT photos.url
             FROM photos
             WHERE photos.profile_id = profiles.id
             AND photos.album = 'profile_photos'
             ORDER BY photos.id DESC
-        LIMIT 1)
+            LIMIT 1
+        )
         AS url
         FROM profiles
         WHERE profiles.id = $1;

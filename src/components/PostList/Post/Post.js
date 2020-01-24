@@ -1,8 +1,9 @@
 import React from "react";
 import classes from "./Post.module.css";
 
-import LikeCommentShare from "../LikeCommentShare/LikeCommentShare";
-import RelativeTime from "../UI/RelativeTime/RelativeTime";
+import LikeCommentShare from "../../LikeCommentShare/LikeCommentShare";
+import RelativeTime from "../../UI/RelativeTime/RelativeTime";
+import ProfilePhoto from "../../ProfilePhoto/ProfilePhoto";
 
 const Post = props => {
     let post = null;
@@ -11,16 +12,19 @@ const Post = props => {
             <div className={classes.Post}>
                 <div className={classes.PostHeader}>
                     <div className={classes.ProfilePhoto}>
-                        <img src={props.post.url} alt={props.post.first_name} />
+                        <ProfilePhoto
+                            src={props.post.url}
+                            alt={props.post.firstName}
+                        />
                     </div>
 
                     <div className={classes.NameDateWrapper}>
                         <div className={classes.Name}>
-                            {props.post.first_name} {props.post.middle_name}{" "}
-                            {props.post.last_name}
+                            {props.post.firstName} {props.post.middleName}{" "}
+                            {props.post.lastName}
                         </div>
                         <div>
-                            <RelativeTime timestamp={props.post.created_at} />
+                            <RelativeTime timestamp={props.post.createdAt} />
                         </div>
                     </div>
                 </div>

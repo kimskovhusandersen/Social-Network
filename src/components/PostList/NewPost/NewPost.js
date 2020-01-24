@@ -21,12 +21,12 @@ class NewPost extends Component {
 
     render() {
         let newPost = null;
-        if (this.props.profile) {
+        if (this.props.profile && this.props.threadId) {
             newPost = (
                 <div className={classes.NewPost}>
                     <h1 className={classes.PostHeader}>Create post</h1>
                     <div className={classes.PostBody}>
-                        <PostForm />
+                        <PostForm threadId={this.props.threadId} />
                     </div>
                 </div>
             );

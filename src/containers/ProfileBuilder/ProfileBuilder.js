@@ -1,16 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions";
-
-import { ProfileWrapper, ProfilePageItem } from "../../style/theme";
-
-import { Clock } from "../../style/icons";
 import RelativeTime from "../../components/UI/RelativeTime/RelativeTime";
 import PhotoCollage from "../../components/PhotoCollage/PhotoCollage";
-
-import NewPost from "../../containers/Blog/NewPost/NewPost";
-import Post from "../../components/Post/Post";
-
+import PostList from "../../components/PostList/PostList";
+import { ProfileWrapper, ProfilePageItem } from "../../style/theme";
+import { Clock } from "../../style/icons";
 import classes from "./ProfileBuilder.module.css";
 
 class ProfileBuilder extends React.Component {
@@ -22,6 +17,7 @@ class ProfileBuilder extends React.Component {
         let bioHandler = null;
         let joined = null;
         let photoUploader = null;
+        let newPost = null;
 
         if (this.props.bioHandler) {
             bioHandler = <div>{this.props.bioHandler}</div>;
@@ -58,13 +54,17 @@ class ProfileBuilder extends React.Component {
             }
         }
 
-        let posts = null;
+        let postList = null;
         if (this.props.posts && this.props.profile) {
-            posts = this.props.posts
-                .filter(post => post.profile_id === this.props.profile.id)
-                .map(post => {
-                    return <Post key={"post" + post.id} post={post} />;
-                });
+            let posts = this.props.posts.filter(
+                post => post.profileId === this.props.profile.id
+            );
+            postList = (
+                <PostList
+                    posts={this.props.posts}
+                    threadId={`profile_${this.props.profile.id}`}
+                />
+            );
         }
 
         return (
@@ -91,8 +91,7 @@ class ProfileBuilder extends React.Component {
 
                 <div>
                     {photoUploader}
-                    <NewPost />
-                    {posts}
+                    {postList}
                 </div>
             </ProfileWrapper>
         );

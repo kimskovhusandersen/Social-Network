@@ -1,5 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 import updateObject from "../utility";
+import { kebabObjToCamel } from "../../helpers.js";
 
 const initialState = {
     posts: [],
@@ -8,15 +9,17 @@ const initialState = {
 };
 
 const fetchPostsSuccess = (state, action) => {
+    let posts = [];
+    action.posts.map(obj => posts.push(kebabObjToCamel(obj)));
     return updateObject(state, {
-        posts: action.posts,
+        posts,
         loading: false,
         error: false
     });
 };
 
 const addPostSuccess = (state, action) => {
-    const newPost = updateObject(action.post, { id: action.id });
+    const newPost = kebabObjToCamel(action.post[0]);
     return updateObject(state, {
         posts: [newPost, ...state.posts],
         loading: false,

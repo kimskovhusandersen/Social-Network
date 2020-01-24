@@ -1,11 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { withRouter, Route, Switch } from "react-router-dom";
-import { useFetchData } from "../../helpers";
 import Toolbar from "../../components/Toolbar/Toolbar";
-import Hero from "../../components/Hero/Hero.js";
-
-import axios from "../.:/../../axios_csurf.js";
-
+import Hero from "../../components/Hero/Hero";
 import ProfilePhoto from "../../components/ProfilePhoto/ProfilePhoto";
 import ProfileBuilder from "../../containers/ProfileBuilder/ProfileBuilder";
 import PhotoBuilder from "../../containers/PhotoBuilder/PhotoBuilder";

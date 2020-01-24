@@ -16,12 +16,14 @@ const getMostRecentProfiles = profileId => {
     return db.query(
         `
         SELECT profiles.id, profiles.first_name, profiles.last_name, friends.accepted, friends.sender_id, friends.receiver_id,
-            (SELECT photos.url
-            FROM photos
-            WHERE photos.profile_id = profiles.id
-            AND photos.album = 'profile_photos'
-            ORDER BY photos.id DESC
-            LIMIT 1)
+            (
+                SELECT photos.url
+                FROM photos
+                WHERE photos.profile_id = profiles.id
+                AND photos.album = 'profile_photos'
+                ORDER BY photos.id DESC
+                LIMIT 1
+            )
             AS url
         FROM profiles
         LEFT JOIN friends

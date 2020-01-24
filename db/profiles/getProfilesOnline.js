@@ -17,12 +17,14 @@ const getProfilesOnline = async profilesOnlineIds => {
     return db.query(
         `
         SELECT profiles.id, first_name, last_name,
-            (SELECT photos.url
-            FROM photos
-            WHERE photos.profile_id = profiles.id
-            AND photos.album = 'profile_photos'
-            ORDER BY photos.id DESC
-            LIMIT 1)
+            (
+                SELECT photos.url
+                FROM photos
+                WHERE photos.profile_id = profiles.id
+                AND photos.album = 'profile_photos'
+                ORDER BY photos.id DESC
+                LIMIT 1
+            )
             AS url
         FROM profiles
         WHERE profiles.id = ANY($1)

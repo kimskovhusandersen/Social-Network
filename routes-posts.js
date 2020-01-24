@@ -12,8 +12,8 @@ router.post("/api/posts", async (req, res) => {
             action: "addPost",
             payload: post
         });
-        if (rows) {
-            res.json(rows);
+        if (post) {
+            res.json(post);
         }
     } catch (err) {
         return res.json(err);

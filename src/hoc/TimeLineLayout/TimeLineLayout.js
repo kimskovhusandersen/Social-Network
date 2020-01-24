@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions";
-import NewPost from "../../containers/Blog/NewPost/NewPost";
-import Post from "../../components/Post/Post";
+import PostList from "../../components/PostList/PostList";
 
 import classes from "./TimeLineLayout.module.css";
 
@@ -11,19 +10,16 @@ class TimelineLayout extends Component {
         this.props.onFetchPosts();
     }
     render() {
-        let posts = null;
+        let postList = null;
         if (this.props.posts) {
-            posts = this.props.posts.map(post => {
-                return <Post key={"post" + post.id} post={post} />;
-            });
+            postList = (
+                <PostList posts={this.props.posts} threadId={"timeline"} />
+            );
         }
         return (
             <main className={classes.MainContainer}>
                 <div className={classes.SideNavigation}>Side Navigation</div>
-                <div className={classes.Stream}>
-                    <NewPost />
-                    {posts}
-                </div>
+                <div className={classes.Stream}>{postList}</div>
                 <div className={classes.RightColumn}>Right Columns</div>
             </main>
         );

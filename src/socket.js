@@ -19,7 +19,6 @@ export const init = store => {
             }
         });
         socket.on("posts", data => {
-            console.log(data.payload);
             switch (data.action) {
                 case "addPost":
                     store.dispatch(

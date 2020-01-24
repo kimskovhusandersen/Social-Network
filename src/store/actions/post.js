@@ -57,13 +57,12 @@ export const fetchPosts = () => {
 };
 
 export const addPost = post => {
-    console.log("[post.js action]", post);
     return dispatch => {
         dispatch(addPostLoading());
         axios
             .post("/api/posts", post)
             .then(({ data }) => {
-                dispatch(addPostSuccess(data[0].id, data[0])); //data.name holds the id of the order
+                // We don't do anything with the data here, because we are using socket.io to update the state
             })
             .catch(error => {
                 dispatch(addPostFailed(error));

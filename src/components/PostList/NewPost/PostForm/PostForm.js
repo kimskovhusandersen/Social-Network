@@ -16,7 +16,7 @@ class PostForm extends Component {
                     elementType: "textarea",
                     elementConfig: {
                         type: "textarea",
-                        placeholder: `What's on your mind, ${this.props.profile.first_name}?`
+                        placeholder: `What's on your mind, ${this.props.profile.firstName}?`
                     },
                     value: "",
                     valueType: "body",
@@ -25,6 +25,18 @@ class PostForm extends Component {
                     },
                     valid: false,
                     touched: false
+                },
+                threadId: {
+                    elementType: "input",
+                    elementConfig: {
+                        type: "hidden"
+                    },
+                    value: this.props.threadId,
+                    validation: {
+                        required: true
+                    },
+                    valid: true,
+                    touched: true
                 }
             },
             formIsValid: false
@@ -49,7 +61,7 @@ class PostForm extends Component {
         for (let key in updatedPostForm) {
             formIsValid = updatedPostForm[key].valid && formIsValid;
         }
-
+        console.log(this.state);
         this.setState({ postForm: updatedPostForm, formIsValid });
     }
 

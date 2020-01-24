@@ -15,7 +15,21 @@ if (process.env.DATABASE_URL) {
 const addPost = ({ body, profileId }) => {
     return db.query(
         `
-        INSERT INTO posts (body, profile_id) VALUES ($1, $2) RETURNING *
+        WITH inserted AS (
+            INSERT INTO posts (body, profile_id) VALUES ($1, $2) RETURNING *
+        )
+        SELECT inserted.*, profiles.first_name, profiles.middle_name, profiles.last_name,
+        (
+            SELECT photos.url
+            FROM photos
+            WHERE photos.profile_id = inserted.profile_id
+            AND photos.album = 'profile_photos'
+            ORDER BY photos.id DESC
+            LIMIT 1
+        )
+        AS url
+        FROM inserted
+        INNER JOIN profiles ON inserted.profile_id = profiles.id;
         `,
         [body, profileId]
     );
