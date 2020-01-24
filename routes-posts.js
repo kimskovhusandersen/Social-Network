@@ -7,7 +7,6 @@ router.post("/api/posts", async (req, res) => {
     try {
         req.body.profileId = req.session.profileId;
         const { rows: post } = await db.addPost(req.body);
-        console.log(post);
         io.getIo().emit("posts", {
             action: "addPost",
             payload: post

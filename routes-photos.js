@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const s3 = require("./s3");
 const db = require("./db");
+const io = require("./socket");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 const path = require("path");
@@ -36,6 +37,11 @@ router.post(
             req.body.url = `${s3Url}${req.file.filename}`;
             req.body.profileId = req.session.profileId;
             const { rows } = await db.addPhoto(req.body);
+            console.log("/api/photos", rows);
+            io.getIo().emit("photos", {
+                action: "addPhoto",
+                payload: rows
+            });
             if (rows) {
                 res.json(rows);
             }

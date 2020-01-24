@@ -26,5 +26,14 @@ export const init = store => {
                     );
             }
         });
+        socket.on("photos", data => {
+            switch (data.action) {
+                case "addPhoto":
+                    console.log("[socket.js] addPhoto", data.payload);
+                    store.dispatch(
+                        actions.addPhotoSuccess(data.payload.id, data.payload)
+                    );
+            }
+        });
     }
 };

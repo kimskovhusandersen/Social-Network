@@ -41,9 +41,14 @@ const fetchPhotosSuccess = (state, action) => {
 };
 
 const addPhotoSuccess = (state, action) => {
-    const newPhoto = updateObject(action.photo, { id: action.id });
     return updateObject(state, {
-        photos: [...state.photos, newPhoto],
+        photos: {
+            ...state.photos,
+            [action.photo[0].album]: [
+                action.photo[0],
+                ...state.photos[action.photo[0].album]
+            ]
+        },
         loading: false,
         error: false
     });

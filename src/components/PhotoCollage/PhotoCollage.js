@@ -23,7 +23,6 @@ const PhotoCollage = props => {
                 cols={props.cols || 3}
             >
                 {props.photos.map(photo => {
-                    console.log(photo);
                     return (
                         <img
                             src={photo.url}

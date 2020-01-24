@@ -14,9 +14,10 @@ const fetchPhotosSuccess = photos => {
     };
 };
 
-const fetchPhotosFailed = () => {
+const fetchPhotosFailed = error => {
     return {
-        type: actionTypes.FETCH_PHOTOS_FAILED
+        type: actionTypes.FETCH_PHOTOS_FAILED,
+        error
     };
 };
 
@@ -26,17 +27,19 @@ const addPhotoLoading = () => {
     };
 };
 
-const addPhotoSuccess = (id, order) => {
+export const addPhotoSuccess = (id, photo) => {
     return {
         type: actionTypes.ADD_PHOTO_SUCCESS,
         id,
-        order
+        photo
     };
 };
 
 const addPhotoFailed = error => {
-    console.log(error);
-    return;
+    return {
+        type: actionTypes.ADD_PHOTOS_FAILED,
+        error
+    };
 };
 
 export const addPhoto = photo => {
@@ -45,7 +48,7 @@ export const addPhoto = photo => {
         axios
             .post("/api/photos", photo)
             .then(({ data }) => {
-                dispatch(addPhotoSuccess(data.id, photo)); //data.name holds the id of the order
+                // will be taken care of by [socket.js]
             })
             .catch(error => {
                 dispatch(addPhotoFailed(error));
@@ -59,7 +62,7 @@ export const fetchPhotos = () => {
         axios
             .get("/api/my-photos")
             .then(({ data }) => {
-                dispatch(fetchPhotosSuccess(data)); //data.name holds the id of the order
+                dispatch(fetchPhotosSuccess(data));
             })
             .catch(error => {
                 console.log(error);
